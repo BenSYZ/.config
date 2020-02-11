@@ -1,0 +1,28 @@
+
+/usr/lib/x86_64-linux-gnu/libqqwing.so.2
+/usr/lib/x86_64-linux-gnu/libqqwing.so.2.1.0
+/usr/share/doc/libqqwing2v5
+/usr/share/applications/qq.desktop
+/usr/share/tencent-qq
+/usr/share/tencent-qq/qq.png
+/usr/share/tencent-qq/qq
+/usr/share/tencent-qq/qq.bmp
+find: ‘/run/user/1000/doc’: 权限不够
+find: ‘/run/user/1000/gvfs’: 权限不够
+/home/ben/.local/lib/python2.7/site-packages/notebook/static/components/MathJax/localization/qqq
+/home/ben/.local/lib/python2.7/site-packages/notebook/static/components/MathJax/localization/qqq/qqq.js
+/home/ben/Downloads/linuxqq_2.0.0-b1-1024_amd64.deb
+/home/ben/Downloads/qq-files
+/home/ben/GitRepos/Python-100-Days/Day21-30/code/old/html+css/qq_link.html
+/home/ben/GitRepos/Python-100-Days/res/python-qq-group.png
+/home/ben/.config/tencent-qq
+/home/ben/.config/tencent-qq/AppData/qqshow
+/home/ben/.mozilla/firefox/snnkmsnn.default/storage/default/https+++mp.weixin.qq.com
+/home/ben/.mozilla/firefox/snnkmsnn.default/storage/default/https+++y.qq.com
+/var/lib/dpkg/info/libqqwing2v5:amd64.symbols
+/var/lib/dpkg/info/linuxqq.md5sums
+/var/lib/dpkg/info/libqqwing2v5:amd64.md5sums
+/var/lib/dpkg/info/libqqwing2v5:amd64.shlibs
+/var/lib/dpkg/info/libqqwing2v5:amd64.triggers
+/var/lib/dpkg/info/linuxqq.list
+/var/lib/dpkg/info/libqqwing2v5:amd64.list

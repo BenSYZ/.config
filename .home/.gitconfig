@@ -1,0 +1,5 @@
+[user]
+	email = bensongsyz@gmail.com
+	name = Ben
+[alias]
+	llog = log --graph --oneline --all --decorate
