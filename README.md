@@ -16,3 +16,16 @@ yay -S ttf-linux-libertine ttf-inconsolata ttf-joypixels ttf-twemoji-color noto-
 ```sh
 yay -S wqy-bitmapfont wqy-microhei wqy-microhei-lite wqy-zenhei adobe-source-han-mono-cn-fonts adobe-source-han-sans-cn-fonts adobe-source-han-
 ```
+
+### Input method
+
+
+Install: `fcitx` `fcitx-im` `fcitx-googlepinyin` `fcitx-configtool`
+
+And in `/etc/X11/xinit/xinitrc`:
+
+```
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS="@im=fcitx"
+```
