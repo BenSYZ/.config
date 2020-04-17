@@ -112,6 +112,8 @@ font:
     #family: monospace
     #family: Comic Sans MS
     family: SauceCodePro Nerd Font
+    #family: Source Code Pro
+    #family: Source Code Pro for Powerline
     # The `style` can be specified to pick a specific face.
     #style: Regular
 
@@ -122,7 +124,9 @@ font:
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
     #family: Comic Sans MS
+    #family: Source Code Pro
     family: SauceCodePro Nerd Font
+    #family: Source Code Pro for Powerline
     # The `style` can be specified to pick a specific face.
     #style: Bold
 
@@ -153,7 +157,7 @@ font:
     #style: Bold Italic
 
   # Point size
-  #size: 11.0
+  size: 10.0
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
@@ -185,14 +189,17 @@ font:
   #use_thin_strokes: true
 
 # If `true`, bold text is drawn using the bright color variants.
-#draw_bold_text_with_bright_colors: true
+draw_bold_text_with_bright_colors: true
 
 # Colors (Tomorrow Night Bright)
 colors:
   # Default colors
   primary:
-    background: '0x000000'
-    foreground: '0xeaeaea'
+#(Gruvbox dark)
+    background: '0x282828'
+    foreground: '0xebdbb2'
+    # background: '0x000000'
+    # foreground: '0xeaeaea'
 
     # Bright and dim foreground colors
     #
@@ -295,7 +302,7 @@ colors:
 #
 # Window opacity as a floating point number from `0.0` to `1.0`.
 # The value `0.0` is completely transparent and `1.0` is opaque.
-background_opacity: 0.9
+background_opacity: 0.8
 
 #selection:
   #semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
@@ -331,10 +338,10 @@ background_opacity: 0.9
 #   - (macOS) /bin/bash --login
 #   - (Linux/BSD) user login shell
 #   - (Windows) powershell
-#shell:
-#  program: /bin/bash
-#  args:
-#    - --login
+shell:
+  program: /bin/zsh
+  args:
+    - --login
 
 # Startup directory
 #

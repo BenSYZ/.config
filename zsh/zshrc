@@ -12,3 +12,5 @@ zstyle :compinstall filename '/home/ben/.zshrc'
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
+neofetch
+viman () { text=$(man "$@") && echo "$text" | vim -R +":set ft=man" - ; }
