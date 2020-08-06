@@ -1,6 +1,6 @@
 #!/bin/bash
 
-myvolume_file=~/.config/i3/myvolume_config/myvolume
+myvolume_file=~/.config/i3/myvolume_config/flag
 myvolume=$(< $myvolume_file)
 
 if [ $((myvolume == 1)) '=' 1 ]

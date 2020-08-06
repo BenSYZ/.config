@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mymicrophone_file=~/.config/i3/mymicrophone_config/mymicrophone
+mymicrophone_file=~/.config/i3/mymicrophone_config/flag
 mymicrophone=$(< $mymicrophone_file)
 #echo $mymicrophone
 

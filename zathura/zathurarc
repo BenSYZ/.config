@@ -1,0 +1,14 @@
+map h scroll left
+map n scroll down
+map e scroll up
+map i scroll right
+
+map N scroll half-down
+map E scroll half-up
+
+map m search forward
+map M search backward
+
+set selection-clipboard clipboard
+set recolor-darkcolor "#dcdccc"
+set recolor-lightcolor "#1f1f1f"

@@ -39,6 +39,8 @@ bindsym $mod+Return exec alacritty
 
 bindsym $mod+b exec chromium
 bindsym $mod+m exec netease-cloud-music
+bindsym $mod+z exec zathura
+bindsym $mod+s exec simplescreenrecorder
 
 #bindsym $mod+k exec nautilus
 
@@ -183,8 +185,8 @@ bindsym $mod+r mode "resize"
 
 #alsamixer
 # exec --no-startup-id volumeicon
-bindsym XF86AudioRaiseVolume exec "amixer set Master playback 5000+; canberra-gtk-play -i audio-volume-change -d 'changeVolume'; notify-send 'volume' 'up' -t 700 -h int:transient:1 "
-bindsym XF86AudioLowerVolume exec "amixer set Master playback 5000-; canberra-gtk-play -i audio-volume-change -d 'changeVolume'; notify-send 'volume' 'down' -t 700 -h int:transient:1 "
+bindsym XF86AudioRaiseVolume exec "amixer set Master playback 5%+; canberra-gtk-play -i audio-volume-change -d 'changeVolume'; notify-send 'volume' 'up' -t 700 -h int:transient:1 "
+bindsym XF86AudioLowerVolume exec "amixer set Master playback 5%-; canberra-gtk-play -i audio-volume-change -d 'changeVolume'; notify-send 'volume' 'down' -t 700 -h int:transient:1 "
 bindsym XF86AudioMute exec "amixer set Master toggle; canberra-gtk-play -i audio-volume-change -d 'changeVolume'"
 
 #Audio
@@ -240,8 +242,8 @@ bar {
 	font pango: SauceCodePro Nerd Font, Icons 9
 }
 
-exec --no-startup-id ~/.config/i3/inverse-scroll.sh
-#exec xmodmap ~/.xmodmap
+#exec --no-startup-id ~/.config/i3/inverse-scroll.sh
+#exec_always sleep 1; xmodmap ~/.xmodmap_colemak
 
 # You can also use any non-zero value if you'd like to have a border
 for_window [class=".*"] border pixel 0
@@ -259,22 +261,36 @@ smart_gaps on
 # sleep 1 second
 
 #exec_always sleep 1.5; screenkey
-exec fcitx
+#exec fcitx
 	# gdm       1545  1416  0 09:16 tty1     00:00:00 ibus-daemon --xim --panel disable
 	# ben      16526     1  0 21:22 ?        00:00:00 /bin/sh -c sleep 1; ibus-daemon
 	# ben      16533 16526  0 21:22 ?        00:00:01 ibus-daemon
 	# ben      16629 16577  0 21:25 pts/2    00:00:00 grep --color=auto ibus-daemon
 
 #exec_always killall i3status; sleep 1;i3status
-exec_always killall picom; sleep 1;picom --config ~/.config/i3/picom.conf
-exec variety
+
+# exec ss-qt5
+# exec /usr/lib/notification-daemon-1.0/notification-daemon
+# # exec --no-startup-id ~/.config/i3/tap-to-click.sh
+# # scroll inverse
+# 
+# #exec_always killall picom; sleep 1;picom --config ~/.config/i3/picom.conf
+# exec_always picom --config ~/.config/i3/picom.conf
+# exec_always variety
 bindsym $mod+p exec variety -n
 bindsym $mod+shift+p exec variety -p
 bindsym $mod+l exec variety -f
 
-
+#bindsym $mod+q exec alacritty; split h;exec sleep 2; exec alacritty; split v; exec chromium; focus up; exec chromium
+#
 
 exec ss-qt5
+exec --no-startup-id ~/.config/i3/inverse-scroll.sh
+exec_always killall fcitx; sleep 3; fcitx
+
 exec /usr/lib/notification-daemon-1.0/notification-daemon
-# exec --no-startup-id ~/.config/i3/tap-to-click.sh
-# scroll inverse
+exec_always killall picom ;sleep 3; picom --config ~/.config/i3/picom.conf
+exec_always killall variety; sleep 3; variety
+
+
+exec sleep 5; xmodmap ~/.xmodmap_colemak; sleep 5
