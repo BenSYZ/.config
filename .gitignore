@@ -22,8 +22,6 @@ i3/**/flag
 /**/__pycache__
 
 !/.home/
-/.home/.oh-my-zsh/
-!/.home/.oh-my-zsh/themes/ben.zsh-theme
 
 !/zathura/
 
@@ -36,6 +34,7 @@ i3/**/flag
 /fcitx/rime/luna_pinyin.userdb
 /fcitx/rime/luna_pinyin.userdb.old
 /fcitx/rime/luna_pinyin.own.dict.yaml
+/fcitx/rime/user.yaml
 
 !/fcitx/config
 !/fcitx/profile
