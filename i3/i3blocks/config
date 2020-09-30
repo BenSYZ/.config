@@ -1,0 +1,153 @@
+# i3blocks configuration file
+#
+# The i3blocks man page describes the usage of the binary,
+# and its website describes the configuration:
+#
+#     https://vivien.github.io/i3blocks
+
+
+# Global properties
+separator=true
+separator_block_width=15
+
+#[window]
+#command=xtitle -s
+#interval=persist
+
+
+
+
+
+align=center
+separator=false
+color=#ffffff
+#separator_block_width=20
+markup=pango
+[window]
+command=xtitle -s
+interval=persist
+[mediaplayer]
+command=playerctl metadata --format "{{ artist }} - {{ title }}"
+interval=2
+label=<span color="#a9e185"> </span>
+
+#[arch-update]
+#command=checkupdates | wc -l
+#interval=once
+#label=<span color="#1793D1"> </span>
+
+#[wifi]
+#command=iwgetid -r | tr '\n' ' ' && grep $(iwgetid -m | awk '{ printf "%s", $1 }') /proc/net/wireless | awk '{ printf "%i%\n", int($3 * 100 / 70) }'
+#instance=wlp11s0f3u1
+#interval=5
+#label=<span color="#ffb86c">  </span>
+
+[ip]
+command=./network.sh
+interval=2
+color=#91E78B
+label=<span color="#ffb86c"> </span>
+
+#[new-vpn]
+#command=./blocks/openvpn/openvpn
+#interval=1
+#label=<span color="#8be9fd"> </span>
+
+[root]
+command=df -h / | awk 'FNR==2{print $4}'
+interval=3
+label=<span color="#ff79c6"> </span>
+
+[home]
+command=df -h /home | awk 'FNR==2{print $4}'
+interval=3
+label=<span color="#a9e185"> </span>
+
+#[gpu-load]
+#command=./blocks/gpu-load/gpu-load | awk 'FNR==1{ printf "%s %s\n", $1, $2 }'
+#label=<span color="#ffb86c"> </span>
+#interval=2
+
+#[gpu-temperature]
+#command=./blocks/temperature/temperature
+#interval=2
+#SENSOR_CHIP="k10temp-pci-00c3"
+#label=<span color="#ffb86c"> </span>
+
+[cpu_usage]
+command=LINES=5 top -b -n 1 -w |grep -E -o "%Cpu\(s\): ? ?[0-9][0-9]?[0-9]?.[0-9] us" |awk '{printf "%5.1f%\n",$2 " " }'
+#./blocks/cpu_usage/cpu_usage
+interval=2
+label=<span color="#8be9fd"></span> 
+
+[cpu-temperature]
+command=./temperature
+interval=2
+#SENSOR_CHIP="jc42-i2c-0-1a"
+label=<span color="#8be9fd"> </span>
+
+[memory]
+command=free -h --si | awk 'FNR==2{ print $0 }' | awk '{ print $7 }'
+interval=2
+label=<span color="#a9e185"> </span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#[documentation]
+#full_text=Documentation
+#website=https://vivien.github.io/i3blocks
+#command=xdg-open "$website"
+#color=#f12711
+
+#[greetings]
+#color=#f5af19
+#command=echo "Hello, $USER!"
+#interval=once
+
+[weather]
+#command=curl -Ss 'https://wttr.in?0&T&Q' | cut -c 16- | head -2 | xargs echo
+#command=curl "wttr.in/shenzhen?format=3"  |cut -f 2-4 -d " "
+#command=curl "wttr.in/shenzhen?format=2"
+POSITION=nanshan,shenzhen
+command=curl "wttr.in/$POSITION?format=3" |cut -f 2-4 -d " "; curl "http://wttr.in/${POSITION}_0qp_transparency=200.png" -o /tmp/wttr.png
+#http://wttr.in/:help
+interval=3600
+color=#A4C2F4
+
+[time]
+command=date '+%Y-%m-%d %H:%M:%S'
+interval=1
+
+[volume]
+command=./volume.sh
+#pulseaudio-ctl full-status | awk '{ printf "%i%\n", $1 }'
+#label=<span color="#ff79c6"> </span>
+interval=once
+signal=10
+
+#[volume]
+#label=VOL
+#instance=Master
+#interval=once
+#signal=10
+#
+
+[battery]
+command= ./battery.sh
+interval=2
+#label=<span color="#ff79c6"></span>
+

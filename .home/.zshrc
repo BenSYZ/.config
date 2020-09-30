@@ -12,6 +12,7 @@ export ZSH="/home/ben/.oh-my-zsh"
 #ZSH_THEME="arrow"
 #ZSH_THEME="agnoster"
 ZSH_THEME="ben"
+#ZSH_THEME="gentoo"
 #ZSH_THEME='apple'
 
 # Set list of themes to pick from when loading at random
@@ -115,15 +116,17 @@ zstyle ":conda_zsh_completion:*" use-groups true
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
-#export FZF_COMPLETION_TRIGGER='\'
+export FZF_COMPLETION_TRIGGER='\'
 
-if [[ $PATH != *"$HOME/.local/bin/:"* ]] && [[ -d "$HOME/.local/bin/" ]];then
-	export PATH=$HOME/.local/bin/:$PATH
+# /etc/profile
+if [[ ":$PATH:" != *:"$HOME/.local/bin":* ]] && [[ -d "$HOME/.local/bin" ]];then
+	export PATH="$PATH:$HOME/.local/bin"
 	#echo "It's not there and directory exist"
 fi
 
 export EDITOR=/usr/bin/nvim
 export GOPROXY=https://goproxy.cn
+
 
 
 alias 'pipinstall'='pip install --user'
@@ -135,6 +138,7 @@ alias sudo='sudo env HOME=$HOME'
 alias lsblk="lsblk -o name,mountpoint,label,size,uuid"
 viman () { text=$(man "$@") && echo "$text" | nvim -u ~/.config/nvim/init.vim -R +":set ft=man" - ; }
 alias wttr='wttr yuyao'
+unalias wttr
 # setxkbmap us -variant colemak
 # map i l
 # map l i
@@ -143,6 +147,9 @@ alias slp='sudo hdparm -Y /dev/sda'
 if systemctl -q is-active graphical.target && [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
   exec startx
 fi
+unsetopt BEEP
+#echo "loadkeys $HOME/keys.conf"
+
 ## -z if variant is NONE(empty) or not, if NONE return TRUE
 #[[ -z $DISPLAY ]] && exec startx
 neofetch
@@ -165,28 +172,51 @@ alias pacimpl="sudo pacman -D --asdep"    # Mark one or more installed packages 
 # backwards
 TERM=xterm
 
+# conda path
 [ -f /opt/miniconda3/etc/profile.d/conda.sh ] && source /opt/miniconda3/etc/profile.d/conda.sh
 alias condaa="conda activate"
 alias condad="conda deactivate"
 alias condacreate="conda create --use-local"
 
-alias mountsamba="sudo mount -o credentials=$HOME/.ssh/smbcredentials,iocharset=utf8 //192.168.1.109/sambashare /media/samba"
+alias mountsamba="sudo mount -t cifs -o uid=1000,credentials=$HOME/.ssh/smbcredentials,iocharset=utf8,rw //192.168.101.1/sambashare /media/samba > /dev/null ; sudo mount -t cifs -o uid=1000,credentials=$HOME/.ssh/smbcredentials,iocharset=utf8,rw //192.168.101.1/homes /media/ben > /dev/null"
+alias umountsamba="sudo umount /media/ben /media/samba"
+#alias mountsamba="sudo mount -o credentials=$HOME/.ssh/smbcredentials,iocharset=utf8,rw,user,port=44501 //8.129.217.178/sambashare /media/samba"
 
-echo vi has been alias
+#echo vi has been alias
 alias vi="vim -u ~/Documents/vim/init.vim"
 alias v="vim -u NONE"
 
 
 # -------------PROXY-------------
-export proxy="socks5://127.0.0.1:8080"
-#export http_proxy=$proxy
-#export https_proxy=$proxy
+export proxy="http://127.0.0.1:8118"
+#export proxy="http://192.168.101.1:8119"
+export http_proxy=$proxy
+export https_proxy=$proxy
 #export ftp_proxy=$proxy
 
-alias setproxy="export http_proxy=$proxy; export https_proxy=$proxy"
+#alias setsproxy="export http_proxy=socks5://127.0.0.1:8080; export https_proxy=socks5://127.0.0.1:8080"
 alias noproxy="export no_proxy='localhost, 127.0.0.1, ::1'"
 
 #need pysocks
-alias yyou-get="you-get -s 127.0.0.1:8080"	#socket
+alias yyou-get="you-get -s 127.0.0.1:8118"	#socket
 #alias yyou-get="you-get -x 127.0.0.1:8080"	#https
 #alias googler="googler -p 127.0.0.1:8080"	#only support https proxy
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+	SESSION_TYPE=remote/ssh
+# many other tests omitted
+else
+	xset -b
+#  case $(ps -o comm= -p $PPID) in
+#    sshd|*/sshd) SESSION_TYPE=remote/ssh;;
+#  esac
+fi
+
+alias rsync="gnu_rsync"
+
+#echo 13.5 pam,  18 日志, 7.4
+#echo pam
+#echo '驱动， pam( ulimit )， 所以很多朋友都習慣單一 bash 登入，再用工作控制 (job control, 第四篇會介紹) 來切換不同工作'
+#echo 'page 575 chapter18 logfile.sh'
+alias bc="BC_ENV_ARGS=<(echo "scale=10") \bc"
+#tt
+#echo 'i3 minimize window: https://www.youtube.com/watch?v=QqDMpuIikXA'

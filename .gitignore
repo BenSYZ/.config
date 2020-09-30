@@ -28,7 +28,7 @@ i3/**/flag
 
 !/fcitx/
 /fcitx/*
-!./fcitx/profile
+!/fcitx/profile
 !/fcitx/rime/
 /fcitx/rime/build/
 /fcitx/rime/luna_pinyin.userdb
@@ -39,5 +39,17 @@ i3/**/flag
 !/fcitx/config
 !/fcitx/profile
 
+
+!/go
+!/gtk-2.0
+!/gtk-3.0
+!/systemd
+
+
+!/variety/
+/variety/*
+!/variety/scripts/
+/variety/scripts/*
+!/variety/scripts/set_wallpaper
 
 

@@ -35,22 +35,24 @@ floating_modifier $mod
 
 # start a terminal
 # bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Return exec alacritty
+bindsym $mod+Return exec --no-startup-id alacritty
 
-bindsym $mod+b exec chromium
-bindsym $mod+m exec netease-cloud-music
-bindsym $mod+z exec zathura
-bindsym $mod+s exec simplescreenrecorder
+bindsym $mod+b exec --no-startup-id chromium --proxy-server="127.0.0.1:8118"
+#bindsym $mod+b exec --no-startup-id chromium --proxy-server="192.168.101.1:8119"
+bindsym $mod+m exec --no-startup-id netease-cloud-music
+bindsym $mod+z exec --no-startup-id zathura
+bindsym $mod+s exec --no-startup-id simplescreenrecorder
 
 #bindsym $mod+k exec nautilus
 
-bindsym $mod+k exec fcitx
+bindsym $mod+k exec --no-startup-id fcitx
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
+bindsym $mod+d exec --no-startup-id exec ~/.config/i3/scripts/rofi.sh
+
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -139,9 +141,20 @@ bindsym $mod+Shift+0 move container to workspace 10; workspace 10
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
-# exit i3 (logs you out of your X session)
-bindsym $mod+Shift+f exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
-bindsym $mod+Shift+s exec "i3-nagbar -t warning -m 'Shutdown?' -b 'Yes, Shutdown.' 'sync; shutdown -h now'"
+
+mode "Shutdown the machine now?" {
+            bindsym Return mode "default" exec --no-startup-id "alacritty -e /usr/bin/shutdown -h now"
+            bindsym Escape mode "default"
+    }
+bindsym $mod+shift+s mode "Shutdown the machine now?"
+
+
+
+mode "You pressed the exit shortcut. Do you really want to exit i3? This will end your X session." {
+            bindsym Return mode "default" exec --no-startup-id i3-msg exit
+            bindsym Escape mode "default"
+    }
+bindsym $mod+shift+f mode "You pressed the exit shortcut. Do you really want to exit i3? This will end your X session."
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -169,65 +182,61 @@ mode "resize" {
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
-        bindsym Caps_Lock mode "default"
+        bindsym Escape mode "default"
 }
 
 bindsym $mod+r mode "resize"
 
 # sound control
-# sudo pacman -S alsa-utils
-# sudo pacman -S libnotify
-#bindsym xf86audioraisevolume exec "amixer set Master playback 5+; notify-send 'volume up'"
-#bindsym xf86audiolowervolume exec "amixer set Master playback 5-; notify-send 'volume down'"
-##bindsym xf86audiomute exec ~/.config/i3/myvolume_config/volume.sh
-#bindsym XF86AudioMute exec amixer set Master toggle
-
-
 #alsamixer
-# exec --no-startup-id volumeicon
-bindsym XF86AudioRaiseVolume exec "amixer set Master playback 5%+; canberra-gtk-play -i audio-volume-change -d 'changeVolume'; notify-send 'volume' 'up' -t 700 -h int:transient:1 "
-bindsym XF86AudioLowerVolume exec "amixer set Master playback 5%-; canberra-gtk-play -i audio-volume-change -d 'changeVolume'; notify-send 'volume' 'down' -t 700 -h int:transient:1 "
-bindsym XF86AudioMute exec "amixer set Master toggle; canberra-gtk-play -i audio-volume-change -d 'changeVolume'"
+bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer set Master playback 5%+;\
+	canberra-gtk-play -i audio-volume-change -d 'changeVolume';\
+	notify-send 'volume up' $( amixer |grep -o -E '[0-9][0-9]?[0-9]?%' -m 1 ) -t 700 -h int:transient:1 "
+
+bindsym XF86AudioLowerVolume exec --no-startup-id "amixer set Master playback 5%-;\
+	canberra-gtk-play -i audio-volume-change -d 'changeVolume';\
+	notify-send 'volume down' $( amixer |grep -o -E '[0-9][0-9]?[0-9]?%' -m 1 ) -t 700 -h int:transient:1 "
+
+bindsym XF86AudioMute exec --no-startup-id "~/.config/i3/scripts/mute.sh"
+
+bindsym --release XF86AudioLowerVolume exec pkill -SIGRTMIN+10 i3blocks
+bindsym --release XF86AudioMute        exec pkill -SIGRTMIN+10 i3blocks
+bindsym --release XF86AudioRaiseVolume exec pkill -SIGRTMIN+10 i3blocks
 
 #Audio
-bindsym XF86AudioMicMute exec "~/.config/i3/mymicrophone_config/Microphone.sh"
+bindsym XF86AudioMicMute exec --no-startup-id "~/.config/i3/scripts/microphone.sh"
 #bindsym XF86AudioMicMute exec "amixer set Capture toggle"
+bindsym --release XF86AudioMicMute exec pkill -SIGRTMIN+10 i3blocks
 
 # screen brightness
-bindsym XF86MonBrightnessUp exec "xbacklight -inc 10; notify-send 'brightness' 'up' -t 700 -h int:transient:1"
-bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; notify-send 'brightness' 'down' -t 700 -h int:transient:1"
-bindsym XF86Display exec "~/.config/i3/multiscreen.sh"
+bindsym XF86MonBrightnessUp exec --no-startup-id "xbacklight -inc 6; notify-send 'brightness' 'up' -t 700 -h int:transient:1"
+bindsym XF86MonBrightnessDown exec --no-startup-id "xbacklight -dec 6; notify-send 'brightness' 'down' -t 700 -h int:transient:1"
+bindsym XF86Display exec --no-startup-id "~/.config/i3/multiscreen.sh"
 
 # screenshot scrot
-bindsym --release Print exec "scrot -z -s -e 'mv $f ~/Pictures/screenshots'"
-bindsym --release ctrl+Print exec "scrot -z -bs -e 'mv $f ~/Pictures/screenshots'"
-bindsym shift+Print exec "scrot -z -e 'mv $f ~/Pictures/screenshots'"
+bindsym --release Print exec --no-startup-id "scrot -z -s -e 'mv $f ~/Pictures/screenshots'"
+bindsym --release ctrl+Print exec --no-startup-id "scrot -z -bs -e 'mv $f ~/Pictures/screenshots'"
+bindsym shift+Print exec --no-startup-id "scrot -z -e 'mv $f ~/Pictures/screenshots'"
 
 #Bluetooth
-bindsym XF86Bluetooth exec "alacritty -e ~/.config/i3/Bluetooth.sh"
+bindsym XF86Bluetooth exec --no-startup-id "alacritty --dimensions 60 8 --position 50 50 --title BLUETOOTH -e ~/.config/i3/scripts/bluetooth.sh"
 
 #Hotspot
-bindsym XF86Favorites exec "alacritty -e ~/.config/i3/MyHotspot/Hotspot.sh"
+bindsym XF86Favorites exec --no-startup-id "alacritty --dimensions 30 6 --position 50 50  --title HOTSPOT -e ~/.config/i3/scripts/hotspot.sh"
 
 #keyboard
 #bindsym XF86 exec "~/.config/i3/Keyboard/Keyboard.sh""
 
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
+
 bar {
-		i3bar_command i3bar
-		status_command i3status -c ~/.config/i3/i3status.conf
-#         colors {
-#             background #000000
-#             statusline #15ffff
-#         }
+	#i3bar_command i3bar
+	#status_command i3status -c ~/.config/i3/i3status.conf
+	status_command i3blocks -c ~/.config/i3/i3blocks/config
+
 	height 20
 	position top
 	colors {
-		#background #222D31
-		#statusline #F9FAF9
-		#separator  #454947
 		background #222222
 		statusline #eeeeee
 		separator #666666
@@ -257,40 +266,49 @@ gaps outer -2
 smart_gaps on
 
 
-# auto exec when start i3
-# sleep 1 second
-
 #exec_always sleep 1.5; screenkey
-#exec fcitx
-	# gdm       1545  1416  0 09:16 tty1     00:00:00 ibus-daemon --xim --panel disable
-	# ben      16526     1  0 21:22 ?        00:00:00 /bin/sh -c sleep 1; ibus-daemon
-	# ben      16533 16526  0 21:22 ?        00:00:01 ibus-daemon
-	# ben      16629 16577  0 21:25 pts/2    00:00:00 grep --color=auto ibus-daemon
-
-#exec_always killall i3status; sleep 1;i3status
 
 # exec ss-qt5
-# exec /usr/lib/notification-daemon-1.0/notification-daemon
-# # exec --no-startup-id ~/.config/i3/tap-to-click.sh
+
+# # exec --no-startup-id ~/.config/i3/scripts/tap-to-click.sh
 # # scroll inverse
-# 
-# #exec_always killall picom; sleep 1;picom --config ~/.config/i3/picom.conf
-# exec_always picom --config ~/.config/i3/picom.conf
-# exec_always variety
-bindsym $mod+p exec variety -n
-bindsym $mod+shift+p exec variety -p
-bindsym $mod+l exec variety -f
 
-#bindsym $mod+q exec alacritty; split h;exec sleep 2; exec alacritty; split v; exec chromium; focus up; exec chromium
-#
+bindsym $mod+p exec --no-startup-id variety -n
+bindsym $mod+shift+p exec --no-startup-id variety -p
+bindsym $mod+l exec --no-startup-id "variety -f && notify-send 'Added' -t 700 -h int:transient:1"
 
-exec ss-qt5
-exec --no-startup-id ~/.config/i3/inverse-scroll.sh
-exec_always killall fcitx; sleep 3; fcitx
-
-exec /usr/lib/notification-daemon-1.0/notification-daemon
-exec_always killall picom ;sleep 3; picom --config ~/.config/i3/picom.conf
-exec_always killall variety; sleep 3; variety
+#wudao dictionary
+bindsym $mod+w exec --no-startup-id python ~/.config/i3/scripts/wudao_notification.py
 
 
-exec sleep 5; xmodmap ~/.xmodmap_colemak; sleep 5
+# i3lock
+mode "i3lock: Return to lock/Escape to Cancel" {
+            bindsym Return mode "default" exec --no-startup-id ~/.config/i3/scripts/i3lock.sh
+            bindsym Escape mode "default"
+    }
+bindsym $mod+ctrl+l mode "i3lock: Return to lock/Escape to Cancel"
+
+
+#exec ss-qt5
+exec --no-startup-id ~/.config/i3/scripts/inverse-scroll.sh
+exec --no-startup-id fcitx
+
+exec --no-startup-id picom --config ~/.config/i3/picom.conf
+exec --no-startup-id variety
+
+#notification
+exec --no-startup-id dunst
+
+exec --no-startup-id xset s 0 -dpms
+
+exec --no-startup-id xautolock -corners -0+0 -cornersize 30 -cornerdelay 2 -time 5 -locker "xset s 7 -b; i3lock-fancy -n; xset s off" -detectsleep -bell 0
+
+
+exec --no-startup-id sleep 5;xmodmap ~/.xmodmap_colemak
+
+
+# get the name of a window by `xprop`
+for_window [class="wechat.exe"] floating enable
+for_window [title="HOTSPOT"] floating enable
+for_window [title="BLUETOOTH"] floating enable
+

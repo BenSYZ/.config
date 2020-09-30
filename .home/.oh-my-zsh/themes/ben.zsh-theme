@@ -1,4 +1,5 @@
-typeset +H _current_dir="%{$fg_bold[cyan]%}%3~%{$reset_color%} "
+#typeset +H _current_dir="%{$fg_bold[cyan]%}%3~%{$reset_color%} "
+typeset +H _current_dir="%{$fg_bold[cyan]%}%~%{$reset_color%} "
 
 function _user_host() {
   local me
@@ -18,8 +19,10 @@ function _user_host() {
 #$(_user_host)${_current_dir}
 #  %(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
 
+#%(?:%{$fg_bold[magenta]%}➤ :%{$fg_bold[red]%}➤ )${_current_dir}
+#  %(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
 PROMPT="$(_user_host)
-%(?:%{$fg_bold[magenta]%}➤ :%{$fg_bold[red]%}➤ )${_current_dir}
+%(?:%{$FG[001]%}➤ :%{$fg_bold[red]%}➤ )${_current_dir}
   %(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
 
 #PROMPT+=' %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info)'
