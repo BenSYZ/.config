@@ -1,6 +1,13 @@
 #!/bin/bash
-sudo echo 
-read -t 5 -p "Open Bluetooth? [y/n]" checking
+
+
+#ps -ef |grep "alacritty --dimensions 60 8 --position 50 50 --title BLUETOOTH -e ~/.config/i3/scripts/bluetooth.sh" |awk '{print $2}' |xargs kill
+EXIST=$(ps -ef |grep "alacritty .* --title BLUETOOTH" |grep -v "grep"|wc -l)
+if [[ $EXIST -gt 1 ]]; then
+	exit 0
+fi
+
+read -t 5 -p "`echo $' \nOpen Bluetooth? [y/n]'`" checking
 checking=${checking:-"n"}
 if [[ $checking == "y" ]]; then
 	sudo rfkill unblock bluetooth
@@ -14,3 +21,4 @@ if [[ $checking == "y" ]]; then
 	# scan on
 	# pair <device>
 fi
+

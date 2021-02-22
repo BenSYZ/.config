@@ -6,8 +6,11 @@ map i scroll right
 map N scroll half-down
 map E scroll half-up
 
-map m search forward
-map M search backward
+map k search forward
+map K search backward
+
+map Q quit
+unmap q quit
 
 set selection-clipboard clipboard
 set recolor-darkcolor "#dcdccc"

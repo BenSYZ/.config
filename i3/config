@@ -10,9 +10,10 @@
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 #Windows
-# set $mod Mod4
+# Win <-> Alt implement: /etc/udev/hwdb.d/10-my-modifiers.hwdb
+set $mod Mod4
 # Alt
-set $mod Mod1
+#set $mod Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -37,7 +38,17 @@ floating_modifier $mod
 # bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Return exec --no-startup-id alacritty
 
-bindsym $mod+b exec --no-startup-id chromium --proxy-server="127.0.0.1:8118"
+#bindsym $mod+b exec --no-startup-id "cd ~/.config/gtk-3.0; [ $(date +%H) -lt 6 ] \
+#			&& ln -sf ./settings.dark.ini ./settings.ini \
+#			||ln -sf ./settings.light.ini ./settings.ini ;\
+#			chromium --proxy-server='127.0.0.1:8118'"
+bindsym $mod+b exec --no-startup-id "export http{s,}_proxy=http://127.0.0.1:8118; firefox"
+#bindsym $mod+b exec --no-startup-id chromium --proxy-server='127.0.0.1:8118'
+
+#bindsym $mod+b exec --no-startup-id "export http_proxy=http://127.0.0.1:8118 https_proxy=http://127.0.0.1:8118;\
+#			firefox"
+
+#bindsym $mod+b exec --no-startup-id chromium
 #bindsym $mod+b exec --no-startup-id chromium --proxy-server="192.168.101.1:8119"
 bindsym $mod+m exec --no-startup-id netease-cloud-music
 bindsym $mod+z exec --no-startup-id zathura
@@ -51,7 +62,9 @@ bindsym $mod+k exec --no-startup-id fcitx
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec --no-startup-id exec ~/.config/i3/scripts/rofi.sh
+bindsym $mod+d exec --no-startup-id exec i3-dmenu-desktop --dmenu='~/.config/i3/scripts/rofi.sh'
+bindsym $mod+x exec --no-startup-id exec /usr/bin/xlunch
+
 
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
@@ -206,11 +219,13 @@ bindsym --release XF86AudioRaiseVolume exec pkill -SIGRTMIN+10 i3blocks
 #Audio
 bindsym XF86AudioMicMute exec --no-startup-id "~/.config/i3/scripts/microphone.sh"
 #bindsym XF86AudioMicMute exec "amixer set Capture toggle"
-bindsym --release XF86AudioMicMute exec pkill -SIGRTMIN+10 i3blocks
+#bindsym --release XF86AudioMicMute exec "bash sleep 0.2; pkill -SIGRTMIN+11 i3blocks"
 
 # screen brightness
-bindsym XF86MonBrightnessUp exec --no-startup-id "xbacklight -inc 6; notify-send 'brightness' 'up' -t 700 -h int:transient:1"
-bindsym XF86MonBrightnessDown exec --no-startup-id "xbacklight -dec 6; notify-send 'brightness' 'down' -t 700 -h int:transient:1"
+#bindsym XF86MonBrightnessUp exec --no-startup-id "xbacklight -d $DISPLAY -inc 6; notify-send 'brightness' 'up' -t 700 -h int:transient:1"
+#bindsym XF86MonBrightnessDown exec --no-startup-id "xbacklight -d $DISPLAY -dec 6; notify-send 'brightness' 'down' -t 700 -h int:transient:1"
+bindsym XF86MonBrightnessUp exec --no-startup-id "brightnessctl -d 'intel_backlight' set +6%>/dev/null; notify-send 'brightness' 'up' -t 700 -h int:transient:1"
+bindsym XF86MonBrightnessDown exec --no-startup-id "brightnessctl -d 'intel_backlight' set 6%- >/dev/null; notify-send 'brightness' 'down' -t 700 -h int:transient:1"
 bindsym XF86Display exec --no-startup-id "~/.config/i3/multiscreen.sh"
 
 # screenshot scrot
@@ -219,13 +234,18 @@ bindsym --release ctrl+Print exec --no-startup-id "scrot -z -bs -e 'mv $f ~/Pict
 bindsym shift+Print exec --no-startup-id "scrot -z -e 'mv $f ~/Pictures/screenshots'"
 
 #Bluetooth
-bindsym XF86Bluetooth exec --no-startup-id "alacritty --dimensions 60 8 --position 50 50 --title BLUETOOTH -e ~/.config/i3/scripts/bluetooth.sh"
+bindsym XF86Bluetooth exec --no-startup-id "alacritty -o window.{dimensions.{columns=30,lines=6},position.{x=50,y=50}} --title BLUETOOTH -e ~/.config/i3/scripts/bluetooth.sh"
 
 #Hotspot
-bindsym XF86Favorites exec --no-startup-id "alacritty --dimensions 30 6 --position 50 50  --title HOTSPOT -e ~/.config/i3/scripts/hotspot.sh"
+bindsym XF86Favorites exec --no-startup-id "alacritty -o window.{dimensions.{columns=30,lines=6},position.{x=50,y=50}} --title HOTSPOT -e ~/.config/i3/scripts/hotspot.sh"
 
 #keyboard
 #bindsym XF86 exec "~/.config/i3/Keyboard/Keyboard.sh""
+#
+# Calculator
+bindsym XF86Calculator exec --no-startup-id "alacritty -o window.{dimensions.{columns=60,lines=10},position.{x=50,y=50}} --title CALCULATOR -e ~/.config/i3/scripts/calculator.sh"
+
+
 
 
 
@@ -249,6 +269,7 @@ bar {
 		urgent_workspace   #16a085 #FDF6E3 #E5201D
 	}
 	font pango: SauceCodePro Nerd Font, Icons 9
+#font pango: FontAwesome, Icons 9
 }
 
 #exec --no-startup-id ~/.config/i3/inverse-scroll.sh
@@ -278,37 +299,62 @@ bindsym $mod+shift+p exec --no-startup-id variety -p
 bindsym $mod+l exec --no-startup-id "variety -f && notify-send 'Added' -t 700 -h int:transient:1"
 
 #wudao dictionary
-bindsym $mod+w exec --no-startup-id python ~/.config/i3/scripts/wudao_notification.py
+#bindsym $mod+w exec --no-startup-id python ~/.config/i3/scripts/wudao_notification.py
+bindsym $mod+w exec --no-startup-id "xclip -selection c -o| xargs -n 1 wd| sed -r 's/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g' |xargs -0 notify-send"
+bindsym $mod+shift+w exec --no-startup-id "xsel| xargs -n 1 wd| sed -r 's/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g' |xargs -0 notify-send"
+# google translation
+# https://stackoverflow.com/questions/1251999/how-can-i-replace-a-newline-n-using-sed
+# 1. :a create a label 'a'
+# 2. N append the next line to the pattern space
+# 3. $! if not the last line, ba branch (go to) label 'a'
+# 4. s substitute, /\n/ regex for new line, / / by a space, /g global match (as many times as it can)
+bindsym $mod+t exec --no-startup-id "xclip -selection c -o|sed ':a;N;$!ba;s/\n/ /g'| trans  -t chinese -b |xargs -0 notify-send -t 0"
+bindsym $mod+shift+t exec --no-startup-id "xsel |sed ':a;N;$!ba;s/\n/ /g'| trans  -t chinese -b |xargs -0 notify-send -t 0"
+#bindsym $mod+t exec --no-startup-id "xclip -selection c -o|sed ':a;N;$!ba;s/\n/ /g'| trans  -t chinese -b |xclip -selection c"
 
 
 # i3lock
 mode "i3lock: Return to lock/Escape to Cancel" {
-            bindsym Return mode "default" exec --no-startup-id ~/.config/i3/scripts/i3lock.sh
+            bindsym Return mode "default" exec --no-startup-id ~/.config/i3/scripts/i3lock/i3lock.sh
             bindsym Escape mode "default"
     }
 bindsym $mod+ctrl+l mode "i3lock: Return to lock/Escape to Cancel"
 
 
 #exec ss-qt5
-exec --no-startup-id ~/.config/i3/scripts/inverse-scroll.sh
-exec --no-startup-id fcitx
+# replaced with xorg.conf.d/40-libinput.conf: Option "NaturalScrolling" "true"
+#exec --no-startup-id ~/.config/i3/scripts/inverse-scroll.sh
+#exec --no-startup-id fcitx5
+# press ~ to claim a new workspace
+bindsym $mod+grave exec --no-startup-id ~/.config/i3/scripts/i3-new-workspace
 
+#exec --no-startup-id sleep 5;xmodmap ~/.config/i3/xmodmap_colemak
+#exec --no-startup-id sleep 5;xmodmap ~/.config/i3/xmodmap_winalt
+
+# compton
 exec --no-startup-id picom --config ~/.config/i3/picom.conf
 exec --no-startup-id variety
 
 #notification
-exec --no-startup-id dunst
+#exec --no-startup-id dunst
 
-exec --no-startup-id xset s 0 -dpms
+#exec --no-startup-id xset s 0 -dpms
 
-exec --no-startup-id xautolock -corners -0+0 -cornersize 30 -cornerdelay 2 -time 5 -locker "xset s 7 -b; i3lock-fancy -n; xset s off" -detectsleep -bell 0
+#exec --no-startup-id xautolock -corners -0+0 -cornersize 30 -cornerdelay 2 -time 5 -locker "source ~/.config/i3/scripts/player_screen.sh && ( xset s 7 -b; i3lock-fancy -n; xset s off )" -detectsleep -bell 0
+#bindsym $mod+Shift+l exec --no-startup-id "xset s 7 -b; i3lock -n; xset s off"
+#
+#exec_always --no-startup-id killall xautolock;xautolock -corners -0+0 -cornersize 30 -cornerdelay 2 -time 5 -locker "~/.config/i3/scripts/i3lock/i3lock_clock.sh" -detectsleep -bell 0
+exec --no-startup-id xautolock -corners -0+0 -cornersize 30 -cornerdelay 2 -time 5 -locker "~/.config/i3/scripts/i3lock/i3lock_clock.sh" -detectsleep -bell 0
+bindsym $mod+Shift+l exec --no-startup-id "xset s 7 -b; ~/.config/i3/scripts/i3lock_clock.sh; xset s off"
+#exec --no-startup-id ~/.config/i3/scripts/i3lock/phone_lock.sh
+# detect activity:
+#xprintidle
 
-
-exec --no-startup-id sleep 5;xmodmap ~/.xmodmap_colemak
 
 
 # get the name of a window by `xprop`
 for_window [class="wechat.exe"] floating enable
 for_window [title="HOTSPOT"] floating enable
 for_window [title="BLUETOOTH"] floating enable
+for_window [title="CALCULATOR"] floating enable
 

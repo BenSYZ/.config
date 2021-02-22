@@ -1,33 +1,18 @@
 #!/bin/bash
-#if [[ "$Flag" -eq 1 ]]; then
-#		./CHotspot.sh
-#		notify-send -h int:transient:1 'Hotspot' 'off' -t 700
-#		echo 0 > $MyHotspotFlag
-#
-#else
-#	echo 0
-#	read -p "Turn on Hotspot? [y/n]" checking -t 3
-#	checking=${checking:-"n"}
-#	if [[ $checking == "y" ]]; then
-#		./OHotspot.sh
-#		notify-send -h int:transient:1 'Hotspot' 'on' -t 700
-#		echo 1 > $MyHotspotFlag
-#	fi
-#fi
-#
-#
-#hotspot=$(ip addr | grep "inet .* wlan1")
 
-# when have special meaning
-# sed {: \{
-# sed (: \(, no matter if it's a group
-# sed ?: \?
-# sed [: [
+#ps -ef |grep "alacritty --dimensions 30 6 --position 50 50 --title HOTSPOT -e /home/ben/.config/i3/scripts/hotspot.sh" |awk '{print $2}' |xargs kill
+EXIST=$(ps -ef |grep "alacritty .* --title HOTSPOT" |grep -v "grep"|wc -l)
+if [[ $EXIST -gt 1 ]]; then
+	exit 0
+fi
 
-if [ -z "$hotspot" ]; then
-	# off -> on
-	sudo echo 睊   
-	read -t 5 -p "Turn on Hotspot? [y/n]" checking
+hotspot=$(ip addr | grep "inet .* wlan1")
+if [[ -z "$hotspot" ]]; then
+#	# off -> on
+#	echo 睊  
+#	sudo clear && \
+#	read -t 5 -p "`echo $' 睊    \nTurn on Hotspot? [y/n]'`" checking
+	read -t 5 -p "`echo $' 睊    \nTurn on Hotspot? [y/n]'`" checking
 	checking=${checking:-"n"}
 	if [[ $checking == "y" ]]; then
 		sudo iw dev wlp5s0 interface add wlan1 type __ap &&\
@@ -37,15 +22,23 @@ if [ -z "$hotspot" ]; then
 		notify-send 'Hotspot' 'on' -t 700
 	fi
 else
-	# on -> off
-	sudo echo    睊
-	sudo read -t 3 -p "Close Hotspot? [y/n]" checking
+#	# on -> off
+#	echo    睊
+#	sudo clear && \
+#
+#if [[ $EUID -ne 0 ]]; then
+#  echo "You must run this with superuser priviliges.  Try \"sudo ./dkms-install.sh\"" 2>&1
+#  exit 1
+#else
+#  echo "About to run dkms install steps..."
+#fi
+############################################################################################
+	read -t 5 -p "`echo $'    睊 \nClose Hotspot? [y/n]'`" checking
 	checking=${checking:-"n"}
 	if [[ $checking == "y" ]]; then
 		sudo killall create_ap &&\
 		sudo ip link set wlan1  down &&\
 		sudo iw dev wlan1 del &&\
 		notify-send 'Hotspot' 'off' -t 700
-		sleep 10
 	fi
 fi

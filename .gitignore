@@ -5,6 +5,8 @@
 
 # ... but these:
 
+# default app
+!/mimeapps.list
 
 !/alacritty/
 !/fish/
@@ -13,18 +15,28 @@
 !/i3/
 i3/**/flag
 
+!/git
+!/pip
+
 !/neofetch/
 !/ranger/
 /ranger/history
 /ranger/bookmarks
 !README.md
 
+!/lf/
+!/feh/
+
 /**/__pycache__
 
-!/.home/
+!/HOME/
+
+!/zsh/
 
 !/zathura/
 
+
+!/fcitx5/
 
 !/fcitx/
 /fcitx/*
@@ -43,6 +55,7 @@ i3/**/flag
 !/go
 !/gtk-2.0
 !/gtk-3.0
+/gtk-3.0/servers
 !/systemd
 
 
@@ -52,4 +65,8 @@ i3/**/flag
 /variety/scripts/*
 !/variety/scripts/set_wallpaper
 
+!/dunst/
+
+!/netease-musicbox
+!/xlunch
 

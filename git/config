@@ -1,0 +1,17 @@
+[user]
+	email = bensongsyz@gmail.com
+	name = Ben
+[alias]
+	llog = log --graph --oneline --all --decorate
+#[http]
+#	proxy = socks5://127.0.0.1:8080
+#[https]
+#	proxy = socks5://127.0.0.1:8080
+[http]
+	proxy = http://127.0.0.1:8118
+[https]
+	proxy = http://127.0.0.1:8118
+[pull]
+	ff = only
+[init]
+	defaultBranch = master

@@ -1,0 +1,28 @@
+#!/bin/zsh
+
+player=$(playerctl --all-players metadata --format "{{ artist }} - {{ title }}" | sed -n 's/^\(\ *-\ *\)*\(.*\)/ \2/p')
+#player='宝贝宝贝-贝瓦儿歌 两只老虎爱跳舞，小兔子乖乖拔萝卜，我和小鸭子'
+#echo $player
+num=$(echo $player |wc -m)
+
+#echo -n $player
+str_length=20
+
+#pipe=./media_tmp
+#rm $pipe
+#
+#if [[ ! -p $pipe ]]; then
+#    mkfifo $pipe
+#fi
+
+for i in $(seq 0 $(($num-$str_length)));
+do
+	echo -n '<span color="#a9e185"> '
+	player_check=$(playerctl --all-players metadata --format "{{ artist }} - {{ title }}" | sed -n 's/^\(\ *-\ *\)*\(.*\)/ \2/p')
+	[ "$player" != "$player_check" ] && exit 0
+	echo -n $player |awk -v str_begin="$i" -v str_length="$str_length" '{printf substr($0,str_begin,str_length)}'
+	echo -n ' </span>'
+	sleep 0.2
+	echo -ne "\r"
+done
+sleep 0.5

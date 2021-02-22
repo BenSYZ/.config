@@ -165,12 +165,29 @@ if [ "${KDE_FULL_SESSION}" == "true" ]; then
     fi
 fi
 
+addFormular(){
+	FORMULADIR='/home/ben/Pictures/formula'
+	#array=($(ls -d FORMULADIR/*.png))
+	for formula in $(ls -d $FORMULADIR/unresized/*.png);
+	do
+		formulaName=$(echo $formula |sed -n 's/.*\/\(.*.png\)/\1/p')
+		#echo $formulaName
+		if [[ -f $FORMULADIR/resized/$formulaName ]]; then
+			continue
+		fi
+		convert $formula -resize 190x50 $FORMULADIR/resized/$formulaName 2> /dev/null
+	done
+	convert -splice 0x1 -background "#000000" -append $FORMULADIR/resized/*.png /tmp/.variety_formula.png 2>> /dev/null
+}
+
 # i3, openbox, dwm: use either feh or nitrogen
 #feh --bg-fill "$WP" 2> /dev/null
-rm /tmp/wallpaper.png 2> /dev/null
-convert "$WP"  -resize 1366x768^ -gravity Center -extent 1366x768  /tmp/wallpaper.png 2> /dev/null
-convert /tmp/wallpaper.png <(cat /tmp/wttr.png ) -geometry +50+50 -composite /tmp/wallpaper.png 2>> /dev/null
-feh --bg-fill "/tmp/wallpaper.png" 2> /dev/null || feh --bg-fill "$WP" 2> /dev/null
+rm /tmp/.variety_wallpaper.png 2> /dev/null
+convert "$WP"  -resize 1366x768^ -gravity Center -extent 1366x768  /tmp/.variety_wallpaper.png 2> /dev/null
+convert /tmp/.variety_wallpaper.png <(cat /tmp/.variety_wttr.png ) -geometry +900+600 -composite /tmp/.variety_wallpaper.png 2>> /dev/null # wttr.png get by i3blocks per hour
+addFormular
+convert /tmp/.variety_wallpaper.png <(cat /tmp/.variety_formula.png ) -geometry +50+50 -composite /tmp/.variety_wallpaper.png 2>> /dev/null
+feh --bg-fill "/tmp/.variety_wallpaper.png" 2> /dev/null || feh --bg-fill "$WP" 2> /dev/null
 # DEBUG
 # rm /tmp/wallpaper.png 2> /dev/null
 # convert "$WP"  -resize 1366x768^ -gravity Center -extent 1366x768  /tmp/wallpaper.png 2> /tmp/feh
