@@ -124,7 +124,8 @@ zstyle ':completion::complete:*' use-cache 1
 # To display subcommand completion in groups, please add the following to your
 zstyle ":conda_zsh_completion:*" use-groups true
 
-source $ZSH/custom/plugins/tty-solarized/tty-solarized-dark.sh
+#source $ZSH/custom/plugins/tty-solarized/tty-solarized-dark.sh
+source $HOME/.config/zsh/tty-solarized/tty-solarized-dark.sh
 #zstyle :omz:plugins:tty-solarized theme-shade "light"
 # or:
 zstyle :omz:plugins:tty-solarized theme-shade "dark"
