@@ -62,7 +62,7 @@ bindsym $mod+k exec --no-startup-id fcitx
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec --no-startup-id exec i3-dmenu-desktop --dmenu='~/.config/i3/scripts/rofi.sh'
+bindsym $mod+d exec --no-startup-id exec i3-dmenu-desktop --dmenu='rofi -show drun'
 bindsym $mod+x exec --no-startup-id exec /usr/bin/xlunch
 
 
@@ -300,16 +300,16 @@ bindsym $mod+l exec --no-startup-id "variety -f && notify-send 'Added' -t 700 -h
 
 #wudao dictionary
 #bindsym $mod+w exec --no-startup-id python ~/.config/i3/scripts/wudao_notification.py
-bindsym $mod+w exec --no-startup-id "xclip -selection c -o| xargs -n 1 wd| sed -r 's/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g' |xargs -0 notify-send"
-bindsym $mod+shift+w exec --no-startup-id "xsel| xargs -n 1 wd| sed -r 's/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g' |xargs -0 notify-send"
+bindsym $mod+shift+w exec --no-startup-id "xclip -selection c -o| xargs -n 1 wd| sed -r 's/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g' |xargs -0 notify-send"
+bindsym $mod+w exec --no-startup-id "xsel| xargs -n 1 wd| sed -r 's/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g' |xargs -0 notify-send"
 # google translation
 # https://stackoverflow.com/questions/1251999/how-can-i-replace-a-newline-n-using-sed
 # 1. :a create a label 'a'
 # 2. N append the next line to the pattern space
 # 3. $! if not the last line, ba branch (go to) label 'a'
 # 4. s substitute, /\n/ regex for new line, / / by a space, /g global match (as many times as it can)
-bindsym $mod+t exec --no-startup-id "xclip -selection c -o|sed ':a;N;$!ba;s/\n/ /g'| trans  -t chinese -b |xargs -0 notify-send -t 0"
-bindsym $mod+shift+t exec --no-startup-id "xsel |sed ':a;N;$!ba;s/\n/ /g'| trans  -t chinese -b |xargs -0 notify-send -t 0"
+bindsym $mod+shift+t exec --no-startup-id "xclip -selection c -o|sed ':a;N;$!ba;s/[\n\r]/ /g'| trans  -t chinese -b |xargs -0 notify-send -t 0"
+bindsym $mod+t exec --no-startup-id "xsel |sed ':a;N;$!ba;s/\n/ /g'| trans  -t chinese -b |xargs -0 notify-send -t 0"
 #bindsym $mod+t exec --no-startup-id "xclip -selection c -o|sed ':a;N;$!ba;s/\n/ /g'| trans  -t chinese -b |xclip -selection c"
 
 
@@ -332,8 +332,8 @@ bindsym $mod+grave exec --no-startup-id ~/.config/i3/scripts/i3-new-workspace
 #exec --no-startup-id sleep 5;xmodmap ~/.config/i3/xmodmap_winalt
 
 # compton
-exec --no-startup-id picom --config ~/.config/i3/picom.conf
-exec --no-startup-id variety
+#exec --no-startup-id picom --config ~/.config/i3/picom.conf
+#exec --no-startup-id variety
 
 #notification
 #exec --no-startup-id dunst

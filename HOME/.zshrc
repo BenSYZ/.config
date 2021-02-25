@@ -353,6 +353,8 @@ alias grepconf="grep '^ *[^#]'"
 alias grepcomment="grep '^ *[#]'"
 alias mountvbox='sudo mount /dev/nvme0n1p7'
 #alias yay="yay --gitflags 'config --global https.proxy http://127.0.0.1:8118 http.proxy http:127.0.0.1:8118'"
+#
+alias zhcon='zhcon --utf8'
 
 # yay
 alias yss='yay -Ss'

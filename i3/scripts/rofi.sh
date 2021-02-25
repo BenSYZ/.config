@@ -1,5 +1,7 @@
 #rofi -show run -modi run -location 1 -width 100 \
-rofi -show run -modi run -width 60 \
+#rofi -dmenu\
+rofi -modi drun run -show drun  -width 60 \
+		 -drun-reload-desktop-cache \
 		 -lines 17 -line-margin 0 -line-padding 1 \
 		 -separator-style none -font "mono 10" -columns 1 -bw 0 \
 		 -disable-history \
