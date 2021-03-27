@@ -89,7 +89,7 @@ source ~/.config/zsh/completion.zsh
 
 # /etc/profile
 if [[ ":$PATH:" != *:"$HOME/.local/bin":* ]] && [[ -d "$HOME/.local/bin" ]];then
-	export PATH="$PATH:$HOME/.local/bin"
+	export PATH="$HOME/.local/bin:$PATH"
 	#echo "It's not there and directory exist"
 fi
 
@@ -159,6 +159,7 @@ zstyle :omz:plugins:tty-solarized theme-shade "dark"
 
 export EDITOR=/usr/bin/nvim
 export GOPROXY=https://goproxy.cn
+export XDG_CONFIG_HOME="$HOME/.config"
 
 [ -f "$HOME/.config/lf/shell_icons" ] && source "$HOME/.config/lf/shell_icons"
 
@@ -216,10 +217,10 @@ alias slp='sudo hdparm -Y /dev/sda'
 ##else echo "Display invalid" ;
 #fi
 
+unsetopt BEEP
 if systemctl -q is-active graphical.target && [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
   exec startx
 fi
-unsetopt BEEP
 #echo "loadkeys $HOME/keys.conf"
 
 ## -z if variant is NONE(empty) or not, if NONE return TRUE
@@ -245,11 +246,11 @@ alias pacimpl="sudo pacman -D --asdep"    # Mark one or more installed packages 
 #TERM=xterm #????
 #TERM=alacritty
 
-# conda path
-[ -f /opt/miniconda3/etc/profile.d/conda.sh ] && source /opt/miniconda3/etc/profile.d/conda.sh
-alias condaa="conda activate"
-alias condad="conda deactivate"
-alias condacreate="conda create --use-local"
+## conda path
+#[ -f /opt/miniconda3/etc/profile.d/conda.sh ] && source /opt/miniconda3/etc/profile.d/conda.sh
+#alias condaa="conda activate"
+#alias condad="conda deactivate"
+#alias condacreate="conda create --use-local"
 
 
 alias transc='trans -t chinese -b'
@@ -333,9 +334,22 @@ export BC_ENV_ARGS=$HOME/.config/HOME/BC_ENV_ARGS
 #}
 #alias rm="echo 'using trash-put $*' \r If you really sure, use rmm"
 rm() {echo -e "Please using [34mtrash-put $*[0m \nIf you really sure, use [31mrmm $*[0m\n";}
+
+TimeLeft(){
+	seconds_left=$1
+	echo "请等待${seconds_left}秒……"
+	while [ $seconds_left -gt 0 ];do
+	  echo -n $seconds_left
+	  sleep 1
+	  seconds_left=$(($seconds_left - 1))
+	  echo -ne "\r     \r" #清除本行文字
+	done
+}
+
 rmm() {
 	if [ "$#" -gt "0" ];then
 		echo "[31mrm $*[0m"
+		TimeLeft 5
 		read "rm_check?Continue?"
 		rm_check=${rm_check:-"n"}
 		if [[ "$rm_check" =~ ^[Yy]$ ]]; then
@@ -380,4 +394,5 @@ source /etc/bash_completion.d/wd
 echo 'btrfs: https://dev.to/dandyvica/playing-with-the-btrfs-filesystem-5eno'
 #echo 'dnsmasq https://www.cnblogs.com/sunsky303/p/9238669.html'
 
-
+alias thes='cd ~/Documents/Thesis/Thesis'
+# extra-cmake-modules' 'appstream' 'kdoctools'

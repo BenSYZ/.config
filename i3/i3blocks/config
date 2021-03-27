@@ -26,17 +26,21 @@ markup=pango
 #[window]
 #command= xtitle -s
 #interval=persist
-[mediaplayer]
-#command= playerctl metadata --format "{{ artist }} - {{ title }}"
-#command= playerctl --all-players metadata --format "{{ artist }} - {{ title }}" | sed -n 's/^\(\ *-\ *\)*\(.*\)/ \2/p'
-command= ./media.sh
-interval=1
-label=<span color="#a9e185"> </span>
+
+#[mediaplayer]
+##command= playerctl metadata --format "{{ artist }} - {{ title }}"
+##command= playerctl --all-players metadata --format "{{ artist }} - {{ title }}" | sed -n 's/^\(\ *-\ *\)*\(.*\)/ \2/p'
+#command= ./media.sh
+#interval=1
+#label=<span color="#a9e185"> </span>
 
 [arch-update]
 command= checkupdates | wc -l | awk '{if ($1 > 0) print $1}'
-interval=60
+interval=once
 label=<span color="#1793D1"> </span>
+[okular]
+command= if [ "$(pacman -Si okular|grep Version |awk '{print $3}')" != "20.12.3-1" ]; then echo "okular-update"; fi
+interval=once
 
 #[wifi]
 #command= iwgetid -r | tr '\n' ' ' && grep $(iwgetid -m | awk '{ printf "%s", $1 }') /proc/net/wireless | awk '{ printf "%i%\n", int($3 * 100 / 70) }'

@@ -61,6 +61,7 @@ i3/**/flag
 !/gtk-2.0
 !/gtk-3.0
 /gtk-3.0/servers
+/gtk-3.0/bookmarks
 !/systemd
 
 
@@ -77,3 +78,5 @@ i3/**/flag
 !/netease-musicbox/config.json
 !/xlunch
 
+# makepkg
+!/pacman/

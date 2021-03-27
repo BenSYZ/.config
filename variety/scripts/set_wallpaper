@@ -187,6 +187,8 @@ convert "$WP"  -resize 1366x768^ -gravity Center -extent 1366x768  /tmp/.variety
 convert /tmp/.variety_wallpaper.png <(cat /tmp/.variety_wttr.png ) -geometry +900+600 -composite /tmp/.variety_wallpaper.png 2>> /dev/null # wttr.png get by i3blocks per hour
 addFormular
 convert /tmp/.variety_wallpaper.png <(cat /tmp/.variety_formula.png ) -geometry +50+50 -composite /tmp/.variety_wallpaper.png 2>> /dev/null
+# arch cute
+convert /tmp/.variety_wallpaper.png <(cat $HOME/Pictures/arch/noarch_icon.png ) -geometry +50+600 -composite /tmp/.variety_wallpaper.png 2>> /dev/null
 feh --bg-fill "/tmp/.variety_wallpaper.png" 2> /dev/null || feh --bg-fill "$WP" 2> /dev/null
 # DEBUG
 # rm /tmp/wallpaper.png 2> /dev/null

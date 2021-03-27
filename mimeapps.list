@@ -31,3 +31,4 @@ text/html=firefox.desktop;
 application/x-shellscript=nvim.desktop;
 text/markdown=nvim.desktop;
 inode/directory=ranger.desktop;
+application/octet-stream=org.kde.ktorrent.desktop;

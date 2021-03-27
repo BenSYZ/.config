@@ -43,6 +43,7 @@ bindsym $mod+Return exec --no-startup-id alacritty
 #			||ln -sf ./settings.light.ini ./settings.ini ;\
 #			chromium --proxy-server='127.0.0.1:8118'"
 bindsym $mod+b exec --no-startup-id "export http{s,}_proxy=http://127.0.0.1:8118; firefox"
+#bindsym $mod+b exec --no-startup-id "export http{s,}_proxy=socks5://127.0.0.1:8080; firefox"
 #bindsym $mod+b exec --no-startup-id chromium --proxy-server='127.0.0.1:8118'
 
 #bindsym $mod+b exec --no-startup-id "export http_proxy=http://127.0.0.1:8118 https_proxy=http://127.0.0.1:8118;\
@@ -62,8 +63,9 @@ bindsym $mod+k exec --no-startup-id fcitx
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec --no-startup-id exec i3-dmenu-desktop --dmenu='rofi -show drun'
-bindsym $mod+x exec --no-startup-id exec /usr/bin/xlunch
+#bindsym $mod+d exec --no-startup-id "export LANG=zh_CN.utf-8; i3-dmenu-desktop --dmenu='rofi -show drun'"
+#bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu='rofi -show drun'
+bindsym $mod+d exec --no-startup-id rofi -show drun
 
 
 # There also is the (new) i3-dmenu-desktop which only displays applications
@@ -137,6 +139,7 @@ bindsym $mod+7 workspace 7
 bindsym $mod+8 workspace 8
 bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace 10
+bindsym $mod+Tab workspace back_and_forth
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace 1; workspace 1
@@ -300,8 +303,8 @@ bindsym $mod+l exec --no-startup-id "variety -f && notify-send 'Added' -t 700 -h
 
 #wudao dictionary
 #bindsym $mod+w exec --no-startup-id python ~/.config/i3/scripts/wudao_notification.py
-bindsym $mod+shift+w exec --no-startup-id "xclip -selection c -o| xargs -n 1 wd| sed -r 's/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g' |xargs -0 notify-send"
-bindsym $mod+w exec --no-startup-id "xsel| xargs -n 1 wd| sed -r 's/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g' |xargs -0 notify-send"
+bindsym $mod+shift+w exec --no-startup-id "xclip -selection c -o |sed ':a;N;$!ba;s/[\n\r]/ /g'| ~/.config/i3/scripts/wudao.sh"
+bindsym $mod+w exec --no-startup-id "xsel |sed ':a;N;$!ba;s/[\n\r]/ /g'| ~/.config/i3/scripts/wudao.sh"
 # google translation
 # https://stackoverflow.com/questions/1251999/how-can-i-replace-a-newline-n-using-sed
 # 1. :a create a label 'a'
@@ -345,10 +348,11 @@ bindsym $mod+grave exec --no-startup-id ~/.config/i3/scripts/i3-new-workspace
 #
 #exec_always --no-startup-id killall xautolock;xautolock -corners -0+0 -cornersize 30 -cornerdelay 2 -time 5 -locker "~/.config/i3/scripts/i3lock/i3lock_clock.sh" -detectsleep -bell 0
 exec --no-startup-id xautolock -corners -0+0 -cornersize 30 -cornerdelay 2 -time 5 -locker "~/.config/i3/scripts/i3lock/i3lock_clock.sh" -detectsleep -bell 0
-bindsym $mod+Shift+l exec --no-startup-id "xset s 7 -b; ~/.config/i3/scripts/i3lock_clock.sh; xset s off"
+bindsym $mod+Shift+l exec --no-startup-id "~/.config/i3/scripts/i3lock/i3lock_clock.sh"
 #exec --no-startup-id ~/.config/i3/scripts/i3lock/phone_lock.sh
 # detect activity:
 #xprintidle
+exec --no-startup-id "autotiling --debug >> ~/autoliling.log"
 
 
 
@@ -357,4 +361,7 @@ for_window [class="wechat.exe"] floating enable
 for_window [title="HOTSPOT"] floating enable
 for_window [title="BLUETOOTH"] floating enable
 for_window [title="CALCULATOR"] floating enable
+for_window [title="OkularEditor"] floating enable
+for_window [title="TIM"] floating enable
+
 

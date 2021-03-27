@@ -17,7 +17,8 @@ line=$(ip addr | grep "inet .* enp4s0" |sed -n 's/\ *inet\ *\(\([0-9]\{1,3\}\.\)
 
 if [ -n "$wifi" ]; then
 	signal_strength=$(awk 'NR==3 {print $3}' /proc/net/wireless)
-	ap=$(iw dev wlp5s0 info |awk '$1 == "ssid" {print $2}' |sed -n 's/.*\(..\)/\1/p')
+	#ap=$(iw dev wlp5s0 info |awk '$1 == "ssid" {print $2}' |sed -n 's/.*\(..\)/\1/p')
+	ap=$(iw dev wlp5s0 info |sed -n 's/\tssid\ .*\(..\)$/\1/p')
 	echo -n "  $wifi"
 	echo -n " (${signal_strength%\.}% .$ap)"
 

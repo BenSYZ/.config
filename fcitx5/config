@@ -63,7 +63,7 @@ CompactInputMethodInformation=True
 # 显示第一个输入法的信息
 ShowFirstInputMethodInformation=True
 # 默认页大小
-DefaultPageSize=9
+DefaultPageSize=5
 # Force Enabled Addons
 EnabledAddons=
 # Force Disabled Addons

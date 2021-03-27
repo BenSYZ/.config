@@ -18,6 +18,7 @@ atLockCorner(){
 	#	return 0
 	#fi
 	if [[ $x -lt 31 && $y -gt 738 ]];then
+		xdotool mousemove 31 738
 		return 0
 	else
 		return 1
@@ -41,6 +42,10 @@ isPlaying (){
 
 	# zoom
 	if [[ -n $(ps -ef|grep "/opt/zoom/zoom" |grep -v grep) ]];then
+		return 0
+	fi
+	# wemeet
+	if [[ -n $(ps -ef|grep "wemeetapp.exe" |grep -v grep) ]];then
 		return 0
 	fi
 
