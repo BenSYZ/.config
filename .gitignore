@@ -5,6 +5,8 @@
 
 # ... but these:
 
+!/fontconfig/
+
 # default app
 !/mimeapps.list
 
