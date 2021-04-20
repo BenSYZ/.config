@@ -34,7 +34,7 @@ ZSH_THEME="ben"
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to automatically update without prompting.
 # DISABLE_UPDATE_PROMPT="true"
@@ -349,7 +349,7 @@ TimeLeft(){
 rmm() {
 	if [ "$#" -gt "0" ];then
 		echo "[31mrm $*[0m"
-		TimeLeft 5
+		TimeLeft 4
 		read "rm_check?Continue?"
 		rm_check=${rm_check:-"n"}
 		if [[ "$rm_check" =~ ^[Yy]$ ]]; then
@@ -375,6 +375,7 @@ alias yss='yay -Ss'
 alias ysi='yay -Si'
 alias yql='yay -Ql'
 alias yqi='yay -Qi'
+alias upd='sudo ~/pacsync && yay -Su'
 
 echo "5.9.14-arch1-1/extra"
 
@@ -394,5 +395,5 @@ source /etc/bash_completion.d/wd
 echo 'btrfs: https://dev.to/dandyvica/playing-with-the-btrfs-filesystem-5eno'
 #echo 'dnsmasq https://www.cnblogs.com/sunsky303/p/9238669.html'
 
-alias thes='cd ~/Documents/Thesis/Thesis'
+alias thes='cd ~/Documents/Graduation-Project/Thesis'
 # extra-cmake-modules' 'appstream' 'kdoctools'
