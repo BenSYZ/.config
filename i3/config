@@ -116,6 +116,10 @@ bindsym $mod+f fullscreen toggle
 # bindsym $mod+w layout tabbed
 # bindsym $mod+e layout toggle split
 
+#隱藏和顯示窗口
+bindsym $mod+minus move scratchpad
+bindsym $mod+plus scratchpad show
+
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
 
@@ -124,6 +128,7 @@ bindsym $mod+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
+bindsym $mod+x [urgent=latest] focus
 
 # focus the child container
 #bindsym $mod+d focus child
@@ -140,6 +145,11 @@ bindsym $mod+8 workspace 8
 bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace 10
 bindsym $mod+Tab workspace back_and_forth
+bindsym $mod+XF86AudioMute workspace 11
+bindsym $mod+XF86AudioLowerVolume workspace 12
+bindsym $mod+XF86AudioRaiseVolume workspace 13
+bindsym $mod+XF86AudioMicMute workspace 14
+# ...
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace 1; workspace 1
@@ -158,19 +168,33 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 
-mode "Shutdown the machine now?" {
-            bindsym Return mode "default" exec --no-startup-id "alacritty -e /usr/bin/shutdown -h now"
-            bindsym Escape mode "default"
-    }
-bindsym $mod+shift+s mode "Shutdown the machine now?"
+#mode "Shutdown the machine now?" {
+#            bindsym Return mode "default" exec --no-startup-id "alacritty -e /usr/bin/shutdown -h now"
+#            bindsym Escape mode "default"
+#    }
+#bindsym $mod+shift+s mode "Shutdown the machine now?"
+#mode "You pressed the exit shortcut. Do you really want to exit i3? This will end your X session." {
+#            bindsym Return mode "default" exec --no-startup-id i3-msg exit
+#            bindsym Escape mode "default"
+#    }
+#bindsym $mod+shift+f mode "You pressed the exit shortcut. Do you really want to exit i3? This will end your X session."
 
 
+#===power manager===
+#https://blog.megumifox.com/public/2019/08/07/i3wm-%E9%85%8D%E7%BD%AE%E5%83%9E/
+set $mode_system select: lock(L) exit(E) reboot(R) poweroff(O) suspend(S) hybrid-sleep(Y) hibernate(H) cancel(Esc)
+bindsym $mod+Shift+f mode "$mode_system"
+mode "$mode_system" {
+    bindsym l exec --no-startup-id i3lock -n -t --ignore-empty-password --no-unlock-indicator  -i background.png  , mode "default"
+   bindsym e exec --no-startup-id i3-msg exit, mode "default"
+   bindsym s exec --no-startup-id systemctl suspend, mode "default"
+   bindsym y exec --no-startup-id systemctl hybrid-sleep, mode "default"
+   bindsym h exec --no-startup-id systemctl hibernate, mode "default"
+   bindsym r exec --no-startup-id systemctl reboot, mode "default"
+   bindsym o exec --no-startup-id systemctl poweroff, mode "default"
+    bindsym Escape mode "default"
+}
 
-mode "You pressed the exit shortcut. Do you really want to exit i3? This will end your X session." {
-            bindsym Return mode "default" exec --no-startup-id i3-msg exit
-            bindsym Escape mode "default"
-    }
-bindsym $mod+shift+f mode "You pressed the exit shortcut. Do you really want to exit i3? This will end your X session."
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -354,6 +378,8 @@ bindsym $mod+Shift+l exec --no-startup-id "~/.config/i3/scripts/i3lock/i3lock_cl
 #xprintidle
 exec --no-startup-id "autotiling --debug >> ~/autoliling.log"
 
+exec --no-startup-id "alacritty"
+
 
 
 # get the name of a window by `xprop`
@@ -364,4 +390,5 @@ for_window [title="CALCULATOR"] floating enable
 for_window [title="OkularEditor"] floating enable
 for_window [title="TIM"] floating enable
 
-
+# 固定部分軟體出現的容器
+assign [class="VirtualBox"] 10
