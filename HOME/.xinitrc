@@ -16,15 +16,17 @@ export LANG=zh_CN.utf-8
 fcitx5 &
 picom &
 variety &
+udiskie -snA&
 export LANG=en_US.UTF-8
 # notification
 dunst &
 xset s 0 -dpms &
 
 
-bash -c "xset s 7 -b;\
-		 i3lock -i /home/ben/Pictures/LockScreen.png -n -c '#000000' -o '#191d0f' -w '#572020' -e --no-keyboard-layout --no-input-visualisation;\
-		 xset s off"
+xset s 7 -b
+i3lock -i /home/ben/Pictures/LockScreen.png -n -c '#000000' -o '#191d0f' -w '#572020' -e --no-keyboard-layout --no-input-visualisation
+#~/.config/i3/scripts/i3lock/i3lock.sh
+xset s off
 
 exec i3
 #exec awesome

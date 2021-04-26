@@ -218,6 +218,7 @@ alias slp='sudo hdparm -Y /dev/sda'
 #fi
 
 unsetopt BEEP
+# /etc/systemd/system/getty@tty1.service.d/override.conf
 if systemctl -q is-active graphical.target && [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
   exec startx
 fi
