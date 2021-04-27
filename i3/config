@@ -164,16 +164,16 @@ bindsym $mod+0 $exec_i3_groups workspace-number 10
 #bindsym $mod+XF86MonBrightnessUp	$exec_i3_groups workspace-number 16
 ## ...
 
-bindsym $mod+Shift+1 $exec_i3_groups move-to-number 1; $exec_i3_groups workspace-number 1
-bindsym $mod+Shift+2 $exec_i3_groups move-to-number 2; $exec_i3_groups workspace-number 2
-bindsym $mod+Shift+3 $exec_i3_groups move-to-number 3; $exec_i3_groups workspace-number 3
-bindsym $mod+Shift+4 $exec_i3_groups move-to-number 4; $exec_i3_groups workspace-number 4
-bindsym $mod+Shift+5 $exec_i3_groups move-to-number 5; $exec_i3_groups workspace-number 5
-bindsym $mod+Shift+6 $exec_i3_groups move-to-number 6; $exec_i3_groups workspace-number 6
-bindsym $mod+Shift+7 $exec_i3_groups move-to-number 7; $exec_i3_groups workspace-number 7
-bindsym $mod+Shift+8 $exec_i3_groups move-to-number 8; $exec_i3_groups workspace-number 8
-bindsym $mod+Shift+9 $exec_i3_groups move-to-number 9; $exec_i3_groups workspace-number 9
-bindsym $mod+Shift+0 $exec_i3_groups move-to-number 10;$exec_i3_groups workspace-number 10
+bindsym $mod+Shift+1 exec --no-startup-id "i3-workspace-groups move-to-number 1 && i3-workspace-groups workspace-number 1"
+bindsym $mod+Shift+2 exec --no-startup-id "i3-workspace-groups move-to-number 2 && i3-workspace-groups workspace-number 2"
+bindsym $mod+Shift+3 exec --no-startup-id "i3-workspace-groups move-to-number 3 && i3-workspace-groups workspace-number 3"
+bindsym $mod+Shift+4 exec --no-startup-id "i3-workspace-groups move-to-number 4 && i3-workspace-groups workspace-number 4"
+bindsym $mod+Shift+5 exec --no-startup-id "i3-workspace-groups move-to-number 5 && i3-workspace-groups workspace-number 5"
+bindsym $mod+Shift+6 exec --no-startup-id "i3-workspace-groups move-to-number 6 && i3-workspace-groups workspace-number 6"
+bindsym $mod+Shift+7 exec --no-startup-id "i3-workspace-groups move-to-number 7 && i3-workspace-groups workspace-number 7"
+bindsym $mod+Shift+8 exec --no-startup-id "i3-workspace-groups move-to-number 8 && i3-workspace-groups workspace-number 8"
+bindsym $mod+Shift+9 exec --no-startup-id "i3-workspace-groups move-to-number 9 && i3-workspace-groups workspace-number 9"
+bindsym $mod+Shift+0 exec --no-startup-id "i3-workspace-groups move-to-number 10 && i3-workspace-groups workspace-number 10"
 # END: i3-workspace-groups
 
 # reload the configuration file
