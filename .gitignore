@@ -69,6 +69,7 @@ i3/**/flag
 
 !/variety/
 /variety/*
+!/variety/variety.conf
 !/variety/scripts/
 /variety/scripts/*
 !/variety/scripts/set_wallpaper

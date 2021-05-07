@@ -274,7 +274,7 @@ bindsym XF86AudioMicMute exec --no-startup-id "~/.config/i3/scripts/microphone.s
 #bindsym XF86MonBrightnessDown exec --no-startup-id "xbacklight -d $DISPLAY -dec 6; notify-send 'brightness' 'down' -t 700 -h int:transient:1"
 bindsym XF86MonBrightnessUp exec --no-startup-id "brightnessctl -d 'intel_backlight' set +6%>/dev/null; notify-send 'brightness' 'up' -t 700 -h int:transient:1"
 bindsym XF86MonBrightnessDown exec --no-startup-id "brightnessctl -d 'intel_backlight' set 6%- >/dev/null; notify-send 'brightness' 'down' -t 700 -h int:transient:1"
-bindsym XF86Display exec --no-startup-id "~/.config/i3/multiscreen.sh"
+bindsym XF86Display exec --no-startup-id " ~/.config/i3/scripts/multiscreen.sh"
 
 # screenshot scrot
 bindsym --release Print exec --no-startup-id "scrot -z -s -e 'mv $f ~/Pictures/screenshots'"
@@ -405,4 +405,4 @@ for_window [title="OkularEditor"] floating enable
 for_window [title="TIM"] floating enable
 
 # 固定部分軟體出現的容器
-assign [class="VirtualBox"] 10
+#assign [class="VirtualBox"] 0
