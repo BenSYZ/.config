@@ -39,7 +39,7 @@ command= checkupdates | wc -l | awk '{if ($1 > 0) print $1}'
 interval=once
 label=<span color="#1793D1"> </span>
 [okular]
-command= [ v"$(pacman -Si okular|grep Version |awk '{print $3}')" == "$(pacman -Qi okular-vim-colemak|grep Version |awk '{print $3}')" ]|| echo "okular-update"
+command= [ "$(pacman -Si okular|grep Version |awk '{print $3}')" == "$(pacman -Qi okular-vim-colemak|grep Version |awk '{print $3}')" ]|| echo "okular-update"
 interval=once
 
 #[wifi]

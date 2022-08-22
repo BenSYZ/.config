@@ -2,7 +2,9 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/ben/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
+
+export GLFW_IM_MODULE=ibus
 #set -o vi
 #bindkey -v
 #bindkey -e #default
@@ -82,10 +84,15 @@ DISABLE_AUTO_UPDATE="true"
 plugins=(git)
 #plugins=(conda-zsh-completion)
 
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+#export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+export FZF_FIND_FILE_COMMAND='ag --hidden --ignore .git -g ""'
 export FZF_COMPLETION_TRIGGER='\'
 export FZF_PREVIEW_CMD='[[ $(file --mime {}) =~ binary ]] && echo {} is a binary file || (ccat --color=always {} || highlight -O ansi -l {} || cat {}) 2> /dev/null | head -500'
 source ~/.config/zsh/completion.zsh
+
+#export FZF_COMPLETION_TRIGGER=''
+#bindkey '^T' fzf-completion
+#bindkey '^I' $fzf_default_completion
 
 # /etc/profile
 if [[ ":$PATH:" != *:"$HOME/.local/bin":* ]] && [[ -d "$HOME/.local/bin" ]];then
@@ -97,11 +104,15 @@ fi
 source $ZSH/oh-my-zsh.sh
 #setopt share_history          # share command history data
 #setopt APPEND_HISTORY
+setopt no_share_history
+unsetopt share_history
 
 #
 # conda auto completion
 #-------------------------
 autoload -U compinit && compinit
+
+zstyle ':completion:*' rehash true
 # To activate the completion cache for packages, add the following to your
 zstyle ':completion::complete:*' use-cache 1
 #zstyle ':completion:*' auto-description 'specify: %d'
@@ -123,6 +134,11 @@ zstyle ':completion::complete:*' use-cache 1
 
 # To display subcommand completion in groups, please add the following to your
 zstyle ":conda_zsh_completion:*" use-groups true
+
+# Filename suffixes to ignore during completion (except after rm command)
+zstyle ':completion:*:*:(^rm):*:*files' ignored-patterns '*?.o' '*?.c~'  '*?.old' '*?.pro'
+
+
 
 #source $ZSH/custom/plugins/tty-solarized/tty-solarized-dark.sh
 source $HOME/.config/zsh/tty-solarized/tty-solarized-dark.sh
@@ -160,6 +176,8 @@ zstyle :omz:plugins:tty-solarized theme-shade "dark"
 export EDITOR=/usr/bin/nvim
 export GOPROXY=https://goproxy.cn
 export XDG_CONFIG_HOME="$HOME/.config"
+# firefox smooth scroll
+export MOZ_USE_XINPUT2=1
 
 [ -f "$HOME/.config/lf/shell_icons" ] && source "$HOME/.config/lf/shell_icons"
 
@@ -177,20 +195,26 @@ alias 'pipinstall'='pip install --user'
 alias ls='ls --color=auto'
 alias ll='ls --color=auto -l -a -h'
 alias ra='ranger'
-#alias sudo='sudo env HOME=$HOME'
-alias sudo='sudo '
+alias sudo='sudo env HOME=$HOME'
+#alias sudo='sudo '
+#alias suod='sudo'
+#alias sduo='sudo'
+setopt correct
 alias lsblk="lsblk -o name,mountpoint,label,size,uuid"
 alias vim='/usr/bin/nvim'
 viman () { text=$(man "$@") && echo "$text" | nvim -R +":set ft=man" - ; }
 export MANPAGER='nvim +Man!'
 alias wttr='wttr nanshan,shenzhen'
 alias wttr='wttr ningbo,zhejiang'
+alias etrans='trans -t english'
 # setxkbmap us -variant colemak
 # map i l
 # map l i
 alias c=clear
 alias slp='sudo hdparm -Y /dev/sda'
-
+alias unzip='echo "======\n recommand use unar,\n still run with unzip\n======";unzip'
+alias 'battery=acpi -b -i -V'
+alias ssh="env TERM=xterm ssh"
 #https://unix.stackexchange.com/questions/72131/detecting-x-session-in-a-bash-script-bashrc-etc
 #https://askubuntu.com/questions/147462/how-can-i-change-the-tty-colors
 # tty color
@@ -219,8 +243,10 @@ alias slp='sudo hdparm -Y /dev/sda'
 
 unsetopt BEEP
 # /etc/systemd/system/getty@tty1.service.d/override.conf
-if systemctl -q is-active graphical.target && [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
+# 不要用graphic target, 不然有可能 getty 起来了，default.target 还没启动全，比方说samba 啥的卡了default
+if systemctl -q is-active getty.target && [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
   exec startx
+  #echo abc
 fi
 #echo "loadkeys $HOME/keys.conf"
 
@@ -260,8 +286,11 @@ alias lcal='ccal'
 
 #uid=1000 ben
 #gid=1001 sambashare
-alias mountsamba="sudo mount -t cifs -o uid=1000,gid=445,credentials=$HOME/.ssh/smbcredentials,iocharset=utf8,rw,dir_mode=0775,file_mode=0664 //192.168.101.1/sambashare /media/samba > /dev/null ; sudo mount -t cifs -o uid=1000,gid=1001,credentials=$HOME/.ssh/smbcredentials,iocharset=utf8,rw,dir_mode=0775,file_mode=0664 //192.168.101.1/homes /media/ben > /dev/null"
+#alias mountsamba="sudo mount -t cifs -o uid=1000,gid=445,credentials=$HOME/.ssh/smbcredentials,iocharset=utf8,rw,dir_mode=0775,file_mode=0664 //192.168.1.12/sambashare /media/samba > /dev/null ; sudo mount -t cifs -o uid=1000,gid=1001,credentials=$HOME/.ssh/smbcredentials,iocharset=utf8,rw,dir_mode=0775,file_mode=0664 //192.168.1.12/homes /media/ben > /dev/null"
+#alias mountsamba="sudo mount -t cifs -o uid=1000,gid=445,credentials=$HOME/.ssh/smbcredentials,iocharset=utf8,rw,dir_mode=0775,file_mode=0664 //localhost/samba /media/samba > /dev/null"
+alias mountrsamba="sudo mount -t cifs -o uid=1000,gid=445,credentials=$HOME/.ssh/smbcredentials,iocharset=utf8,rw,dir_mode=0775,file_mode=0664,port=44501 //bensyz.com/samba /media/samba > /dev/null"
 alias umountsamba="sudo umount /media/ben /media/samba"
+alias mountsamba="sudo mount -t cifs -o uid=1000,gid=445,credentials=$HOME/.ssh/smbcredentials,iocharset=utf8,rw,dir_mode=0775,file_mode=0664,port=445 //pi/samba /media/samba > /dev/null"
 #alias mountsamba="sudo mount -o credentials=$HOME/.ssh/smbcredentials,iocharset=utf8,rw,user,port=44501 //8.129.217.178/sambashare /media/samba"
 #alias mount="mount -o uid=1000,gid=1000"
 #alias smount="sudo mount -o uid=1000,gid=1000"
@@ -301,7 +330,7 @@ else
 #  esac
 fi
 
-alias rsync="gnu_rsync"
+#alias rsync="gnu_rsync"
 
 alias syststatus="systemctl status"
 #function sysstatus(){
@@ -338,7 +367,7 @@ rm() {echo -e "Please using [34mtrash-put $*[0m \nIf you really sure, use [31
 
 TimeLeft(){
 	seconds_left=$1
-	echo "请等待${seconds_left}秒……"
+	echo "Please wait for ${seconds_left} second ..."
 	while [ $seconds_left -gt 0 ];do
 	  echo -n $seconds_left
 	  sleep 1
@@ -347,14 +376,28 @@ TimeLeft(){
 	done
 }
 
+#rmm() {
+#	if [ "$#" -gt "0" ];then
+#		echo "[31mrm $*[0m"
+#		TimeLeft 4
+#		read "rm_check?Continue?"
+#		rm_check=${rm_check:-"n"}
+#		if [[ "$rm_check" =~ ^[Yy]$ ]]; then
+#			/usr/bin/rm $*
+#		fi
+#	else
+#		echo "Nothing to rm."
+#	fi
+#}
 rmm() {
 	if [ "$#" -gt "0" ];then
-		echo "[31mrm $*[0m"
-		TimeLeft 4
-		read "rm_check?Continue?"
-		rm_check=${rm_check:-"n"}
-		if [[ "$rm_check" =~ ^[Yy]$ ]]; then
+		echo "type [31m$*[0m to confirm."
+		read "rm_check?"
+		if [[ "$rm_check" =~ ^$*$ ]]; then
 			/usr/bin/rm $*
+			#echo $*
+		else
+			echo "rm canceled."
 		fi
 	else
 		echo "Nothing to rm."
@@ -362,7 +405,8 @@ rmm() {
 }
 #alias rmm="/usr/bin/rm"
 alias tp="trash-put"
-alias nvrun="__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia"
+# prime-run(nvidia-prime)
+#alias nvrun="__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia"
 alias iconvc="iconv -f GBK -t UTF-8"
 alias grepconf="grep '^ *[^#]'"
 alias grepcomment="grep '^ *[#]'"
@@ -377,13 +421,19 @@ alias ysi='yay -Si'
 alias yql='yay -Ql'
 alias yqi='yay -Qi'
 alias upd='sudo ~/pacsync && yay -Su'
+alias tmpc=cd\ ~/Documents/Light/TMPC相关文献
+alias cp="echo cp has been alias to 'cp -i';cp -i"
+alias removeReturn='sed '\'':a;N;$!ba;s/[\n\r]/ /g'\'
 
-echo "5.9.14-arch1-1/extra"
+#echo "5.9.14-arch1-1/extra"
 
 
 autoload bashcompinit
 bashcompinit
 source /etc/bash_completion.d/wd
+
+# normal way:
+#fpath=(newpath $fpath)
 
 # pyenv
 ##export PYENV_ROOT="$HOME/.pyenv"
@@ -393,8 +443,25 @@ source /etc/bash_completion.d/wd
 ##fi
 #export PYENV_ROOT="$HOME/.pyenv/versions/3.7.9/"
 #export PATH="$PYENV_ROOT/bin:$PATH"
-echo 'btrfs: https://dev.to/dandyvica/playing-with-the-btrfs-filesystem-5eno'
-#echo 'dnsmasq https://www.cnblogs.com/sunsky303/p/9238669.html'
 
-alias thes='cd ~/Documents/Graduation-Project/Thesis'
-# extra-cmake-modules' 'appstream' 'kdoctools'
+
+#alias thes='cd ~/Documents/Graduation-Project/Thesis'
+alias com="cd ~/Documents/kenexs"
+
+echo "TODOs"
+echo "------------"
+#echo 'btrfs: https://dev.to/dandyvica/playing-with-the-btrfs-filesystem-5eno'
+#echo 'dnsmasq https://www.cnblogs.com/sunsky303/p/9238669.html'
+#echo 'wallace' Won't do recently
+#echo '~/Documents/Books/PhyBooks/Mathematical Methods for Physicists' Won't do recently
+#echo '并矢.md' Won't do recently
+
+#echo 'thread in c++' DONE
+echo 'qt language'
+#echo 'play lenApp' DONE
+#echo 'coc tips: M manuel, <space>-= diagonstic, \\rn rename'
+#echo "vim coc-explorer L :UndotreeToggle "
+echo "wechat history backup check"
+echo "=============="
+
+cat ~/webpages.txt

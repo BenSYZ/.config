@@ -1,3 +1,6 @@
 [submodule "zsh/tty-solarized"]
 	path = zsh/tty-solarized
 	url = https://github.com/joepvd/tty-solarized
+[submodule "nvim"]
+	path = nvim
+	url = https://github.com/BenSYZ/nvim

@@ -1,0 +1,21 @@
+configuration {
+	modi: "drun,run";
+	width: 60;
+	lines: 15;
+	columns: 1;
+	font: "mono 10";
+	bw: 1;
+	padding: 5;
+	show-icons: true;
+	line-margin: 0;
+	separator-style: none;
+	//hide-scrollbar: true;
+	scroll-method: 1;
+	color-normal: "#222222, #b1b4b3, #222222, #005577, #b1b4b3" ;
+	color-urgent: "#222222, #b1b4b3, #222222, #77003d, #b1b4b3" ;
+	color-active: "#222222, #b1b4b3, #222222, #007763, #b1b4b3" ;
+	color-window: "#222222, #222222, #b1b4b3" ;
+	max-history-size: 6;
+	kb-row-select: "Tab";
+	kb-row-tab: "";
+}

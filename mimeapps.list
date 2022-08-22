@@ -18,7 +18,7 @@ application/x-extension-shtml=firefox.desktop
 application/xhtml+xml=firefox.desktop
 application/x-extension-xhtml=firefox.desktop
 application/x-extension-xht=firefox.desktop
-inode/directory=ranger.desktop
+inode/directory=alacritty-ranger.desktop
 
 [Added Associations]
 image/png=userapp-feh.desktop;
@@ -30,6 +30,7 @@ x-scheme-handler/https=firefox.desktop;
 text/html=firefox.desktop;
 application/x-shellscript=nvim.desktop;
 text/markdown=nvim.desktop;
-inode/directory=ranger.desktop;
+inode/directory=alacritty-ranger.desktop;nemo.desktop
 application/octet-stream=org.kde.ktorrent.desktop;
 application/rss+xml=firefox.desktop;
+application/x-bittorrent=org.qbittorrent.qBittorrent.desktop;

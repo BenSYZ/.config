@@ -30,23 +30,69 @@ try_fallback_rules = true
 
 # Other relevant glyphs:
 #   
-#            樓  
+#            樓      
 #         
 #          墳 奄 奔 婢
 #        
 #      
 #  
 #       
+# https://fontawesome.com/icons/weixin?style=brands
+
+
+# === Terminal BEGIN ===
+[[icons.rules]]
+property = 'title'
+match = '/usr/bin/nvim\b.*'
+icon = ''
+[[icons.rules]]
+property = 'title'
+match = 'CALCULATOR'
+icon = ''
+[[icons.rules]]
+property = 'title'
+match = '\branger\b'
+icon = ''
 
 [[icons.rules]]
 property = 'class'
 match = 'kitty|Alacritty|Termite|URxvtc?'
 icon = ''
+# === Terminal END ===
+
+# === Browser BEGIN ===
+[[icons.rules]]
+property = 'title'
+match = '.*\bYouTube — Mozilla Firefox'
+icon = ''
+[[icons.rules]]
+property = 'title'
+match = 'Google 翻译 — Mozilla Firefox'
+icon = ''
 
 [[icons.rules]]
-property = 'class'
-match = 'Chromium|Chrome'
-icon = ''
+property = 'title'
+match = '微信网页版 — Mozilla Firefox'
+icon = ''
+[[icons.rules]]
+property = 'title'
+match = 'Telegram Web — Mozilla Firefox'
+icon = ''
+[[icons.rules]]
+property = 'title'
+match = '.*\b - 维基百科，自由的百科全书 — Mozilla Firefox'
+icon = ' '
+[[icons.rules]]
+property = 'title'
+match = '.*\b - Wikipedia — Mozilla Firefox'
+icon = ''
+
+[[icons.rules]]
+property = 'title'
+match = 'GitHub — Mozilla Firefox'
+icon = ''
+
+
 
 [[icons.rules]]
 property = 'class'
@@ -55,18 +101,47 @@ icon = ''
 
 [[icons.rules]]
 property = 'class'
-match = 'copyq'
-icon = ''
+match = 'Chromium|Chrome'
+icon = ''
+
+# === Browser END ===
+
 
 [[icons.rules]]
 property = 'class'
-match = 'Ranger'
+match = '.*wechat.exe.*'
+icon = ''
+[[icons.rules]]
+property = 'class'
+match = 'netease-cloud-music'
+icon = ''
+
+[[icons.rules]]
+property = 'class'
+match = 'Nemo'
 icon = ''
 
 [[icons.rules]]
 property = 'class'
 match = 'Rofi'
 icon = ''
+
+[[icons.rules]]
+property = 'class'
+match = 'Zotero'
+icon = '⛁'
+
+
+[[icons.rules]]
+property = 'title'
+match = '.*\bn?TIM\b'
+icon = '🐧'
+
+
+[[icons.rules]]
+property = 'class'
+match = 'copyq'
+icon = ''
 
 [[icons.rules]]
 property = 'class'
@@ -147,3 +222,8 @@ icon = ''
 property = 'class'
 match = 'Pavucontrol'
 icon = '墳'
+
+[[icons.rules]]
+property = 'class'
+match = '\b.*\b'
+icon = ''

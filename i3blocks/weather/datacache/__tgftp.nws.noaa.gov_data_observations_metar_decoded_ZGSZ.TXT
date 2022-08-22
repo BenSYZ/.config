@@ -1,0 +1,10 @@
+Shenzhen, China (ZGSZ) 22-33N 114-06E 18M
+Dec 18, 2020 - 12:00 AM EST / 2020.12.18 0500 UTC
+Wind: from the NNE (020 degrees) at 13 MPH (12 KT) (direction variable):0
+Visibility: greater than 7 mile(s):0
+Temperature: 62 F (17 C)
+Dew Point: 44 F (7 C)
+Relative Humidity: 51%
+Pressure (altimeter): 30.18 in. Hg (1022 hPa)
+ob: ZGSZ 180500Z 02006MPS 330V040 CAVOK 17/07 Q1022 NOSIG
+cycle: 5

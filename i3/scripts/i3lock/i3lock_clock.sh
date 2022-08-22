@@ -9,6 +9,10 @@ atLockCorner(){
 	# purpose: move to left-down position(Manually), lock
 	#read -r x y <<< $(xdotool getmouselocation |sed -n 's/x:\([0-9]*\)\ y:\([0-9]*\).*/\1 \2/p')
 	read -r x y < <(xdotool getmouselocation |sed -n 's/x:\([0-9]*\)\ y:\([0-9]*\).*/\1 \2/p')
+	read -r resolution_x resolution_y < <(xrandr | sed -n 's/ *\([0-9]*\)x\([0-9]*\) *.*\*+.*/\1 \2/p')
+	lock_area_width=30
+	x_border="$lock_area_width"
+	y_border="$(($resolution_y - $lock_area_width))"
 
 	## up left 	not lock
 	#if [[ $x -lt 31 && $y -lt 31 ]];then
@@ -17,7 +21,7 @@ atLockCorner(){
 	#elif [[ $x -lt 31 && $y -gt 738 ]];then
 	#	return 0
 	#fi
-	if [[ $x -lt 31 && $y -gt 738 ]];then
+	if [[ "$x" -lt "$x_border" && $y -gt "$y_border" ]];then
 		xdotool mousemove 31 738
 		return 0
 	else
@@ -42,10 +46,12 @@ isPlaying (){
 
 	# zoom
 	if [[ -n $(ps -ef|grep "/opt/zoom/zoom" |grep -v grep) ]];then
+		echo zoom
 		return 0
 	fi
 	# wemeet
 	if [[ -n $(ps -ef|grep "wemeetapp.exe" |grep -v grep) ]];then
+		echo wemeet
 		return 0
 	fi
 
@@ -53,6 +59,9 @@ isPlaying (){
 }
 
 lock(){
+	if_i3lock_exist="$(ps -ef |grep 'i3lock -i'|grep -v 'grep'|grep -v 'tty')"
+	# tty is that in .xinitric
+	[ -n "$if_i3lock_exist" ] && exit 0
 	xset s 7 -b
 
 	import -window root png:- | convert - -resize 20% -gamma .45455 -blur 4x5 -gamma 2.2 -resize 500% /tmp/.screenlock.png
@@ -61,22 +70,32 @@ lock(){
 	#import -window root png:- | convert - -blur 5x10 /tmp/.screenlock.png
 	#scrot -z -e 'mv $f /tmp/i3lock.png'
 	#convert /tmp/i3lock.png -blur 5x10 /tmp/i3lock.png
-	i3lock -i /tmp/.screenlock.png -n -c '#000000' -o '#191d0f' -w '#572020' -e --no-keyboard-layout --no-input-visualisation
+	#i3lock -i /tmp/.screenlock.png -n -c '#000000' -o '#191d0f' -w '#572020' -e --no-keyboard-layout --no-input-visualisation
+	sleep_target=$(systemctl is-active i3lock@ben.service)
+	echo $sleep_target
+	if [ "$sleep_target" = "inactive" ] || [ "$sleep_target" = "failed" ];then
+		i3lock -i /tmp/.screenlock.png -n -c '#000000' -o '#191d0f' -w '#572020' -e --no-keyboard-layout
+	fi
 	# --no-keyboard-layout: US
 	# --no-input-visualisation: ***
 
 	rm /tmp/.screenlock.png
 	# -l '#ffffff' waiting
-
+	autotiling > /dev/null 2>&1 &
 	xset s off
 }
 
+if [ "$1" == "-f" ];then
+    lock
+    exit
+fi
+
 if  atLockCorner ;then
-	echo a
+	#echo a
 	lock
 	exit
 elif  ! isPlaying ;then
-	echo b
+	#echo b
 	lock
 	exit
 fi

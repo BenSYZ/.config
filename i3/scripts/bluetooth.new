@@ -1,0 +1,73 @@
+#!/bin/sh
+
+# not success
+export SUDO_ASKPASS="/home/ben/.local/bin/myaskpass.sh"
+
+
+
+zenity_pair_or_transfer(){
+    zenity --list --title="Bluetooth mode" --column="Option" \
+	'pair' \
+	'file transfer'
+}
+zenity_keep_on_or_turn_off(){
+    zenity --list --title="Bluetooth power" --text="Keep bluetooth on or turn it off?" --column="Option" \
+	'on' \
+	'off'
+}
+
+
+bluetooth_status(){ #TODO: status judge, and zenity.
+    if [ "$(rfkill list bluetooth|grep block)" = "" ];then
+	echo blocked
+    else
+	echo unblocked
+    fi
+}
+start_bluetooth_service(){
+    rfkill unblock bluetooth
+    systemctl start bluetooth
+    echo -e "power on\n" | bluetoothctl
+}
+stop_bluetooth_service(){
+    echo -e "power off\n" | bluetoothctl
+    systemctl stop bluetooth
+    rfkill block bluetooth
+}
+pair(){
+
+}
+
+main(){
+    if [ "$EUID" -ne 0 ];then
+	#then echo "Please run as root"
+	sudo -A /home/ben/.config/i3/scripts/bluetooth
+    else
+	if [ "$(bluetooth_status)" = "unblocked" ];then # if keep bluetooth on
+	    if [ "$(zenity_keep_on_or_turn_off)" = "off" ];then
+		stop_bluetooth_service
+	    fi
+	else
+	    start_bluetooth_service
+	fi
+
+	MODE=$(zenity_pair_or_transfer)
+	if [ "$MODE" = "pair" ];then
+	    pair
+	elif [ "$MODE" = "file transfer" ];then
+	    start_bluetooth_service
+	    /usr/lib/bluetooth/obexd -n -r ~/Downloads/bluetooth -a
+	    stop_bluetooth_service
+	else
+	    exit 0
+	fi
+    fi
+}
+main
+#if [ "$#" -ne 1 ];then
+#    echo "Usage: $0 enp4s0/wlp5s0 (output)"
+#    exit
+#fi
+
+
+

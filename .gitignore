@@ -5,6 +5,8 @@
 
 # ... but these:
 
+!/.gitmodules
+
 !/fontconfig/
 
 # default app
@@ -16,6 +18,7 @@
 
 !/i3/
 i3/**/flag
+i3/floating_issure
 !/picom.conf
 !/i3blocks/
 !/i3-workspace-groups/
@@ -29,6 +32,7 @@ i3/**/flag
 !/ranger/
 /ranger/history
 /ranger/bookmarks
+/ranger/tagged
 !README.md
 
 !/lf/
@@ -71,8 +75,8 @@ i3/**/flag
 /variety/*
 !/variety/variety.conf
 !/variety/scripts/
-/variety/scripts/*
-!/variety/scripts/set_wallpaper
+#/variety/scripts/*
+#!/variety/scripts/set_wallpaper
 
 !/dunst/
 
@@ -83,3 +87,5 @@ i3/**/flag
 
 # makepkg
 !/pacman/
+
+!/nvim

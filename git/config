@@ -15,3 +15,6 @@
 	ff = only
 [init]
 	defaultBranch = master
+# for non-ascii file names
+[core]
+	quotepath = off

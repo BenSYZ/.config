@@ -85,6 +85,7 @@ do
 	if [ -w "$trashDir" ] && [ -d "$trashDir" ];then
 		#cd $trashDir
 		#echo $(pwd -P)
+		sleep 10
 		trash-empty 7
 	fi
 	

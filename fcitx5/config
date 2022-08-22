@@ -7,12 +7,11 @@ EnumerateSkipFirst=False
 [Hotkey/TriggerKeys]
 0=Zenkaku_Hankaku
 1=Hangul
-2=Control+space
-3=Shift+Shift_L
-4=Shift+Shift_R
+2=Control+Shift+Shift_L
 
 [Hotkey/AltTriggerKeys]
 0=Shift+Shift_L
+1=Shift+Shift_R
 
 [Hotkey/EnumerateForwardKeys]
 0=Control+Shift_L
@@ -51,7 +50,7 @@ EnumerateSkipFirst=False
 # 默认状态为激活
 ActiveByDefault=False
 # 共享输入状态
-ShareInputState=Program
+ShareInputState=All
 # 在程序中显示预编辑文本
 PreeditEnabledByDefault=True
 # 切换输入法时显示输入法信息

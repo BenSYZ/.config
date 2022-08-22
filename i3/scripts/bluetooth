@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# not success
+export SUDO_ASKPASS="/home/ben/.local/bin/myaskpass.sh"
+
+bluetooth_sevice(){
+    rfkill unblock bluetooth
+    systemctl start bluetooth
+    echo -e "power on\n" | bluetoothctl
+    /usr/lib/bluetooth/obexd -n -r ~/Downloads/bluetooth -a
+    echo -e "power off\n" | bluetoothctl
+    systemctl stop bluetooth
+    rfkill block bluetooth
+}
+
+main(){
+    if [ "$EUID" -ne 0 ];then
+	#then echo "Please run as root"
+	sudo -A /home/ben/.config/i3/scripts/bluetooth
+    else
+	bluetooth_sevice
+    fi
+}
+main
+#if [ "$#" -ne 1 ];then
+#    echo "Usage: $0 enp4s0/wlp5s0 (output)"
+#    exit
+#fi
+
+
+
