@@ -1,9 +1,12 @@
+#!/bin/sh
 #wifi=$( ip addr | grep "wlp5s0" |grep -E -o "inet ([0-9]{1,3}[\.]){3}[0-9]{1,3}" |awk '{print $2 " "}' )
 #wifi=$(ip addr | grep "inet .* wlp5s0" |sed -n 's/\ *inet\ *\(\([0-9]\{1,3\}.\)\{3\}.[0-9]\{1,3\}\).*/\1/p')
 #wifi=$(ip addr | grep "inet .* wlp5s0" |sed -n 's/\ *inet\ *\([0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}\).*/\1/p')
-wifi=$(ip addr | grep "inet .* wlp5s0" |sed -n 's/\ *inet\ *\(\([0-9]\{1,3\}\.\)\{3\}[0-9]\{1,3\}\).*/\1/p')
+#wifi=$(ip addr | grep "inet .* wlp5s0" |sed -n 's/\ *inet\ *\(\([0-9]\{1,3\}\.\)\{3\}[0-9]\{1,3\}\).*/\1/p')
+wifi=$(ip addr show wlp5s0 |awk '$1=="inet" {print(substr($2, 1, index($2,"/")-1))}')
 #line=$( ip addr | grep "enp4s0" |grep -E -o "inet ([0-9]{1,3}[\.]){3}[0-9]{1,3}" |awk '{print $2 " "}' )
-line=$(ip addr | grep "inet .* enp4s0" |sed -n 's/\ *inet\ *\(\([0-9]\{1,3\}\.\)\{3\}[0-9]\{1,3\}\).*/\1/p')
+#line=$(ip addr | grep "inet .* enp4s0" |sed -n 's/\ *inet\ *\(\([0-9]\{1,3\}\.\)\{3\}[0-9]\{1,3\}\).*/\1/p')
+line=$(ip addr show enp4s0 |awk '$1=="inet" {print(substr($2, 1, index($2,"/")-1))}')
 
 # hostname -i
 # ip addr show dev wlp5s0
