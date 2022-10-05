@@ -317,45 +317,45 @@ bindsym XF86Calculator exec --no-startup-id "env LANG='zh_CN.UTF-8' qalculate-qt
 
 bar {
     strip_workspace_numbers yes
-	#i3bar_command i3bar
-	#status_command i3status -c ~/.config/i3/i3status.conf
-	status_command i3blocks -c ~/.config/i3blocks/config
+#i3bar_command i3bar
+#status_command i3status -c ~/.config/i3/i3status.conf
+        status_command i3blocks -c ~/.config/i3blocks/config
 
-	height 20
-	position top
-		font pango: SauceCodePro Nerd Font, Icons 9
+        height 20
+        position top
+        font pango: SauceCodePro Nerd Font, Icons 9
 #font pango: FontAwesome, Icons 9
-colors {
-    active_workspace #333333 #333333 #ffffff
-    background #222222
-    focused_workspace #0088CC #0088CC #ffffff
-    inactive_workspace #333333 #333333 #888888
-    separator #666666
-    statusline #dddddd
-    urgent_workspace #2f343a #900000 #ffffff
-}}
+        colors {
+            active_workspace #333333 #333333 #ffffff
+                background #222222
+                focused_workspace #0088CC #0088CC #ffffff
+                inactive_workspace #333333 #333333 #888888
+                separator #666666
+                statusline #dddddd
+                urgent_workspace #2f343a #900000 #ffffff
+        }
+}
+
 exec_always --no-startup-id i3-autoname-workspaces
 
 #exec --no-startup-id ~/.config/i3/inverse-scroll.sh
 #exec_always sleep 1; xmodmap ~/.xmodmap_colemak
 
+# head title
+default_border none
+# edge
+default_floating_border normal
 # You can also use any non-zero value if you'd like to have a border
 #for_window [class=".*"] border pixel 0
-# remove the ugly blue Edge
-#default_border normal # head title
-default_border none
-default_border pixel 0
-default_floating_border none
-default_floating_border pixel 1
-# https://github.com/manzerbredes/i3-colors
-client.focused #0088CC #0088CC #ffffff #dddddd #0088CC
-client.focused_inactive #333333 #333333 #888888 #292d2e #333333
-client.unfocused #333333 #333333 #888888 #292d2e #333333
-client.urgent #2f343a #900000 #ffffff #900000 #2f343a
 
-#default_floating_border pixel 10 #enabled useless
+
+# https://github.com/manzerbredes/i3-colors
+client.focused          #0088CC #0088CC #ffffff #dddddd #0088CC
+client.focused_inactive #333333 #333333 #888888 #292d2e #333333
+client.unfocused        #333333 #333333 #888888 #292d2e #333333
+client.urgent           #2f343a #900000 #ffffff #900000 #2f343a
+
 #for_window [class="Chromium"] floating enable
-#default_border pixel 0
 exec_always --no-startup-id "python ~/.config/i3/scripts/border_for_floating.py"
 #focus_follows_mouse no
 # Set inner/outer gaps
