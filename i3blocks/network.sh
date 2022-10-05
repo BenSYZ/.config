@@ -21,20 +21,20 @@ line=$(ip addr show "$eth_dev" |awk '$1=="inet" {print(substr($2, 1, index($2,"/
 
 
 if [ -n "$wifi" ]; then
-	signal_strength=$(awk 'NR==3 {print $3}' /proc/net/wireless)
-	#ap=$(iw dev wlp5s0 info |awk '$1 == "ssid" {print $2}' |sed -n 's/.*\(..\)/\1/p')
-        ap="$(iwgetid $wifi_dev | sed -n 's/.*ESSID:"\(.*\)"$/\1/p')"
-        short_ap="$(echo "$ap" | sed -n 's/\(..\).*\(..\)$/\1-\2/p')"
-	echo -n "  $wifi"
-	echo -n " (${signal_strength%\.}% .$short_ap)"
+    signal_strength=$(awk 'NR==3 {print $3}' /proc/net/wireless)
+    #ap=$(iw dev wlp5s0 info |awk '$1 == "ssid" {print $2}' |sed -n 's/.*\(..\)/\1/p')
+    ap="$(iwgetid $wifi_dev | sed -n 's/.*ESSID:"\(.*\)"$/\1/p')"
+    short_ap="$(echo "$ap" | sed -n 's/\(..\).*\(..\)$/\1-\2/p')"
+    echo -n "  $wifi"
+    echo -n " (${signal_strength%\.}% .$short_ap)"
 
 fi
 
 if [ -n "$line" ] && [ -n "$wifi" ];then
-	echo -n " |"
+    echo -n " |"
 fi
 
 if [ -n "$line" ]; then
-	echo -n " $line"
+    echo -n " $line"
 fi
 echo

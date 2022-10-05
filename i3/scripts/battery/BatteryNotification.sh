@@ -9,15 +9,15 @@ TIMEPER5=$(( 10#$(/usr/bin/date +%M) % 5 ))
 
 
 [ -n "$BATIFBAT" ] && \
-	if ([ $BATREMAIN -lt 10 ] || [[ "$BATTIME" < 00:10:00 ]]) ; then
-		#echo $(date) >> /tmp/battery_info
-		#echo $(acpi -b) >> /tmp/battery_info
-		/usr/bin/notify-send "low battery" "$BATREMAIN $BATTIME" -u critical
-		#/usr/bin/canberra-gtk-play -f /home/ben/.config/i3/Low-battery-sound.wav
-		/usr/bin/canberra-gtk-play -f /home/ben/.config/i3/scripts/battery/power-unplug-battery-low.wav
-	elif ([ "$BATREMAIN" -lt 25 ] || [[ "$BATTIME" < 00:25:00  ]]) && \
-	[ $TIMEPER5 -eq 0 ] ; then
-		/usr/bin/notify-send "low battery" "$BATREMAIN $BATTIME"
-fi
+    if [ "$BATREMAIN" -lt 10 ] || [[ "$BATTIME" < 00:10:00 ]] ; then
+        #echo $(date) >> /tmp/battery_info
+        #echo $(acpi -b) >> /tmp/battery_info
+        /usr/bin/notify-send "low battery" "$BATREMAIN $BATTIME" -u critical
+        #/usr/bin/canberra-gtk-play -f /home/ben/.config/i3/Low-battery-sound.wav
+        /usr/bin/canberra-gtk-play -f /home/ben/.config/i3/scripts/battery/power-unplug-battery-low.wav
+    elif [ "$BATREMAIN" -lt 25 ] || [[ "$BATTIME" < 00:25:00  ]] && \
+        [ "$TIMEPER5" -eq 0 ] ; then
+            /usr/bin/notify-send "low battery" "$BATREMAIN $BATTIME"
+    fi
 
 exit 0

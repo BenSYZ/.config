@@ -17,14 +17,14 @@ my_notify(){
     ACTION=$(dunstify --action="default,Reply" --action="forwardAction,Forward" "$0")
 
     case "$ACTION" in
-    "default")
-	reply_action
-	;;
-    "forwardAction")
-	forward_action
-	;;
-    "2")
-	handle_dismiss $0
-	;;
+        "default")
+            reply_action
+            ;;
+        "forwardAction")
+            forward_action
+            ;;
+        "2")
+            handle_dismiss "$0"
+            ;;
     esac
 }

@@ -15,19 +15,19 @@ end_i=$(tail -n1 $tmpfile)
 
 #player=$(playerctl --all-players metadata --format "{{ artist }} - {{ title }}" | sed -n 's/^\(\ *-\ *\)*\(.*\)/ \2/p')
 player=$(playerctl --all-players metadata --format "{{status}} >_< {{ artist }} >_< {{ title }}" 2>/dev/null | 
-	awk -F '>_<' '{
-		if ($1 == "Playing ") {
-			if ($2 ~ "[^ ]") {
-				printf $2"-";
-			};
-			print $3
-		}
-	}')
+    awk -F '>_<' '{
+    if ($1 == "Playing ") {
+        if ($2 ~ "[^ ]") {
+            printf $2"-";
+        };
+        print $3
+    }
+}')
 #playerctl --all-players metadata --format "{{status}} >_< {{ artist }} >_< {{ title }}"
 #awk '{$print NR"." $0}' # 添加行号
 number_player=$(echo -n $player |awk -F '\n' 'END{print NR}')
 if [ "$number_player" -gt "1" ];then
-	player=$(echo -n $player|awk -F '\n' '{printf NR"." $0"    "}')
+    player=$(echo -n $player|awk -F '\n' '{printf NR"." $0"    "}')
 fi
 #echo $player | sed ':a ; N;s/\n/ / ; t a ; '
 
@@ -38,35 +38,35 @@ fi
 
 num=$(echo $player |wc -m)
 if [ "$num" -gt "$str_length" ];then
-	for i in $(seq 0 $(($str_length/4)));
-	do
-		player=$(echo $player" ")
-	done
+    for i in $(seq 0 $(($str_length/4)));
+    do
+        player=$(echo $player" ")
+    done
 fi
 
 
 # write tmp_file
 if [ "$player" != "$old_player" ];then
-	start_i=0
-	num=$(echo $player |wc -m)
-	#end_i=$(($start_i-$str_length))
-	end_i=$(($num-$str_length))
+    start_i=0
+    num=$(echo $player |wc -m)
+    #end_i=$(($start_i-$str_length))
+    end_i=$(($num-$str_length))
 
-	echo $player > $tmpfile
-	echo $start_i >> $tmpfile
-	echo $end_i >> $tmpfile
+    echo $player > $tmpfile
+    echo $start_i >> $tmpfile
+    echo $end_i >> $tmpfile
 fi
 
 if [ "$start_i" -gt "$end_i" ];then
-	start_i=0
+    start_i=0
 
-	echo $player > $tmpfile
-	echo $start_i >> $tmpfile
-	echo $end_i >> $tmpfile
+    echo $player > $tmpfile
+    echo $start_i >> $tmpfile
+    echo $end_i >> $tmpfile
 else
-	echo $player > $tmpfile
-	echo $(($start_i+2)) >> $tmpfile
-	echo $end_i >> $tmpfile
+    echo $player > $tmpfile
+    echo $(($start_i+2)) >> $tmpfile
+    echo $end_i >> $tmpfile
 fi
 
 #echo '===='

@@ -49,44 +49,43 @@ num=$(echo "$partitions"|wc -l)
 #echo $num
 
 #for part in <(lsblk -o MountPoint|sort|uniq|sed -n 's/\(^\/.*\)/\1/p'|sed 's/ /\\ /g')
-for i in $(seq $num)
-do
-	#echo $i
-	part=$(echo "$partitions" |sed -n "$i p")
+for i in $(seq "$num");do
+    #echo $i
+    part=$(echo "$partitions" |sed -n "$i p")
 
-	# set trashDir
-	unset trashDir
-	if [ "$part" = '/' ];then
-		trashDir=$part.Trash-$UID
-	elif [ "$part" = '/home' ]; then
-		trashDir=$HOME/.local/share/Trash
-	else
-		#echo "$part"
-		#[ -w "$part" ] && trashDir=$part/.Trash-$UID
-		trashDir=$part/.Trash-$UID
-	fi
+    # set trashDir
+    unset trashDir
+    if [ "$part" = '/' ];then
+        trashDir=$part.Trash-$UID
+    elif [ "$part" = '/home' ]; then
+        trashDir=$HOME/.local/share/Trash
+    else
+        #echo "$part"
+        #[ -w "$part" ] && trashDir=$part/.Trash-$UID
+        trashDir=$part/.Trash-$UID
+    fi
 
-	#[ ! -w "$part" ] &&\
-	#	if [ ! -d "$trashDir" ];then
-	#		notify-send "Trash Bin" "Trash bin needed, please create $trashDir."
-	#	elif [ ! -w "$trashDir" ];then
-	#		notify-send "Trash Bin" "Have no permission to write to $trashDir" # -x file bettru
-	#	fi
-	#[ ( !( -w "$part" ) ) -a ( ! ( -d "trashDir" ) ) ] && echo abc
-
-
-	#if [ -w "$part" ] && [ ! -d "$trashDir" ];then
-	if [ -w "$trashDir/.." ] && [ ! -d "$trashDir" ];then
-		mkdir "$trashDir"
-	fi
+    #[ ! -w "$part" ] &&\
+    #	if [ ! -d "$trashDir" ];then
+    #		notify-send "Trash Bin" "Trash bin needed, please create $trashDir."
+    #	elif [ ! -w "$trashDir" ];then
+    #		notify-send "Trash Bin" "Have no permission to write to $trashDir" # -x file bettru
+    #	fi
+    #[ ( !( -w "$part" ) ) -a ( ! ( -d "trashDir" ) ) ] && echo abc
 
 
-	#if [ -w "$part" ] && [ -d "$trashDir" ];then
-	if [ -w "$trashDir" ] && [ -d "$trashDir" ];then
-		#cd $trashDir
-		#echo $(pwd -P)
-		sleep 10
-		trash-empty 7
-	fi
-	
+    #if [ -w "$part" ] && [ ! -d "$trashDir" ];then
+    if [ -w "$trashDir/.." ] && [ ! -d "$trashDir" ];then
+        mkdir "$trashDir"
+    fi
+
+
+    #if [ -w "$part" ] && [ -d "$trashDir" ];then
+    if [ -w "$trashDir" ] && [ -d "$trashDir" ];then
+        #cd $trashDir
+        #echo $(pwd -P)
+        sleep 10
+        trash-empty 7
+    fi
+
 done

@@ -1,23 +1,23 @@
 #!/bin/bash
 WORKSPACE=$1
-WKSP=`xprop -root -notype  _NET_CURRENT_DESKTOP | sed 's#.* =##'`
-CURRENT_WORKSPACE=`expr 1 + $WKSP`
-if [ $CURRENT_WORKSPACE -ne $WORKSPACE ]; then
+WKSP="$(xprop -root -notype  _NET_CURRENT_DESKTOP | sed 's#.* =##')"
+CURRENT_WORKSPACE="$((1 + WKSP))"
+if [ "$CURRENT_WORKSPACE" -ne "$WORKSPACE" ]; then
     scrot -q 50 /tmp/.PRTSRC.jpeg
     feh /tmp/.PRTSRC.jpeg&
     sleep .1
-	#i3-msg "[class=feh] floating enable"
+    #i3-msg "[class=feh] floating enable"
     FEH_WINDOW=$!
     #WAIT (give i3 time to switch workspace in the background)
 
-	winid=$FEH_WINDOW
-	winid="`wmctrl -lp | awk -vpid=$pid '$3==pid {print $1; exit}'`"
-	# Focus the window we found
-	wmctrl -i "${winid}"
-	i3-msg floating enable, sticky enable, border pixel 0, move absolute position 0 px 0 px > /dev/null
+    winid=$FEH_WINDOW
+    winid="$(wmctrl -lp | awk -vpid=$pid '$3==pid {print $1; exit}')"
+    # Focus the window we found
+    wmctrl -i "${winid}"
+    i3-msg floating enable, sticky enable, border pixel 0, move absolute position 0 px 0 px > /dev/null
 
     sleep .1
-	rm /tmp/.PRTSRC.jpeg
+    rm /tmp/.PRTSRC.jpeg
 fi
 slide_FEH_LEFT(){
     LONG_LINE="move left 1px"
@@ -33,7 +33,7 @@ slide_FEH_RIGHT(){
     done
     i3-msg "$LONG_LINE"  > /dev/null
 }
-if [ $CURRENT_WORKSPACE -gt $WORKSPACE ]; then
+if [ "$CURRENT_WORKSPACE" -gt "$WORKSPACE" ]; then
     slide_FEH_RIGHT
 else
     slide_FEH_LEFT

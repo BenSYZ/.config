@@ -17,12 +17,12 @@ str_length=20
 
 for i in $(seq 0 $(($num-$str_length)));
 do
-	echo -n '<span color="#a9e185"> '
-	player_check=$(playerctl --all-players metadata --format "{{ artist }} - {{ title }}" | sed -n 's/^\(\ *-\ *\)*\(.*\)/ \2/p')
-	[ "$player" != "$player_check" ] && exit 0
-	echo -n $player |awk -v str_begin="$i" -v str_length="$str_length" '{printf substr($0,str_begin,str_length)}'
-	echo -n ' </span>'
-	sleep 0.2
-	echo -ne "\r"
+    echo -n '<span color="#a9e185"> '
+    player_check=$(playerctl --all-players metadata --format "{{ artist }} - {{ title }}" | sed -n 's/^\(\ *-\ *\)*\(.*\)/ \2/p')
+    [ "$player" != "$player_check" ] && exit 0
+    echo -n $player |awk -v str_begin="$i" -v str_length="$str_length" '{printf substr($0,str_begin,str_length)}'
+    echo -n ' </span>'
+    sleep 0.2
+    echo -ne "\r"
 done
 sleep 0.5

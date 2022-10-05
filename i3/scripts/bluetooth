@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # not success
 export SUDO_ASKPASS="/home/ben/.local/bin/myaskpass.sh"

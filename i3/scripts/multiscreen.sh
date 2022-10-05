@@ -1,12 +1,12 @@
 #!/bin/bash
 MODE_Choose(){
     zenity --list --title="Second Screen position" --column="Option" \
-	'off' \
-	'only secondary' \
-	'duplicate' \
-	'left' \
-	'right'
-    }
+        'off' \
+        'only secondary' \
+        'duplicate' \
+        'left' \
+        'right'
+}
 
 variety_set(){
     local MODE=$1
@@ -15,9 +15,9 @@ variety_set(){
     feh --bg-fill  ~/Pictures/LockScreen.png
     wait $pidof_kill
     if [ "$MODE" = "off" ]; then
-	nohup variety >>~/variety.log 2>&1 >/dev/null &
+        nohup variety >>~/variety.log 2>&1 >/dev/null &
     else
-	env i3script_multiscreen=true nohup variety >>~/variety.log 2>&1 >/dev/null &
+        env i3script_multiscreen=true nohup variety >>~/variety.log 2>&1 >/dev/null &
     fi
 }
 
@@ -26,30 +26,30 @@ multi_window_set(){
     local MODE="$1"
     xrandr --output "$MAIN_SCREEN_NAME" --auto;
     case "$MODE" in
-	"off")
-	    #echo off;;
-	    xrandr --output "$SECONDARY_SCREEN_NAME" --off;;
-	"only secondary")
-	    xrandr --output "$MAIN_SCREEN_NAME" --off;;
-	"duplicate" | "left" | "right")
-	    xrandr --output "$SECONDARY_SCREEN_NAME" --auto;
-	    xrandr --output "$MAIN_SCREEN_NAME" --auto;;&
-	"duplicate")
-	    #echo auto;
-	    xrandr --output "$SECONDARY_SCREEN_NAME" --same-as "$MAIN_SCREEN_NAME";;
-	"left")
-	    #echo left;
-	    xrandr --output "$SECONDARY_SCREEN_NAME" --left-of "$MAIN_SCREEN_NAME";;
-	"right")
-	    #echo left;
-	    xrandr --output "$SECONDARY_SCREEN_NAME" --right-of "$MAIN_SCREEN_NAME";;
-	*)
-	    exit 1;
-	    ;;
-	    #echo other
-	    #xrandr --output $SECONDARY_SCREEN_NAME --off;;
-	esac
-    }
+        "off")
+            #echo off;;
+            xrandr --output "$SECONDARY_SCREEN_NAME" --off;;
+        "only secondary")
+            xrandr --output "$MAIN_SCREEN_NAME" --off;;
+        "duplicate" | "left" | "right")
+            xrandr --output "$SECONDARY_SCREEN_NAME" --auto;
+            xrandr --output "$MAIN_SCREEN_NAME" --auto;;&
+        "duplicate")
+            #echo auto;
+            xrandr --output "$SECONDARY_SCREEN_NAME" --same-as "$MAIN_SCREEN_NAME";;
+        "left")
+            #echo left;
+            xrandr --output "$SECONDARY_SCREEN_NAME" --left-of "$MAIN_SCREEN_NAME";;
+        "right")
+            #echo left;
+            xrandr --output "$SECONDARY_SCREEN_NAME" --right-of "$MAIN_SCREEN_NAME";;
+        *)
+            exit 1;
+            ;;
+            #echo other
+            #xrandr --output $SECONDARY_SCREEN_NAME --off;;
+    esac
+}
 
 
 main(){
@@ -59,7 +59,8 @@ main(){
     MAIN_SCREEN_NAME="eDP-1"
     #SECONDARY_SCREEN_NAME=DP-2
 
-    local MODE="$(MODE_Choose)"
+    local MODE
+    MODE="$(MODE_Choose)"
 
     [ -n "$SECONDARY_SCREEN_NAME" ] && [ -n "$MODE" ] && multi_window_set "$MODE" &&  variety_set "$MODE" || exit 0
 

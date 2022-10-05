@@ -1,44 +1,44 @@
-#!/bin/sh
+#!/bin/bash
 export SUDO_ASKPASS="/home/ben/.local/bin/myaskpass.sh"
 
 Interface_output_choose(){
     wlan0_ap_info=$(ip addr show dev wlan0_ap)
 
     if [ "$wlan0_ap_info" = "" ];then
-	zenity --list --title="output interface" --column="output interface" \
-	    'enp4s0' \
-	    'wlp5s0'
+        zenity --list --title="output interface" --column="output interface" \
+            'enp4s0' \
+            'wlp5s0'
     else
-	zenity --list --title="output interface" --column="Option" \
-	    'off'
+        zenity --list --title="output interface" --column="Option" \
+            'off'
     fi
 }
 
 hotspot(){
     output_interface=$(Interface_output_choose)
     if [ "$output_interface" = "enp4s0" ] || [ "$output_interface" = "wlp5s0" ];then
-	iw dev wlp5s0 interface add wlan0_ap type managed addr 12:34:56:78:ab:ce
-	macchanger -r wlan0_ap
-	ip link set wlan0_ap up
-	ip addr add 192.168.1.13/24 dev wlan0_ap
-	ip addr add 1234::1/64 dev wlan0_ap
+        iw dev wlp5s0 interface add wlan0_ap type managed addr 12:34:56:78:ab:ce
+        macchanger -r wlan0_ap
+        ip link set wlan0_ap up
+        ip addr add 192.168.1.13/24 dev wlan0_ap
+        ip addr add 1234::1/64 dev wlan0_ap
 
-	#??sudo ip route add 2001:250:3c00:3514:da59:4556:fb51:3940 dev enp4s0 proto dhcp scope link src 1234::1
-	iptables -t nat -A POSTROUTING -o "$output_interface" -j MASQUERADE # intranet to internet
-	ip6tables -t nat -A POSTROUTING -o "$output_interface" -j MASQUERADE # intranet to internet
-	systemctl start dnsmasq.service
-	systemctl start hostapd.service
-	#ip addr add 1234::1/64 dev wlan0_ap
-	sysctl net.ipv6.conf.all.forwarding=1
+        #??sudo ip route add 2001:250:3c00:3514:da59:4556:fb51:3940 dev enp4s0 proto dhcp scope link src 1234::1
+        iptables  -t nat -A POSTROUTING -o "$output_interface" -j MASQUERADE # intranet to internet
+        ip6tables -t nat -A POSTROUTING -o "$output_interface" -j MASQUERADE # intranet to internet
+        systemctl start dnsmasq.service
+        systemctl start hostapd.service
+        #ip addr add 1234::1/64 dev wlan0_ap
+        sysctl net.ipv6.conf.all.forwarding=1
     elif [ "$output_interface" = "off" ];then
-	systemctl stop dnsmasq.service
-	systemctl stop hostapd.service
-	ip addr delete 192.168.1.13/24 dev wlan0_ap
-	iw dev wlan0_ap del
-	ip link set enp4s0 down
-	ip link set wlp5s0 up
+        systemctl stop dnsmasq.service
+        systemctl stop hostapd.service
+        ip addr delete 192.168.1.13/24 dev wlan0_ap
+        iw dev wlan0_ap del
+        ip link set enp4s0 down
+        ip link set wlp5s0 up
     else
-	exit 1
+        exit 1
     fi
 }
 #hotspot
@@ -48,10 +48,10 @@ hotspot(){
 
 main(){
     if [ "$EUID" -ne 0 ];then
-	#then echo "Please run as root"
-	sudo -A /home/ben/.config/i3/scripts/hotspot
+        #then echo "Please run as root"
+        sudo -A /home/ben/.config/i3/scripts/hotspot
     else
-	hotspot
+        hotspot
     fi
 }
 main

@@ -1,3 +1,4 @@
+#!/bin/bash
 # ##card='wlp0s20f0u2'
 # ##echo "link"
 # ##sudo ip link set $card up
