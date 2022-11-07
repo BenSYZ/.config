@@ -9,10 +9,12 @@ atLockCorner(){
 	# purpose: move to left-down position(Manually), lock
 	#read -r x y <<< $(xdotool getmouselocation |sed -n 's/x:\([0-9]*\)\ y:\([0-9]*\).*/\1 \2/p')
 	read -r x y < <(xdotool getmouselocation |sed -n 's/x:\([0-9]*\)\ y:\([0-9]*\).*/\1 \2/p')
-	read -r resolution_x resolution_y < <(xrandr | sed -n 's/ *\([0-9]*\)x\([0-9]*\) *.*\*+.*/\1 \2/p')
+	#read -r resolution_x resolution_y < <(xrandr|grep current |awk -v FS=",| " '{print $8" "$10}')
+	resolution_y=$(xrandr |awk -v FS=",| " '$0 ~ "current" {print $11}')
+
 	lock_area_width=30
 	x_border="$lock_area_width"
-	y_border="$(($resolution_y - $lock_area_width))"
+	y_border="$((resolution_y - lock_area_width))"
 
 	## up left 	not lock
 	#if [[ $x -lt 31 && $y -lt 31 ]];then
@@ -22,7 +24,7 @@ atLockCorner(){
 	#	return 0
 	#fi
 	if [[ "$x" -lt "$x_border" && $y -gt "$y_border" ]];then
-		xdotool mousemove 31 738
+		xdotool mousemove $x_border $y_border
 		return 0
 	else
 		return 1

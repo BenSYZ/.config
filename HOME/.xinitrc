@@ -12,6 +12,8 @@ numlockx &
 #exec i3 -V >> ~/i3log-$(date +'%F-%k-%M-%S') 2>&1
 export DESKTOP_SESSION=gnome
 
+xrdb -merge ~/.Xresources
+
 variety &
 export LANG=zh_CN.utf-8
 export LC_LANG=und

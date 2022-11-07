@@ -280,6 +280,9 @@ bindsym XF86AudioMicMute exec --no-startup-id "~/.config/i3/scripts/microphone.s
 bindsym XF86MonBrightnessUp exec --no-startup-id "brightnessctl -d 'intel_backlight' set +6%>/dev/null; notify-send 'brightness' 'up' -t 700 -h int:transient:1"
 bindsym XF86MonBrightnessDown exec --no-startup-id "brightnessctl -d 'intel_backlight' set 6%- >/dev/null; notify-send 'brightness' 'down' -t 700 -h int:transient:1"
 bindsym XF86Display exec --no-startup-id " ~/.config/i3/scripts/multiscreen.sh"
+bindsym XF86KbdBrightnessDown exec --no-startup-id "brightnessctl --device='smc::kbd_backlight' set 6%-"
+bindsym XF86KbdBrightnessUp exec --no-startup-id   "brightnessctl --device='smc::kbd_backlight' set +6%"
+
 
 ## screenshot scrot
 #bindsym --release Print exec --no-startup-id "scrot -q 100 -z -s '/home/ben/Pictures/screenshots/%Y-%m-%d_%H%M%S_$wx$h_scrot.png'"

@@ -64,10 +64,10 @@ command= df -h / | awk 'FNR==2{print $4}'
 interval=3
 label=<span color="#ff79c6"> </span>
 
-[home]
-command= df -h /home | awk 'FNR==2{print $4}'
-interval=3
-label=<span color="#a9e185"> </span>
+#[home]
+#command= df -h /home | awk 'FNR==2{print $4}'
+#interval=3
+#label=<span color="#a9e185"> </span>
 
 #[gpu-load]
 #command= ./blocks/gpu-load/gpu-load | awk 'FNR==1{ printf "%s %s\n", $1, $2 }'
