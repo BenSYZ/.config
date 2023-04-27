@@ -35,7 +35,7 @@ atLockCorner(){
 # playing -> 0
 # not -> 1
 isPlaying (){
-	while read in; do
+	while read -r in; do
 		playerName=$(echo "$in" | cut -f 1 -d " ");
 		playerStatus=$(echo "$in" | cut -f 2 -d " ");
 		if [[ "$playerName" != "netease-cloud-music" ]] && [[ "$playerStatus" == "playing" ]]; then
@@ -47,12 +47,12 @@ isPlaying (){
 	# "~/Tips/<.md"
 
 	# zoom
-	if [[ -n $(ps -ef|grep "/opt/zoom/zoom" |grep -v grep) ]];then
+	if pgrep "/opt/zoom/zoom" |grep -q -v grep;then
 		echo zoom
 		return 0
 	fi
 	# wemeet
-	if [[ -n $(ps -ef|grep "wemeetapp.exe" |grep -v grep) ]];then
+	if pgrep "wemeetapp.exe" |grep -q -v grep;then
 		echo wemeet
 		return 0
 	fi
@@ -61,7 +61,7 @@ isPlaying (){
 }
 
 lock(){
-	if_i3lock_exist="$(ps -ef |grep 'i3lock -i'|grep -v 'grep'|grep -v 'tty')"
+	if_i3lock_exist="$(pgrep 'i3lock -i'|grep -v 'grep'|grep -v 'tty')"
 	# tty is that in .xinitric
 	[ -n "$if_i3lock_exist" ] && exit 0
 	xset s 7 -b
@@ -74,7 +74,7 @@ lock(){
 	#convert /tmp/i3lock.png -blur 5x10 /tmp/i3lock.png
 	#i3lock -i /tmp/.screenlock.png -n -c '#000000' -o '#191d0f' -w '#572020' -e --no-keyboard-layout --no-input-visualisation
 	sleep_target=$(systemctl is-active i3lock@ben.service)
-	echo $sleep_target
+	#echo "$sleep_target"
 	if [ "$sleep_target" = "inactive" ] || [ "$sleep_target" = "failed" ];then
 		i3lock -i /tmp/.screenlock.png -n -c '#000000' -o '#191d0f' -w '#572020' -e --no-keyboard-layout
 	fi

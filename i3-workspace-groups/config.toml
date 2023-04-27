@@ -113,6 +113,14 @@ match = '.*wechat.exe.*'
 icon = ''
 [[icons.rules]]
 property = 'class'
+match = 'weixin'
+icon = ''
+[[icons.rules]]
+property = 'class'
+match = 'com.alibabainc.dingtalk'
+icon = ''
+[[icons.rules]]
+property = 'class'
 match = 'netease-cloud-music'
 icon = ''
 

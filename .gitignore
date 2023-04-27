@@ -58,6 +58,7 @@ i3/floating_issure
 /fcitx/rime/luna_pinyin.userdb.old
 /fcitx/rime/luna_pinyin.own.dict.yaml
 /fcitx/rime/user.yaml
+/fcitx5/conf/cached_layouts
 
 !/fcitx/config
 !/fcitx/profile
@@ -65,6 +66,7 @@ i3/floating_issure
 
 !/go
 !/gtk-2.0
+/gtk-2.0/gtkfilechooser.ini
 !/gtk-3.0
 /gtk-3.0/servers
 /gtk-3.0/bookmarks
