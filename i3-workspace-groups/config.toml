@@ -18,9 +18,9 @@ delimiter = ' '
 # Prefix and suffix to add the the shown icons. Useful for adding spaces in
 # fonts that cause icons to overlap with nearby characters.
 prefix = ''
-suffix = ''
+suffix = ' '
 # Minimum number of duplicate icons in a workspace for them to show as Nx<icon>
-min_duplicates_count = 5
+min_duplicates_count = 2
 # The icon used when no rule matches. Set to the empty string to disable showing
 # any icon when no rule matches.
 default_icon = ''
@@ -37,7 +37,8 @@ try_fallback_rules = true
 #      
 #  
 #       
-# https://fontawesome.com/icons/weixin?style=brands
+# https://fontawesome.com/icons
+# https://www.nerdfonts.com/cheat-sheet
 
 
 # === Terminal BEGIN ===
@@ -65,10 +66,11 @@ icon = ''
 property = 'title'
 match = '.*\bYouTube — Mozilla Firefox'
 icon = ''
+
 [[icons.rules]]
 property = 'title'
 match = 'Google 翻译 — Mozilla Firefox'
-icon = ''
+icon = '󰊿'
 
 [[icons.rules]]
 property = 'title'
@@ -81,7 +83,7 @@ icon = ''
 [[icons.rules]]
 property = 'title'
 match = '.*\b - 维基百科，自由的百科全书 — Mozilla Firefox'
-icon = ' '
+icon = ''
 [[icons.rules]]
 property = 'title'
 match = '.*\b - Wikipedia — Mozilla Firefox'
@@ -137,13 +139,13 @@ icon = ''
 [[icons.rules]]
 property = 'class'
 match = 'Zotero'
-icon = '⛁'
+icon = ''
 
 
 [[icons.rules]]
 property = 'title'
 match = '.*\bn?TIM\b'
-icon = '🐧'
+icon = '󰻀'
 
 
 [[icons.rules]]
@@ -169,7 +171,7 @@ icon = ''
 [[icons.rules]]
 property = 'class'
 match = '[Vv]lc'
-icon = '嗢'
+icon = '󰕼'
 
 [[icons.rules]]
 property = 'class'
@@ -213,13 +215,8 @@ icon = ''
 
 [[icons.rules]]
 property = 'class'
-match = 'slack'
-icon = '聆'
-
-[[icons.rules]]
-property = 'class'
 match = 'Zathura'
-icon = ''
+icon = ''
 
 [[icons.rules]]
 property = 'class'
@@ -229,9 +226,16 @@ icon = ''
 [[icons.rules]]
 property = 'class'
 match = 'Pavucontrol'
-icon = '墳'
+icon = ''
+
+
+[[icons.rules]]
+property = 'class'
+match = 'Vmplayer'
+icon = ''
 
 [[icons.rules]]
 property = 'class'
 match = '\b.*\b'
 icon = ''
+
