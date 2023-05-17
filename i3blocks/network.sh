@@ -10,7 +10,7 @@ wifi=$(ip addr show "$wifi_dev" |awk '$1=="inet" {print(substr($2, 1, index($2,"
 line=""
 for netcard in $(ip l show |sed -n 's/^[0-9]*: \([^:]*\):.*LOWER_UP>.*/\1/p' |grep -v lo);do
     line_info="$netcard ""$(ip addr show "$netcard" |awk '$1=="inet" {print(substr($2, 1, index($2,"/")-1))}')"
-    line="${line:+$line | }󰈁 $line_info"
+    line="${line:+$line }󰈁 $line_info"
 done
 
 # hostname -i
