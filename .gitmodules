@@ -4,3 +4,6 @@
 [submodule "nvim"]
 	path = nvim
 	url = https://github.com/BenSYZ/nvim
+[submodule "zsh/oh-my-zsh/custom/plugins/fzf-tab"]
+	path = zsh/oh-my-zsh/custom/plugins/fzf-tab
+	url = https://github.com/Aloxaf/fzf-tab
