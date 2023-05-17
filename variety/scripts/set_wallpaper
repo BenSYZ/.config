@@ -287,35 +287,38 @@ if [[ "$XDG_SESSION_DESKTOP $DESKTOP_STARTUP_ID $DESKTOP_SESSION $XDG_CURRENT_DE
 fi
 
 addFormula(){
-	FORMULADIR='/home/ben/Pictures/formula'
-	#array=($(ls -d FORMULADIR/*.png))
-	for formula in $(ls -d $FORMULADIR/unresized/*.png);
-	do
-		formulaName=$(echo $formula |sed -n 's/.*\/\(.*.png\)/\1/p')
-		#echo $formulaName
-		if [[ -f $FORMULADIR/resized/$formulaName ]]; then
-			continue
-		fi
-		convert $formula -resize 190x50 $FORMULADIR/resized/$formulaName 2> /dev/null
-	done
-	convert -splice 0x1 -background "#000000" -append $FORMULADIR/resized/*.png /tmp/.variety_formula.png 2>> /dev/null
+    FORMULADIR='/home/ben/Pictures/formula'
+    [ -d "$FORMULADIR" ] || return 1
+    #array=($(ls -d FORMULADIR/*.png))
+    for formula in "$FORMULADIR"/unresized/*.png;
+    do
+        formulaName=$(echo "$formula" |sed -n 's/.*\/\(.*.png\)/\1/p')
+        #echo $formulaName
+        if [ -f "$FORMULADIR/resized/$formulaName" ]; then
+            continue
+        fi
+        convert "$formula" -resize 190x50 "$FORMULADIR/resized/$formulaName" 2> /dev/null
+    done
+    convert -splice 0x1 -background "#000000" -append $FORMULADIR/resized/*.png /tmp/.variety_formula.png 2>> /dev/null
 }
 
 # i3, openbox, dwm: use either feh or nitrogen
 #feh --bg-fill "$WP" 2> /dev/null
 rm /tmp/.variety_wallpaper.png 2> /dev/null
 
-BATTERYING=$(acpi -b |grep 'Discharging')
+BATTERYING=$(acpi -b 2>/dev/null |grep 'Discharging')
 
-cmd='convert "$WP" -scale 1366x768^ -gravity Center -extent 1366x768 '
+read -r resolution_x resolution_y < <(xrandr |sed -n 's/.* connected \([0-9]*\)x\([0-9]*\)+.*/\1 \2/p')
+resolution="$resolution_x"x"$resolution_y"
+cmd="convert $WP -scale $resolution^ -gravity Center -extent $resolution"
 if [ -z "$BATTERYING" ];then
-    #addFormula
-    cmd+='"/tmp/.variety_wttr.png" -geometry +400-200 -composite '
-    cmd+='"$HOME/Pictures/arch/noarch_icon.png" -geometry -500+300 -composite '
+    addFormula
+    wttr_pic="/tmp/.variety_wttr.png" ;              [ -e "$wttr_pic" ]  && cmd+=" $wttr_pic"'  -gravity NorthEast -geometry +70+70 -composite'
+    arch_icon="$HOME/Pictures/arch/noarch_icon.png"; [ -e "$arch_icon" ] && cmd+=" $arch_icon"' -gravity SouthWest -geometry +20+20 -composite'
 #    if [ -z "$i3script_multiscreen" ];then
 #	cmd+='"/tmp/.variety_formula.png" -geometry -500-300 -composite '
 #    fi
-    cmd+='/tmp/.variety_wallpaper.png'
+    cmd+=' /tmp/.variety_wallpaper.png'
     eval "$cmd"
     feh --bg-fill "/tmp/.variety_wallpaper.png" 2> /dev/null || feh --bg-fill "$WP" 2> /dev/null
 else
