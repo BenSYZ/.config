@@ -19,3 +19,5 @@
 # for non-ascii file names
 [core]
 	quotepath = off
+[diff]
+	tool = meld
