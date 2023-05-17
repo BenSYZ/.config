@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
+export ZSH="/usr/share/oh-my-zsh/"
 
 export GLFW_IM_MODULE=ibus
 #set -o vi
@@ -85,10 +85,9 @@ plugins=(git)
 #plugins=(conda-zsh-completion)
 
 #export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
-export FZF_FIND_FILE_COMMAND='ag --hidden --ignore .git -g ""'
-export FZF_COMPLETION_TRIGGER='\'
-export FZF_PREVIEW_CMD='[[ $(file --mime {}) =~ binary ]] && echo {} is a binary file || (ccat --color=always {} || highlight -O ansi -l {} || cat {}) 2> /dev/null | head -500'
+source ~/.config/fzf.zsh
 source ~/.config/zsh/completion.zsh
+source ~/.config/zsh/oh-my-zsh/custom/plugins/fzf-tab/fzf-tab.plugin.zsh
 
 #export FZF_COMPLETION_TRIGGER=''
 #bindkey '^T' fzf-completion
@@ -174,6 +173,7 @@ zstyle :omz:plugins:tty-solarized theme-shade "dark"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 export EDITOR=/usr/bin/nvim
+export SYSTEMD_EDITOR="$EDITOR"
 export GOPROXY=https://goproxy.cn
 export XDG_CONFIG_HOME="$HOME/.config"
 # firefox smooth scroll
@@ -204,8 +204,8 @@ alias lsblk="lsblk -o name,mountpoint,label,size,uuid"
 alias vim='/usr/bin/nvim'
 viman () { text=$(man "$@") && echo "$text" | nvim -R +":set ft=man" - ; }
 export MANPAGER='nvim +Man!'
-alias wttr='wttr nanshan,shenzhen'
-alias wttr='wttr ningbo,zhejiang'
+alias wttr='/usr/bin/wttr "Nanshan+shenzhen"'
+#alias wttr='/usr/bin/wttr "Ningbo+zhejiang"'
 alias etrans='trans -t english'
 # setxkbmap us -variant colemak
 # map i l
@@ -215,6 +215,7 @@ alias slp='sudo hdparm -Y /dev/sda'
 alias unzip='echo "======\n recommand use unar,\n still run with unzip\n======";unzip'
 alias 'battery=acpi -b -i -V'
 alias ssh="env TERM=xterm ssh"
+alias open="xdg-open"
 #https://unix.stackexchange.com/questions/72131/detecting-x-session-in-a-bash-script-bashrc-etc
 #https://askubuntu.com/questions/147462/how-can-i-change-the-tty-colors
 # tty color
@@ -465,3 +466,4 @@ echo "wechat history backup check"
 echo "=============="
 
 cat ~/webpages.txt
+custom_zshrc="$HOME/.custom_zshrc" ; [ -e "$custom_zshrc" ] && source "$custom_zshrc"

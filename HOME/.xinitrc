@@ -32,6 +32,8 @@ xset s 7 -b
 i3lock -i /home/ben/Pictures/LockScreen.png -n -c '#000000' -o '#191d0f' -w '#572020' -e --no-keyboard-layout && \
 xset s off
 
+custom_xinitrc="$HOME/.custom_xinitrc" ; [ -e "$custom_xinitrc" ] && source "$custom_xinitrc"
+
 exec i3
 #exec awesome
 #exec dwm
