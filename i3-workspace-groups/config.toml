@@ -234,6 +234,12 @@ property = 'class'
 match = 'Vmplayer'
 icon = ''
 
+
+[[icons.rules]]
+property = 'class'
+match = 'QtCreator'
+icon = 'QC'
+
 [[icons.rules]]
 property = 'class'
 match = '\b.*\b'
