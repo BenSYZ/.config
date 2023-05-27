@@ -78,6 +78,7 @@ i3/floating_issure
 /variety/*
 !/variety/variety.conf
 !/variety/scripts/
+!/variety/Manual/
 [gs]et_wallpaper_before_*
 #/variety/scripts/*
 #!/variety/scripts/set_wallpaper
