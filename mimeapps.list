@@ -6,7 +6,9 @@ x-scheme-handler/about=chromium.desktop
 x-scheme-handler/unknown=chromium.desktop
 text/plain=nvim.desktop
 text/x-tex=nvim.desktop
-image/jpeg=userapp-feh.desktop
+image/jpeg=feh.desktop
+image/png=feh.desktop
+image/jpg=feh.desktop
 application/pdf=org.pwmt.zathura-pdf-mupdf.desktop
 application/x-wine-extension-ini=nvim.desktop
 application/wps-office.doc=wps-office-wps.desktop
@@ -21,7 +23,6 @@ application/x-extension-xht=firefox.desktop
 inode/directory=alacritty-ranger.desktop
 
 [Added Associations]
-image/png=userapp-feh.desktop;
 application/pdf=org.pwmt.zathura-pdf-mupdf.desktop;
 application/x-wine-extension-ini=nvim.desktop;
 application/wps-office.doc=wps-office-wps.desktop;
