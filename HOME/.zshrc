@@ -246,7 +246,7 @@ alias open="xdg-open"
 unsetopt BEEP
 # /etc/systemd/system/getty@tty1.service.d/override.conf
 # 不要用graphic target, 不然有可能 getty 起来了，default.target 还没启动全，比方说samba 啥的卡了default
-if systemctl -q is-active getty.target && [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
+if systemctl -q is-active getty.target && [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]] && [ -z "$SSH_CONNECTION" ]; then
   exec startx
   #echo abc
 fi
