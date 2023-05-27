@@ -220,6 +220,11 @@ icon = ''
 
 [[icons.rules]]
 property = 'class'
+match = 'okular'
+icon = ''
+
+[[icons.rules]]
+property = 'class'
 match = 'Telegram'
 icon = ''
 
