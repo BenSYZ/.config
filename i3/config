@@ -450,4 +450,4 @@ for_window [class="wemeetapp"] floating enable
 
 # 固定部分軟體出現的容器
 #assign [class="VirtualBox"] 0
-for_window [class="netease-cloud-music"] sticky enable
+for_window [class="netease-cloud-music"] sticky enable pixel 0

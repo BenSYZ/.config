@@ -466,5 +466,4 @@ echo 'qt language'
 echo "wechat history backup check"
 echo "=============="
 
-cat ~/webpages.txt
 custom_zshrc="$HOME/.custom_zshrc" ; [ -e "$custom_zshrc" ] && source "$custom_zshrc"
