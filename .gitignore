@@ -96,3 +96,8 @@ i3/floating_issure
 !/pacman/
 
 !/nvim
+
+!/fzf
+!/fzf.zsh
+
+!/tmux
