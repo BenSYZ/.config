@@ -254,7 +254,6 @@ fi
 
 ## -z if variant is NONE(empty) or not, if NONE return TRUE
 #[[ -z $DISPLAY ]] && exec startx
-neofetch
 #echo 2020-03-30
 
 # zathura, latex
@@ -450,6 +449,7 @@ source /etc/bash_completion.d/wd
 #alias thes='cd ~/Documents/Graduation-Project/Thesis'
 alias com="cd ~/Documents/kenexs"
 
+timeout 2 neofetch
 echo "TODOs"
 echo "------------"
 #echo 'btrfs: https://dev.to/dandyvica/playing-with-the-btrfs-filesystem-5eno'
