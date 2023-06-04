@@ -89,6 +89,7 @@ plugins=(git)
 source ~/.config/fzf.zsh
 source ~/.config/zsh/completion.zsh
 source ~/.config/zsh/oh-my-zsh/custom/plugins/fzf-tab/fzf-tab.plugin.zsh
+source /usr/share/zsh/plugins/zsh-thefuck-git/zsh-thefuck.plugin.zsh
 
 #export FZF_COMPLETION_TRIGGER=''
 #bindkey '^T' fzf-completion
@@ -217,6 +218,8 @@ alias unzip='echo "======\n recommand use unar,\n still run with unzip\n======";
 alias 'battery=acpi -b -i -V'
 alias ssh="env TERM=xterm ssh"
 alias open="xdg-open"
+alias dus="du -sh ./* | sort -sh"
+alias f="fuck"
 #https://unix.stackexchange.com/questions/72131/detecting-x-session-in-a-bash-script-bashrc-etc
 #https://askubuntu.com/questions/147462/how-can-i-change-the-tty-colors
 # tty color
