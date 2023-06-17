@@ -334,7 +334,33 @@ else
 #  esac
 fi
 
-#alias rsync="gnu_rsync"
+# bsd rsync:
+# .
+# ├── dst
+# └── src
+#     └── a
+# 1. rsync -r src dst
+#     -> dst/src
+# 2. rsync -r src/ dst
+#     -> dst/a
+# 2 is like cp -r src/. dst
+gnu_rsync() {
+  new_args=()
+  for i in "$@"; do
+    case $i in
+      /)
+        i=/
+        ;;
+      */)
+        i=${i%/}
+        ;;
+    esac
+    new_args+=$i
+  done
+  exec rsync "${(@)new_args}"
+}
+compdef gnu_rsync=rsync
+alias rsync="gnu_rsync"
 
 alias syststatus="systemctl status"
 #function sysstatus(){
