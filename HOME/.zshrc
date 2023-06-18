@@ -438,8 +438,8 @@ alias tp="trash-put"
 # prime-run(nvidia-prime)
 #alias nvrun="__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia"
 alias iconvc="iconv -f GBK -t UTF-8"
-alias grepconf="grep '^ *[^#]'"
-alias grepcomment="grep '^ *[#]'"
+alias grepconf="grep '^[ \t]*[^ \#]'"
+alias grepcomment="grep '^ *[\#]'"
 alias mountvbox='sudo mount /dev/nvme0n1p7'
 #alias yay="yay --gitflags 'config --global https.proxy http://127.0.0.1:8118 http.proxy http:127.0.0.1:8118'"
 #
