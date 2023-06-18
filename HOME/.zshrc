@@ -451,7 +451,6 @@ alias ysi='yay -Si'
 alias yql='yay -Ql'
 alias yqi='yay -Qi'
 alias upd='sudo ~/pacsync && yay -Su'
-alias tmpc=cd\ ~/Documents/Light/TMPC相关文献
 alias cp="echo cp has been alias to 'cp -i';cp -i"
 alias removeReturn='sed '\'':a;N;$!ba;s/[\n\r]/ /g'\'
 
@@ -474,25 +473,5 @@ source /etc/bash_completion.d/wd
 #export PYENV_ROOT="$HOME/.pyenv/versions/3.7.9/"
 #export PATH="$PYENV_ROOT/bin:$PATH"
 
-
-#alias thes='cd ~/Documents/Graduation-Project/Thesis'
-alias com="cd ~/Documents/kenexs"
-
 timeout 2 neofetch
-echo "TODOs"
-echo "------------"
-#echo 'btrfs: https://dev.to/dandyvica/playing-with-the-btrfs-filesystem-5eno'
-#echo 'dnsmasq https://www.cnblogs.com/sunsky303/p/9238669.html'
-#echo 'wallace' Won't do recently
-#echo '~/Documents/Books/PhyBooks/Mathematical Methods for Physicists' Won't do recently
-#echo '并矢.md' Won't do recently
-
-#echo 'thread in c++' DONE
-echo 'qt language'
-#echo 'play lenApp' DONE
-#echo 'coc tips: M manuel, <space>-= diagonstic, \\rn rename'
-#echo "vim coc-explorer L :UndotreeToggle "
-echo "wechat history backup check"
-echo "=============="
-
 custom_zshrc="$HOME/.custom_zshrc" ; [ -e "$custom_zshrc" ] && source "$custom_zshrc"
