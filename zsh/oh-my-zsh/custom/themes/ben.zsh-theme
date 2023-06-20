@@ -21,12 +21,18 @@ function _user_host() {
 
 #%(?:%{$fg_bold[magenta]%}➤ :%{$fg_bold[red]%}➤ )${_current_dir}
 #  %(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
-PROMPT="$(_user_host)
-%(?:%{$FG[001]%}➤ :%{$fg_bold[red]%}➤ )${_current_dir}
+PROMPT="$(_user_host) %(?:%{$FG[001]%}➤ :%{$fg_bold[red]%}➤ )${_current_dir}
   %(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
 
 #PROMPT+=' %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info)'
 PROMPT+=' %{$fg[cyan]%}%{$reset_color%}$(git_prompt_info)'
+
+
+#PROMPT+=' %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info)'
+alias no_git='export PROMPT="$(_user_host) %(?:%{$FG[001]%}➤ :%{$fg_bold[red]%}➤ )${_current_dir}
+  %(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ ) %{$fg[cyan]%}%{$reset_color%}"'
+alias re_git='export PROMPT="$(_user_host) %(?:%{$FG[001]%}➤ :%{$fg_bold[red]%}➤ )${_current_dir}
+  %(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ ) %{$fg[cyan]%}%{$reset_color%}"'
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}git:(%{$fg[red]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%} "
