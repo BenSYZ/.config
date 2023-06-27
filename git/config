@@ -23,3 +23,5 @@
 	quotepath = off
 [diff]
 	tool = meld
+#[diff]
+#      tool = vimdiff
