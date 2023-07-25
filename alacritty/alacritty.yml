@@ -401,6 +401,8 @@ window.opacity: 0.9
 #   - (Linux/BSD/macOS) `$SHELL` or the user's login shell, if `$SHELL` is unset
 #   - (Windows) powershell
 #shell:
+#  program: /bin/tmux
+#shell:
 #  program: /bin/bash
 #  args:
 #    - --login
