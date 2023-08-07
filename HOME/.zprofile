@@ -7,6 +7,8 @@
 #       zsh: .zshrc
 #       bash: .bashrc
 # more about these profiles https://blog.flowblok.id.au/2013-02/shell-startup-scripts.html
-if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
+#
+# SSH_CONNECTION: used for tmux
+if [ -z "${DISPLAY}" ] && [ -n "${XDG_VTNR}" ] && [ "${XDG_VTNR}" -eq 1 ] && [ -z "$SSH_CONNECTION" ]; then
   exec startx
 fi
