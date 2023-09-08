@@ -9,4 +9,4 @@ case "$capture" in
         #notify-send 'Microphone' 'off' -t 700
         amixer set Capture nocap
 esac
-pkill -SIGRTMIN+11 i3blocks
+pkill -SIGRTMIN+12 i3blocks

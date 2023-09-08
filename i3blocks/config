@@ -159,7 +159,7 @@ command= ./microphone.sh
 #pulseaudio-ctl full-status | awk '{ printf "%i%\n", $1 }'
 #label=<span color="#ff79c6"> </span>
 interval=once
-signal=11
+signal=12
 
 #[volume]
 #label=VOL
