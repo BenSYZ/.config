@@ -453,7 +453,7 @@ alias removeReturn='sed '\'':a;N;$!ba;s/[\n\r]/ /g'\'
 
 autoload bashcompinit
 bashcompinit
-source /etc/bash_completion.d/wd
+[ -e /etc/bash_completion.d/wd ] && source /etc/bash_completion.d/wd
 
 # normal way:
 #fpath=(newpath $fpath)
