@@ -445,7 +445,11 @@ alias ysi='yay -Si'
 alias yql='yay -Ql'
 alias yqi='yay -Qi'
 alias upd='sudo ~/pacsync && yay -Su'
-alias cp="echo cp has been alias to 'cp -i';cp -i"
+cp_i(){
+    echo cp has been alias to 'cp -i'
+    cp -i "$@"
+}
+alias cp=cp_i
 alias removeReturn='sed '\'':a;N;$!ba;s/[\n\r]/ /g'\'
 
 #echo "5.9.14-arch1-1/extra"
