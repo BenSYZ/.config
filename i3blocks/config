@@ -51,8 +51,6 @@ interval=once
 [ip]
 command= ./network.sh
 interval=2
-color=#91E78B
-label=<span color="#ffb86c"> </span>
 
 #[new-vpn]
 #command= ./blocks/openvpn/openvpn
@@ -138,13 +136,12 @@ label=<span color="#ff79c6"> </span>
 command= ./weather.sh
 #http://wttr.in/:help
 interval=3600
-color=#A4C2F4
 
 [time]
 #command= date '+%Y-%m-%d %H:%M:%S'
 #command= echo 📅 $(date '+%m-%d %a') 🕑 $( date +'%H:%M:%S' )
 #command= echo '<span color="#B7AFFF">  </span>'"$(date '+%m-%d %a')" '<span color="#B7AFFF"> </span>'"$( date +'%H:%M:%S' )"
-command= echo '<span color="#B7AFFF">  </span>'"$(date '+%m-%d %a')" '<span color="#B7AFFF"> </span>'"$( date +'%T' )"
+command= echo '<span color="#e391a0"> </span>'"$(date '+%m-%d %a')" '<span color="#B7AFFF"> </span>'"$( date +'%T' )"
 interval=1
 
 [volume]
