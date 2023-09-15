@@ -44,7 +44,7 @@ try_fallback_rules = true
 # === Terminal BEGIN ===
 [[icons.rules]]
 property = 'title'
-match = '/usr/bin/nvim\b.*'
+match = '/usr/bin/nvim|\d*:\d*:nvim.*'
 icon = ''
 [[icons.rules]]
 property = 'title'
