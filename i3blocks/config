@@ -83,7 +83,7 @@ label=<span color="#a9e185"> </span>
 
 
 [root]
-command= df -h / | awk 'FNR==2{print $4}'
+command= df -h --output=avail /|awk 'NR==2 {print $1}'
 interval=3
 label=<span color="#ff79c6"> </span>
 
