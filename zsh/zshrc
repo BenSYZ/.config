@@ -4,7 +4,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH="/usr/share/oh-my-zsh/"
 
-export GLFW_IM_MODULE=ibus
 #set -o vi
 #bindkey -v
 #bindkey -e #default

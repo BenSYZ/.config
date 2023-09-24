@@ -4,6 +4,8 @@ export QT_IM_MODULE=fcitx
 export SDL_IM_MODULE=fcitx
 #export QT_STYLE_OVERRIDE=adwaita
 export QT_QPA_PLATFORMTHEME=qt5ct
+export GLFW_IM_MODULE=ibus
+
 #export GTK_IM_MODULE DEFAULT=fcitx
 #export QT_IM_MODULE  DEFAULT=fcitx
 #export XMODIFIERS    DEFAULT="@im=fcitx"
