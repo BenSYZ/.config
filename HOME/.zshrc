@@ -451,6 +451,7 @@ cp_i(){
 }
 alias cp=cp_i
 alias removeReturn='sed '\'':a;N;$!ba;s/[\n\r]/ /g'\'
+alias la="lazygit"
 
 #echo "5.9.14-arch1-1/extra"
 

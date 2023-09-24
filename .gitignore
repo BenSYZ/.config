@@ -101,3 +101,6 @@ i3/floating_issure
 !/fzf.zsh
 
 !/tmux
+
+!/lazygit
+/lazygit/state.yml
