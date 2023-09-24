@@ -191,35 +191,6 @@ zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
 autoload -Uz compinit
 compinit
 
-
-alias 'pipinstall'='pip install --user'
-
-alias ls='ls --color=auto'
-alias ll='ls --color=auto -l -a -h'
-alias ra='ranger'
-alias sudo='sudo env HOME=$HOME'
-#alias sudo='sudo '
-#alias suod='sudo'
-#alias sduo='sudo'
-setopt correct
-alias lsblk="lsblk -o name,mountpoint,label,size,uuid"
-alias vim='/usr/bin/nvim'
-viman () { text=$(man "$@") && echo "$text" | nvim -R +":set ft=man" - ; }
-export MANPAGER='nvim +Man!'
-alias wttr='/usr/bin/wttr "Nanshan+shenzhen"'
-#alias wttr='/usr/bin/wttr "Ningbo+zhejiang"'
-alias etrans='trans -t english'
-# setxkbmap us -variant colemak
-# map i l
-# map l i
-alias c=clear
-alias slp='sudo hdparm -Y /dev/sda'
-alias unzip='echo "======\n recommand use unar,\n still run with unzip\n======";unzip'
-alias 'battery=acpi -b -i -V'
-alias ssh="env TERM=xterm ssh"
-alias open="xdg-open"
-alias dus="du -sh ./* | sort -sh"
-alias f="fuck"
 #https://unix.stackexchange.com/questions/72131/detecting-x-session-in-a-bash-script-bashrc-etc
 #https://askubuntu.com/questions/147462/how-can-i-change-the-tty-colors
 # tty color
@@ -257,64 +228,12 @@ unsetopt BEEP
 #export GTK_MODULES=unity-gtk-module
 
 
-alias mnt="simple-mtpfs --device 1 ~/Documents/mntphone/mnt"
-alias umnt="umount ~/Documents/mntphone/mnt"
-
 #???
 #LD_LIBRARY_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/9.3.0/include/
 #export LD_LIBRARY_PATH
-
-alias pacexpl="sudo pacman -D --asexp"    # Mark one or more installed packages as explicitly installed 
-alias pacimpl="sudo pacman -D --asdep"    # Mark one or more installed packages as non explicitly installed
-
 # backwards
 #TERM=xterm #????
 #TERM=alacritty
-
-## conda path
-#[ -f /opt/miniconda3/etc/profile.d/conda.sh ] && source /opt/miniconda3/etc/profile.d/conda.sh
-#alias condaa="conda activate"
-#alias condad="conda deactivate"
-#alias condacreate="conda create --use-local"
-
-
-alias transc='trans -t chinese -b'
-alias ccal='ccal -u'
-alias lcal='ccal'
-
-#uid=1000 ben
-#gid=1001 sambashare
-#alias mountsamba="sudo mount -t cifs -o uid=1000,gid=445,credentials=$HOME/.ssh/smbcredentials,iocharset=utf8,rw,dir_mode=0775,file_mode=0664 //192.168.1.12/sambashare /media/samba > /dev/null ; sudo mount -t cifs -o uid=1000,gid=1001,credentials=$HOME/.ssh/smbcredentials,iocharset=utf8,rw,dir_mode=0775,file_mode=0664 //192.168.1.12/homes /media/ben > /dev/null"
-#alias mountsamba="sudo mount -t cifs -o uid=1000,gid=445,credentials=$HOME/.ssh/smbcredentials,iocharset=utf8,rw,dir_mode=0775,file_mode=0664 //localhost/samba /media/samba > /dev/null"
-alias mountrsamba="sudo mount -t cifs -o uid=1000,gid=445,credentials=$HOME/.ssh/smbcredentials,iocharset=utf8,rw,dir_mode=0775,file_mode=0664,port=44501 //bensyz.com/samba /media/samba > /dev/null"
-alias umountsamba="sudo umount /media/ben /media/samba"
-alias mountsamba="sudo mount -t cifs -o uid=1000,gid=445,credentials=$HOME/.ssh/smbcredentials,iocharset=utf8,rw,dir_mode=0775,file_mode=0664,port=445 //pi/samba /media/samba > /dev/null"
-#alias mountsamba="sudo mount -o credentials=$HOME/.ssh/smbcredentials,iocharset=utf8,rw,user,port=44501 //8.129.217.178/sambashare /media/samba"
-#alias mount="mount -o uid=1000,gid=1000"
-#alias smount="sudo mount -o uid=1000,gid=1000"
-#
-alias df="df -Th"
-alias du="du -h"
-
-#echo vi has been alias
-alias vi="vim -u ~/Documents/vim/init.vim"
-alias v="vim -u NONE"
-
-
-# -------------PROXY-------------
-export proxy="http://127.0.0.1:8118"
-#export proxy="http://192.168.101.1:8119"
-export http_proxy=$proxy
-export https_proxy=$proxy
-#export ftp_proxy=$proxy
-
-#alias setsproxy="export http_proxy=socks5://127.0.0.1:8080; export https_proxy=socks5://127.0.0.1:8080"
-alias noproxy="export no_proxy='localhost, 127.0.0.1, ::1'"
-
-#need pysocks
-alias yyou-get="you-get -x 127.0.0.1:8118"	#http
-#alias yyou-get="you-get -s 127.0.0.1:8080"	#socket
-#alias googler="googler -p 127.0.0.1:8080"	#only support https proxy
 
 if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
 	SESSION_TYPE=remote/ssh
@@ -328,130 +247,12 @@ else
 #  esac
 fi
 
-# bsd rsync:
-# .
-# ├── dst
-# └── src
-#     └── a
-# 1. rsync -r src dst
-#     -> dst/src
-# 2. rsync -r src/ dst
-#     -> dst/a
-# 2 is like cp -r src/. dst
-gnu_rsync() {
-  new_args=()
-  for i in "$@"; do
-    case $i in
-      /)
-        i=/
-        ;;
-      */)
-        i=${i%/}
-        ;;
-    esac
-    new_args+=$i
-  done
-  exec rsync "${(@)new_args}"
-}
-compdef gnu_rsync=rsync
-alias rsync="gnu_rsync"
-
-alias syststatus="systemctl status"
-#function sysstatus(){
-#	systemctl status $1;
-#}
-alias systrestart="systemctl restart"
-#function sysrestart(){
-#	systemctl restart $1;
-#	systemctl status $1;
-#}
-
 #echo 13.5 pam,  18 日志, 7.4
 #echo pam
 #echo '驱动， pam( ulimit )， 所以很多朋友都習慣單一 bash 登入，再用工作控制 (job control, 第四篇會介紹) 來切換不同工作'
 #echo 'page 575 chapter18 logfile.sh'
 export BC_ENV_ARGS=$HOME/.config/HOME/BC_ENV_ARGS
-#alias bc="BC_ENV_ARGS=<(echo 'scale=10') \bc"
-#tt
 #echo 'i3 minimize window: https://www.youtube.com/watch?v=QqDMpuIikXA'
-
-#mkdir -p ~/.trash   #在家目录下创建一个.trash文件夹
-#alias rm=del        #使用别名del代替rm   
-#del()               #函数del，作用：将rm命令修改为mv命令
-#{
-#  mv $@ ~/.trash/  
-#}
-#cleardel()          #函数cleardel，作用：清空回收站.trash文件夹，y或Y表示确认，n表示取消
-#{
-#    read -p "clear sure?[Input 'y' or 'Y' to confirm. && Input 'n' to cancel.]" confirm   
-#    [ $confirm == 'y' ] || [ $confirm == 'Y' ]  && /bin/rm -rf ~/.trash/*   
-#}
-#alias rm="echo 'using trash-put $*' \r If you really sure, use rmm"
-rm() {echo -e "Please using [34mtrash-put $*[0m \nIf you really sure, use [31mrmm $*[0m\n";}
-
-TimeLeft(){
-	seconds_left=$1
-	echo "Please wait for ${seconds_left} second ..."
-	while [ $seconds_left -gt 0 ];do
-	  echo -n $seconds_left
-	  sleep 1
-	  seconds_left=$(($seconds_left - 1))
-	  echo -ne "\r     \r" #清除本行文字
-	done
-}
-
-#rmm() {
-#	if [ "$#" -gt "0" ];then
-#		echo "[31mrm $*[0m"
-#		TimeLeft 4
-#		read "rm_check?Continue?"
-#		rm_check=${rm_check:-"n"}
-#		if [[ "$rm_check" =~ ^[Yy]$ ]]; then
-#			/usr/bin/rm $*
-#		fi
-#	else
-#		echo "Nothing to rm."
-#	fi
-#}
-rmm() {
-	if [ "$#" -gt "0" ];then
-		echo "type [31m$*[0m to confirm."
-		read "rm_check?"
-		if [[ "$rm_check" =~ ^$*$ ]]; then
-			/usr/bin/rm $*
-			#echo $*
-		else
-			echo "rm canceled."
-		fi
-	else
-		echo "Nothing to rm."
-	fi
-}
-#alias rmm="/usr/bin/rm"
-alias tp="trash-put"
-# prime-run(nvidia-prime)
-#alias nvrun="__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia"
-alias iconvc="iconv -f GBK -t UTF-8"
-alias grepconf="grep '^[ \t]*[^ \#]'"
-alias grepcomment="grep '^ *[\#]'"
-alias mountvbox='sudo mount /dev/nvme0n1p7'
-#alias yay="yay --gitflags 'config --global https.proxy http://127.0.0.1:8118 http.proxy http:127.0.0.1:8118'"
-#
-alias zhcon='zhcon --utf8'
-
-# yay
-alias yss='yay -Ss'
-alias ysi='yay -Si'
-alias yql='yay -Ql'
-alias yqi='yay -Qi'
-alias upd='sudo ~/pacsync && yay -Su'
-cp_i(){
-    echo cp has been alias to 'cp -i'
-    cp -i "$@"
-}
-alias cp=cp_i
-alias removeReturn='sed '\'':a;N;$!ba;s/[\n\r]/ /g'\'
-alias la="lazygit"
 
 #echo "5.9.14-arch1-1/extra"
 
@@ -472,5 +273,6 @@ bashcompinit
 #export PYENV_ROOT="$HOME/.pyenv/versions/3.7.9/"
 #export PATH="$PYENV_ROOT/bin:$PATH"
 
+source "$HOME/.config/zsh/alias.zsh"
 timeout 2 neofetch
 custom_zshrc="$HOME/.custom_zshrc" ; [ -e "$custom_zshrc" ] && source "$custom_zshrc"
