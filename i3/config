@@ -301,6 +301,7 @@ bindsym --release Print exec --no-startup-id "~/.config/i3/scripts/screenshot.sh
 bindsym --release ctrl+Print exec --no-startup-id "~/.config/i3/scripts/screenshot.sh 'border'"
 #-e 'mv $f ~/Pictures/screenshots'"
 bindsym shift+Print exec --no-startup-id "~/.config/i3/scripts/screenshot.sh 'default'"
+bindsym $mod+Print exec --no-startup-id "flameshot gui"
 ##-e 'mv $f ~/Pictures/screenshots'"
 
 #Bluetooth
