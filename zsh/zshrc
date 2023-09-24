@@ -82,14 +82,17 @@ ZSH_CUSTOM=$HOME/.config/zsh/oh-my-zsh/custom/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 
-plugins=(git)
+plugins=( git )
 #plugins=(conda-zsh-completion)
 
 #export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
-source ~/.config/fzf.zsh
+source ~/.config/zsh/fzf.zsh
 source ~/.config/zsh/completion.zsh
-source ~/.config/zsh/oh-my-zsh/custom/plugins/fzf-tab/fzf-tab.plugin.zsh
-source /usr/share/zsh/plugins/zsh-thefuck-git/zsh-thefuck.plugin.zsh
+
+#source /usr/share/zsh/plugins/fzf-tab-git/fzf-tab.plugin.zsh
+#source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
+#source /usr/share/zsh/plugins/zsh-thefuck-git/zsh-thefuck.plugin.zsh
+source /usr/share/zsh/plugins/*/*plugin.zsh
 
 #export FZF_COMPLETION_TRIGGER=''
 #bindkey '^T' fzf-completion
