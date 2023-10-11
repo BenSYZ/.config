@@ -20,7 +20,7 @@ nmc_report(){
     #raw_jq=$(curl -s "$url")
     #echo $raw_jq > /tmp/ben.log
     raw_jq=$(cat /tmp/ben.log)
-    #echo $raw_jq |jq
+    echo $raw_jq |jq >&2
     parser=(-r '.data.real.weather | "\(.temperature)|\(.info)"')
 
     result=$(jq "${parser[@]}" <<< "$raw_jq")
@@ -47,7 +47,7 @@ nmc_report(){
     suffix=";}catch(e){}"
     #curl "$url"
     raw_jq=$(curl -s "$url" | sed -n "s/$prefix\(.*\)$suffix/\1/p" )
-    #echo "$raw_jq" >> ~/weather_raw.log
+    echo "$raw_jq" |jq >&2 # >> ~/weather_raw.log
 
     reportTime="$(date -d "@$date_s" +%Y-%m-%d" "%H:00:00)"
     echo "$reportTime" >&2
@@ -80,13 +80,13 @@ show(){
             color="#acc2d9"
             icon="\ue312"
             ;;
-        "阴")
+        "阴"                            |"Overcast")
             color="#c7c9c9"
             icon="󰖐"
             ;;
-        *"雨"                           |"Cloudy, with shower") # |多云有阵雨|
+        *"雨"                           |"Cloudy, with shower" | "Overcast, with shower" ) # |多云有阵雨|阵雨
             color="#81c3fc"
-            icon="\ue309"
+            icon="\ue319"
             ;;
 
         *"雪")
