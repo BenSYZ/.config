@@ -91,7 +91,7 @@ source ~/.config/zsh/completion.zsh
 #source /usr/share/zsh/plugins/fzf-tab-git/fzf-tab.plugin.zsh
 #source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
 #source /usr/share/zsh/plugins/zsh-thefuck-git/zsh-thefuck.plugin.zsh
-source /usr/share/zsh/plugins/*/*plugin.zsh
+source /usr/share/zsh/plugins/*/*plugin.zsh >/dev/null 2>&1
 
 #export FZF_COMPLETION_TRIGGER=''
 #bindkey '^T' fzf-completion
@@ -278,3 +278,5 @@ bashcompinit
 source "$HOME/.config/zsh/alias.zsh"
 timeout 2 neofetch
 custom_zshrc="$HOME/.custom_zshrc" ; [ -e "$custom_zshrc" ] && source "$custom_zshrc"
+
+eval $(thefuck --alias)
