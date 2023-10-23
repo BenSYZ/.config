@@ -110,7 +110,11 @@ nanshan_shenzhen(){
 show "$(eval ${POSITION/,/_})"
 
 # for variety
-timeout 10 curl -s "http://wttr.in/${POSITION}_0qp_transparency=200.png" -o /tmp/.variety_wttr.png
+#timeout 10 curl -s "http://wttr.in/${POSITION}_0qp_transparency=200.png" -o /tmp/.variety_wttr.png
+
+export TEXTIMG_FONT_FILE="/usr/share/fonts/TTF/SauceCodeProNerdFont-Medium.ttf"
+curl -s "http://wttr.in/${POSITION}?q0" | textimg -F 15 -o /tmp/.variety_wttr_m.png
+convert /tmp/.variety_wttr_m.png -bordercolor black  -border 10x10 -alpha set -background none -channel A -evaluate multiply 0.8 +channel /tmp/.variety_wttr.png
 
 # url
 # https://weather.cma.cn/web/weather/58468.html
