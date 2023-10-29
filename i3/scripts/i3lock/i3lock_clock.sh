@@ -57,6 +57,11 @@ isPlaying (){
 		return 0
 	fi
 
+	if pgrep "steam.exe" |grep -q -v grep;then
+		echo steam
+		return 0
+	fi
+
 	return 1
 }
 
