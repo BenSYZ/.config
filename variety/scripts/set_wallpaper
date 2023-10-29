@@ -126,38 +126,29 @@ fi
 # and KDE will refresh it
 # On Plasma 5.7 and above, the wallpaper choosing is automatic.
 if [ "${KDE_FULL_SESSION}" == "true" ]; then
-    # Plasma 5.7 introduced a new feature to set the wallpaper via a qdbus script:
+    # Plasma 5.7 introduced a new feature to set the wallpaper via a dbus script:
     # https://github.com/KDE/plasma-workspace/commit/903cbfd7e267a4812a6ec222eb7e1b5dd775686f
     if [[ -n "${KDE_SESSION_VERSION}" && "${KDE_SESSION_VERSION}" == '5' ]]; then
-
-        # Try to find the Qt 5 version of qdbus. For systems using qtchooser, the binary name is 'qdbus'
-        # and the Qt version can be selected via the QT_SELECT environment variable.
-        if command -v qdbus-qt5 &>/dev/null; then
-            qdbus_command=qdbus-qt5
-        else
-            qdbus_command=qdbus
-        fi
-
-        QT_SELECT=5 $qdbus_command org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript "
-        var allDesktops = desktops();
-        for (i=0; i < allDesktops.length; i++) {
-            d = allDesktops[i];
-            d.wallpaperPlugin = 'org.kde.image';
-            d.currentConfigGroup = Array('Wallpaper', 'org.kde.image', 'General');
-            d.writeConfig('Image', 'file://""$WP""')
+        dbus-send --type=method_call --dest=org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript string:"
+        let allDesktops = desktops();
+        for (let d of allDesktops) {
+            if (d.wallpaperPlugin == 'org.kde.image') {
+                d.currentConfigGroup = Array('Wallpaper', 'org.kde.image', 'General');
+                d.writeConfig('Image', 'file://""$WP""')
+            }
         }
         "
-        # Reuse the exit code from qdbus
-        qdbus_exitcode="$?"
+        # Reuse the exit code from dbus
+        dbus_exitcode="$?"
 
-        if [[ "$qdbus_exitcode" -ne 0 ]]; then
+        if [[ "$dbus_exitcode" -ne 0 ]]; then
             # If the script fails, show a notification.
             kdialog --title "Variety: cannot change Plasma wallpaper" --passivepopup "Could not change the Plasma 5 wallpaper; \
                 make sure that you're using Plasma 5.7+ and have widgets unlocked.\n----\n \
                 Due to Plasma limitations, external programs cannot automatically change the wallpaper when the widgets are locked.\n \
                 See https://git.io/vprpM for more information." --icon variety 10  # Final number is the length of the popup
         fi
-        exit "$qdbus_exitcode"
+        exit "$dbus_exitcode"
 
     else
         WALLDIR="$(xdg-user-dir PICTURES)/variety-wallpaper"
@@ -225,7 +216,7 @@ fi
 # For simple WMs, use either feh or nitrogen
 # Implementation note: this uses spaces around list items to enforce matching whole words.
 # This also means that an empty variable won't cause false positives, since it expands to "  "
-SIMPLE_WMS=("bspwm" "dwm" "herbstluftwm" "i3" "i3-with-shmlog" "jwm" "LeftWM" "openbox" "qtile" "qtile-venv" "xmonad")
+SIMPLE_WMS=("bspwm" "dwm" "herbstluftwm" "i3" "i3-gnome" "i3-with-shmlog" "jwm" "LeftWM" "openbox" "qtile" "qtile-venv" "spectrwm" "xmonad")
 if [[ " ${SIMPLE_WMS[*]} " = *" $XDG_CURRENT_DESKTOP "* || " ${SIMPLE_WMS[*]} " = *" $XDG_SESSION_DESKTOP "* ||
       " ${SIMPLE_WMS[*]} " = *" $DESKTOP_SESSION "* ]]; then
 	if command -v "feh" >/dev/null 2>&1; then
@@ -237,7 +228,7 @@ if [[ " ${SIMPLE_WMS[*]} " = *" $XDG_CURRENT_DESKTOP "* || " ${SIMPLE_WMS[*]} " 
     fi
 fi
 
-if [[ -n $SWAYSOCK ]]; then
+if [[ -n $SWAYSOCK || $XDG_CURRENT_DESKTOP == "Hyprland" ]]; then
     # If swaybg is available, use it as prevents system freeze.
     # See https://github.com/swaywm/sway/issues/5606
     if command -v "swaybg" >/dev/null 2>&1; then
@@ -286,110 +277,10 @@ if [[ "$XDG_SESSION_DESKTOP $DESKTOP_STARTUP_ID $DESKTOP_SESSION $XDG_CURRENT_DE
 	echo "for s in screen do require(\"gears\").wallpaper.maximized(\"$1\", s) end" | awesome-client
 fi
 
-addFormula(){
-    FORMULADIR='/home/ben/Pictures/formula'
-    [ -d "$FORMULADIR" ] || return 1
-    #array=($(ls -d FORMULADIR/*.png))
-    for formula in "$FORMULADIR"/unresized/*.png;
-    do
-        formulaName=$(echo "$formula" |sed -n 's/.*\/\(.*.png\)/\1/p')
-        #echo $formulaName
-        if [ -f "$FORMULADIR/resized/$formulaName" ]; then
-            continue
-        fi
-        convert "$formula" -resize 190x50 "$FORMULADIR/resized/$formulaName" 2> /dev/null
-    done
-    convert -splice 0x1 -background "#000000" -append $FORMULADIR/resized/*.png /tmp/.variety_formula.png 2>> /dev/null
-}
-
-add_todo_list(){
-    todo_file='/home/ben/todo.txt'
-    [ -f "$todo_file" ] || return 1
-    convert "$formula" -resize 190x50 "$FORMULADIR/resized/$formulaName" 2> /dev/null
-    magick -font Noto-Serif-CJK-SC label:@"$todo_file" /tmp/.variety_todolist.png 2>/dev/null
-}
-check_pic(){
-    if [ -e "$1" ] && [ "$(file -b --mime-type "$1")" = "image/png" ];then
-        return 0
-    fi
-    return 1
-}
-
-# i3, openbox, dwm: use either feh or nitrogen
-#feh --bg-fill "$WP" 2> /dev/null
-rm /tmp/.variety_wallpaper.png 2> /dev/null
-
-BATTERYING=$(acpi -b 2>/dev/null |grep 'Discharging')
-
-read -r resolution_x resolution_y < <(xrandr |sed -n 's/.* connected \(primary \)\?\([0-9]*\)x\([0-9]*\)+.*/\2 \3/p')
-resolution="$resolution_x"x"$resolution_y"
-cmd="convert $WP -scale $resolution^ -gravity Center -extent $resolution "
-if [ -z "$BATTERYING" ];then
-    wttr_pic="/tmp/.variety_wttr.png" ;                         check_pic "$wttr_pic"  && cmd+="$wttr_pic"'  -gravity NorthEast -geometry +70+70 -composite '
-    arch_icon="$HOME/Pictures/arch/noarch_icon.png";            check_pic "$arch_icon" && cmd+="$arch_icon"' -gravity SouthWest -geometry +20+20 -composite '
-#    if [ -z "$i3script_multiscreen" ];then
-#        addFormula && cmd+='"/tmp/.variety_formula.png" -geometry -500-300 -composite '
-#    fi
-    todo_list="/tmp/.variety_todolist.png";  add_todo_list &&   check_pic "$todo_list" && cmd+="$todo_list"' -gravity NorthWest -geometry +20+40 -composite '
-    cmd+=' /tmp/.variety_wallpaper.png'
-    #echo "$cmd" >/tmp/ben.log
-    eval "$cmd"
-    feh --bg-fill "/tmp/.variety_wallpaper.png" 2> /dev/null || feh --bg-fill "$WP" 2> /dev/null
-else
-    feh --bg-fill "$WP" 2> /dev/null
-fi
-
-# gravity SouthEast ...
-# extent 把它扩充成1366x768
-# '/tmp/.variety_wttr.png' -geometry +466+168 -gravity SouthEast -composite  一组
-
-########################################################################################################################
-#/usr/lib/python3.9/site-packages/variety/VarietyWindow.py 
-# apply_clock() cmd
-#convert $HOME/.config/variety/Downloaded/nasa_apod/PinnaclesGalaxy_Goh_2400.jpg -scale 1366x768^ -density 100
-#
-#-font `fc-match -f '%{file[0]}' 'Ubuntu Condensed:,:70'`
-#-pointsize 70
-#-gravity SouthEast
-#-fill '#00000044'
-#-annotate 0x0+58+125 '00:55'
-#-fill white
-#-annotate 0x0+60+127 '00:55'
-#
-#-font `fc-match -f '%{file[0]}'
-#'Ubuntu Condensed:,:30'`
-#-pointsize 30
-#-fill '#00000044'
-#-annotate 0x0+58+75 'Tuesday, August 17'
-#-fill white
-#-annotate 0x0+60+77 'Tuesday, August 17'
-#
-#$HOME/.config/variety/wallpaper/wallpaper-clock-fcaee8ab3d5b81dd283fddf0c9e93258.jpg
-########################################################################################################################
-
-
-
-#[ "$i3script_multiscreen" = "true" ] || {convert /tmp/.variety_wallpaper.png <(cat /tmp/.variety_formula.png ) -geometry +50+50 -composite /tmp/.variety_wallpaper.png } 2>> /dev/null #{convert no space after {
-## arch cute
-#convert /tmp/.variety_wallpaper.png <(cat $HOME/Pictures/arch/noarch_icon.png ) -geometry +50+600 -composite /tmp/.variety_wallpaper.png 2>> /dev/null
-feh --bg-fill "/tmp/.variety_wallpaper.png" 2> /dev/null || feh --bg-fill "$WP" 2> /dev/null
-#feh --bg-fill "$WP" 2> /dev/null
-
-#echo "$WP" >> /tmp/variety.log
-#date >> /tmp/variety.log
-# DEBUG
-# rm /tmp/wallpaper.png 2> /dev/null
-# convert "$WP"  -resize 1366x768^ -gravity Center -extent 1366x768  /tmp/wallpaper.png 2> /tmp/feh
-# #convert /tmp/wallpaper.png <( curl wttr.in/shenzhen_tqp0.png) -geometry +50+50 -composite /tmp/wallpaper.png # implement with i3block
-# convert /tmp/wallpaper.png <(cat /tmp/wttr.png ) -geometry +50+50 -composite /tmp/wallpaper.png 2>> /tmp/feh
-# #feh --bg-fill "/tmp/wallpaper.png" 2> /dev/null || feh --bg-fill "$WP" 2> /dev/null
-# feh --bg-fill "/tmp/wallpaper.png" 2>> /tmp/feh || feh --bg-fill "$WP" 2> /dev/null
-
 # =====================================================================================
-
-# OPTIONAL: Show a notification on automatic wallpaper change.
-# Display the original filename in the notification, but actually apply the post-effects image.
-# name=$(echo "$3" | sed 's/\//\n/g'| tail -n 1)
-# if [ "$2" == "auto" ]; then notify-send --icon "$WP" "Wallpaper changed" "$name" ; fi
+custom_script="$HOME/.config/variety/scripts/set_wallpaper_custom_script"
+if [ -e "$custom_script" ];then
+    source "$custom_script"
+fi
 
 exit 0

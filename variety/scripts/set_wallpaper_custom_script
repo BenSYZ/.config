@@ -1,0 +1,106 @@
+#!/bin/bash
+addFormula(){
+    FORMULADIR='/home/ben/Pictures/formula'
+    [ -d "$FORMULADIR" ] || return 1
+    #array=($(ls -d FORMULADIR/*.png))
+    for formula in "$FORMULADIR"/unresized/*.png;
+    do
+        formulaName=$(echo "$formula" |sed -n 's/.*\/\(.*.png\)/\1/p')
+        #echo $formulaName
+        if [ -f "$FORMULADIR/resized/$formulaName" ]; then
+            continue
+        fi
+        convert "$formula" -resize 190x50 "$FORMULADIR/resized/$formulaName" 2> /dev/null
+    done
+    convert -splice 0x1 -background "#000000" -append $FORMULADIR/resized/*.png /tmp/.variety_formula.png 2>> /dev/null
+}
+
+add_todo_list(){
+    todo_file='/home/ben/todo.txt'
+    [ -f "$todo_file" ] || return 1
+    convert "$formula" -resize 190x50 "$FORMULADIR/resized/$formulaName" 2> /dev/null
+    magick -font Noto-Serif-CJK-SC label:@"$todo_file" /tmp/.variety_todolist.png 2>/dev/null
+}
+check_pic(){
+    if [ -e "$1" ] && [ "$(file -b --mime-type "$1")" = "image/png" ];then
+        return 0
+    fi
+    return 1
+}
+
+# i3, openbox, dwm: use either feh or nitrogen
+#feh --bg-fill "$WP" 2> /dev/null
+rm /tmp/.variety_wallpaper.png 2> /dev/null
+
+BATTERYING=$(acpi -b 2>/dev/null |grep 'Discharging')
+
+read -r resolution_x resolution_y < <(xrandr |sed -n 's/.* connected \(primary \)\?\([0-9]*\)x\([0-9]*\)+.*/\2 \3/p')
+resolution="$resolution_x"x"$resolution_y"
+cmd="convert $WP -scale $resolution^ -gravity Center -extent $resolution "
+if [ -z "$BATTERYING" ];then
+    wttr_pic="/tmp/.variety_wttr.png" ;                         check_pic "$wttr_pic"  && cmd+="$wttr_pic"'  -gravity NorthEast -geometry +70+70 -composite '
+    arch_icon="$HOME/Pictures/arch/noarch_icon.png";            check_pic "$arch_icon" && cmd+="$arch_icon"' -gravity SouthWest -geometry +20+20 -composite '
+#    if [ -z "$i3script_multiscreen" ];then
+#        addFormula && cmd+='"/tmp/.variety_formula.png" -geometry -500-300 -composite '
+#    fi
+    todo_list="/tmp/.variety_todolist.png";  add_todo_list &&   check_pic "$todo_list" && cmd+="$todo_list"' -gravity NorthWest -geometry +20+40 -composite '
+    cmd+=' /tmp/.variety_wallpaper.png'
+    #echo "$cmd" >/tmp/ben.log
+    eval "$cmd"
+    feh --bg-fill "/tmp/.variety_wallpaper.png" 2> /dev/null || feh --bg-fill "$WP" 2> /dev/null
+else
+    feh --bg-fill "$WP" 2> /dev/null
+fi
+
+# gravity SouthEast ...
+# extent 把它扩充成1366x768
+# '/tmp/.variety_wttr.png' -geometry +466+168 -gravity SouthEast -composite  一组
+
+########################################################################################################################
+#/usr/lib/python3.9/site-packages/variety/VarietyWindow.py 
+# apply_clock() cmd
+#convert $HOME/.config/variety/Downloaded/nasa_apod/PinnaclesGalaxy_Goh_2400.jpg -scale 1366x768^ -density 100
+#
+#-font `fc-match -f '%{file[0]}' 'Ubuntu Condensed:,:70'`
+#-pointsize 70
+#-gravity SouthEast
+#-fill '#00000044'
+#-annotate 0x0+58+125 '00:55'
+#-fill white
+#-annotate 0x0+60+127 '00:55'
+#
+#-font `fc-match -f '%{file[0]}'
+#'Ubuntu Condensed:,:30'`
+#-pointsize 30
+#-fill '#00000044'
+#-annotate 0x0+58+75 'Tuesday, August 17'
+#-fill white
+#-annotate 0x0+60+77 'Tuesday, August 17'
+#
+#$HOME/.config/variety/wallpaper/wallpaper-clock-fcaee8ab3d5b81dd283fddf0c9e93258.jpg
+########################################################################################################################
+
+
+
+#[ "$i3script_multiscreen" = "true" ] || {convert /tmp/.variety_wallpaper.png <(cat /tmp/.variety_formula.png ) -geometry +50+50 -composite /tmp/.variety_wallpaper.png } 2>> /dev/null #{convert no space after {
+## arch cute
+#convert /tmp/.variety_wallpaper.png <(cat $HOME/Pictures/arch/noarch_icon.png ) -geometry +50+600 -composite /tmp/.variety_wallpaper.png 2>> /dev/null
+feh --bg-fill "/tmp/.variety_wallpaper.png" 2> /dev/null || feh --bg-fill "$WP" 2> /dev/null
+#feh --bg-fill "$WP" 2> /dev/null
+
+#echo "$WP" >> /tmp/variety.log
+#date >> /tmp/variety.log
+# DEBUG
+# rm /tmp/wallpaper.png 2> /dev/null
+# convert "$WP"  -resize 1366x768^ -gravity Center -extent 1366x768  /tmp/wallpaper.png 2> /tmp/feh
+# #convert /tmp/wallpaper.png <( curl wttr.in/shenzhen_tqp0.png) -geometry +50+50 -composite /tmp/wallpaper.png # implement with i3block
+# convert /tmp/wallpaper.png <(cat /tmp/wttr.png ) -geometry +50+50 -composite /tmp/wallpaper.png 2>> /tmp/feh
+# #feh --bg-fill "/tmp/wallpaper.png" 2> /dev/null || feh --bg-fill "$WP" 2> /dev/null
+# feh --bg-fill "/tmp/wallpaper.png" 2>> /tmp/feh || feh --bg-fill "$WP" 2> /dev/null
+
+# =====================================================================================
+
+# OPTIONAL: Show a notification on automatic wallpaper change.
+# Display the original filename in the notification, but actually apply the post-effects image.
+# name=$(echo "$3" | sed 's/\//\n/g'| tail -n 1)
+# if [ "$2" == "auto" ]; then notify-send --icon "$WP" "Wallpaper changed" "$name" ; fi
