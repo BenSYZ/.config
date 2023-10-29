@@ -84,7 +84,7 @@ show(){
             color="#c7c9c9"
             icon="󰖐"
             ;;
-        *"雨"                           |"Cloudy, with shower" | "Overcast, with shower" ) # |多云有阵雨|阵雨
+        *"雨"                           |"Cloudy, with shower" | "Overcast, with shower" | "Overcast, with light rain" ) # |多云有阵雨|阵雨|小雨
             color="#81c3fc"
             icon="\ue319"
             ;;
