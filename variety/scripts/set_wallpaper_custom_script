@@ -35,6 +35,7 @@ rm /tmp/.variety_wallpaper.png 2> /dev/null
 BATTERYING=$(acpi -b 2>/dev/null |grep 'Discharging')
 
 read -r resolution_x resolution_y < <(xrandr |sed -n 's/.* connected \(primary \)\([0-9]*\)x\([0-9]*\)+.*/\2 \3/p')
+[ -z "$resolution_x" ] && read -r resolution_x resolution_y < <(xrandr |sed -n 's/.* connected \([0-9]*\)x\([0-9]*\)+.*/\2 \3/p')
 resolution="$resolution_x"x"$resolution_y"
 cmd="convert $WP -scale $resolution^ -gravity Center -extent $resolution "
 if [ -z "$BATTERYING" ];then
