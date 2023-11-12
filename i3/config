@@ -37,8 +37,8 @@ floating_modifier $mod
 # start a terminal
 # bindsym $mod+Return exec i3-sensible-terminal
 #bindsym $mod+Return exec --no-startup-id 'alacritty -e "tmux"'
-bindsym $mod+Shift+Return exec --no-startup-id 'alacritty'
-bindsym $mod+Return exec --no-startup-id "alacritty -o shell.program=/bin/tmux"
+bindsym $mod+Shift+Return exec --no-startup-id 'WINIT_UNIX_BACKEND=x11 alacritty'
+bindsym $mod+Return exec --no-startup-id "WINIT_UNIX_BACKEND=x11 alacritty -o shell.program=/bin/tmux"
 #bindsym $mod+Return exec --no-startup-id kitty
 
 #bindsym $mod+b exec --no-startup-id "cd ~/.config/gtk-3.0; [ $(date +%H) -lt 6 ] \
@@ -384,21 +384,8 @@ bindsym $mod+shift+p exec --no-startup-id variety -p
 # vim ma mark
 bindsym $mod+m exec --no-startup-id "variety -f && notify-send 'Added' -t 700 -h int:transient:1"
 
-#wudao dictionary
-#bindsym $mod+w exec --no-startup-id python ~/.config/i3/scripts/wudao_notification.py
-#bindsym $mod+shift+w exec --no-startup-id "xclip -selection c -o |sed ':a;N;$!ba;s/[\n\r]/ /g'| ~/.config/i3/scripts/wudao.sh"
-#bindsym $mod+w exec --no-startup-id "xsel |sed ':a;N;$!ba;s/[\n\r]/ /g'| ~/.config/i3/scripts/wudao.sh"
-# google translation
-# https://stackoverflow.com/questions/1251999/how-can-i-replace-a-newline-n-using-sed
-# 1. :a create a label 'a'
-# 2. N append the next line to the pattern space
-# 3. $! if not the last line, ba branch (go to) label 'a'
-# 4. s substitute, /\n/ regex for new line, / / by a space, /g global match (as many times as it can)
-#bindsym $mod+shift+t exec --no-startup-id "xclip -selection c -o|sed ':a;N;$!ba;s/[\n\r]/ /g'| trans  -t chinese -b |xargs -0 notify-send -t 0"
-#bindsym $mod+t exec --no-startup-id "xsel |sed ':a;N;$!ba;s/\n/ /g'| trans  -t chinese -b |xargs -0 notify-send -t 0"
-#bindsym $mod+t exec --no-startup-id "xclip -selection c -o|sed ':a;N;$!ba;s/\n/ /g'| trans  -t chinese -b |xclip -selection c"
-bindsym $mod+shift+t exec --no-startup-id "export http{s,}_proxy=http://127.0.0.1:8118; xclip -selection c -o|sed 's/^-//;s/ -/ /g;s/[\n\r]/ /g'|sed ':a;N;$!ba;s/[\n\r]/ /g'| ~/.config/i3/scripts/translate.sh"
-bindsym $mod+t exec --no-startup-id "export http{s,}_proxy=http://127.0.0.1:8118; xsel|sed 's/^-//;s/ -/ /g;s/[\n\r]/ /g'|sed ':a;N;$!ba;s/[\n\r]/ /g' | ~/.config/i3/scripts/translate.sh"
+bindsym $mod+shift+t exec --no-startup-id "~/.config/i3/scripts/translate.sh clipboard"
+bindsym $mod+t exec --no-startup-id " ~/.config/i3/scripts/translate.sh selection"
 
 
 
@@ -433,7 +420,7 @@ bindsym $mod+Shift+l exec --no-startup-id "~/.config/i3/scripts/i3lock/i3lock_cl
 #exec --no-startup-id "autotiling --debug >> ~/autoliling.log"
 exec_always --no-startup-id "pgrep autotiling 2>&1 || autotiling"
 
-exec --no-startup-id "alacritty -o shell.program=/bin/tmux"
+exec --no-startup-id "WINIT_UNIX_BACKEND=x11 alacritty -o shell.program=/bin/tmux"
 #exec --no-startup-id "kitty"
 exec --no-startup-id "~/.config/i3/scripts/boot_with_only_secondary_screen.sh"
 

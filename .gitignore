@@ -22,6 +22,7 @@ i3/floating_issure
 !/picom.conf
 !/i3blocks/
 !/i3-workspace-groups/
+!/sway
 
 !/rofi/
 
