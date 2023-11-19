@@ -161,3 +161,6 @@ alias removeReturn='sed '\'':a;N;$!ba;s/[\n\r]/ /g'\'
 
 alias la="lazygit"
 
+alias dmesg="journalctl -k"
+alias ct="cd $(mktemp -d)"
+
