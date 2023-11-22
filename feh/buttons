@@ -10,7 +10,7 @@
 
 # Switch menu and zoom keys, useful for two-button touchpads
 menu 2
-zoom 3
+prev_img 3
 
 # make scroll wheel (mousewheel up and down) zoom, instead of flipping images
 zoom_in 4

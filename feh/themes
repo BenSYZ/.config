@@ -16,6 +16,8 @@
 # imagemap -rV --quiet -W 400 -H 300 \
 #          --thumb-width 40 --thumb-height 30
 
+feh --on-last-slide hold
+
 # ====================
 # A few default themes
 # ====================

@@ -15,8 +15,8 @@ menu_up     e Up
 menu_select space Return
 
 # Same for image navigation ...
-next_img N N Right space
-prev_img E H Left BackSpace
+next_img N Right space
+prev_img E Left BackSpace
 
 # and image movement
 scroll_up    e
