@@ -35,9 +35,9 @@ translate(){
     #bindsym $mod+shift+t exec --no-startup-id "xclip -selection c -o|sed ':a;N;$!ba;s/[\n\r]/ /g'| trans  -t chinese -b |xargs -0 notify-send -t 0"
     #bindsym $mod+t exec --no-startup-id "xsel |sed ':a;N;$!ba;s/\n/ /g'| trans  -t chinese -b |xargs -0 notify-send -t 0"
     #bindsym $mod+t exec --no-startup-id "xclip -selection c -o|sed ':a;N;$!ba;s/\n/ /g'| trans  -t chinese -b |xclip -selection c"
-    read -r tobetranslated
-    tobetranslated="$(echo "$tobetranslated" | sed 's/^-//;s/ -/ /g;s/[\n\r]/ /g'|sed ':a;N;$!ba;s/[\n\r]/ /g')"
+    tobetranslated="$1"
 
+    tobetranslated="$(echo "$tobetranslated" | sed 's/^-//;s/ -/ /g;s/[\n\r]/ /g'|sed ':a;N;$!ba;s/[\n\r]/ /g')"
     echo "$tobetranslated"
     numtobetranslated=$(echo "$tobetranslated" |wc -w)
 
@@ -80,12 +80,11 @@ main(){
     clipboard_paste_cmd="xclip -selection c -o"
     selection_cmd="xsel"
 
-
     if [ "$1" = "clipboard" ];then
-        eval "$clipboard_paste_cmd" | translate
+        translate "$(eval "$clipboard_paste_cmd")"
     fi
     if [ "$1" = "selection" ];then
-        eval "$selection_cmd" | translate
+        translate "$(eval "$selection_cmd")"
     fi
 }
 main "$@"
