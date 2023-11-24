@@ -162,5 +162,22 @@ alias removeReturn='sed '\'':a;N;$!ba;s/[\n\r]/ /g'\'
 alias la="lazygit"
 
 alias dmesg="journalctl -k"
-alias ct="cd $(mktemp -d)"
+alias ct='cd $(mktemp -d)'
 
+dtc_func(){
+    if [ "$#" -ne 3 ];then
+        echo "dtc_func <s2b|b2s> <input> <output>" >&2
+        return 1
+    fi
+
+    if [ "$1" = "s2b" ];then
+        dtc -I dts -O dtb "$2" -o "$3"
+    elif [ "$1" = "b2s" ];then
+        dtc -I dtb -O dts "$2" -o "$3"
+    else
+        echo "dtc_func <s2b|b2s> <input> <output>" >&2
+        return 1
+    fi
+}
+alias dtc_s2b="dtc_func s2b"
+alias dtc_b2s="dtc_func b2s"
