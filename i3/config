@@ -213,7 +213,7 @@ set $mode_system select: lock(L) exit(E) reboot(R) poweroff(O) suspend(S) hybrid
 bindsym $mod+Shift+f mode "$mode_system"
 mode "$mode_system" {
 #bindsym l exec --no-startup-id i3lock -n -t --ignore-empty-password --no-unlock-indicator  -i background.png  , mode "default"
-	bindsym l exec --no-startup-id ~/.config/i3/scripts/i3lock/i3lock_clock.sh, mode "default"
+	bindsym l exec --no-startup-id ~/.config/i3/scripts/i3lock/i3lock.sh, mode "default"
 	bindsym e exec --no-startup-id i3-msg exit, mode "default"
 	bindsym s exec --no-startup-id systemctl suspend, mode "default"
 	bindsym y exec --no-startup-id systemctl hybrid-sleep, mode "default"
@@ -222,7 +222,7 @@ mode "$mode_system" {
 	bindsym o exec --no-startup-id systemctl poweroff, mode "default"
 	bindsym Escape mode "default"
 }
-bindsym $mod+l exec --no-startup-id "~/.config/i3/scripts/i3lock/i3lock_clock.sh -f|xargs notify-send"
+bindsym $mod+l exec --no-startup-id "~/.config/i3/scripts/i3lock/i3lock.sh -f|xargs notify-send"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -411,9 +411,9 @@ bindsym $mod+t exec --no-startup-id " ~/.config/i3/scripts/translate.sh selectio
 #exec --no-startup-id xautolock -corners -0+0 -cornersize 30 -cornerdelay 2 -time 5 -locker "source ~/.config/i3/scripts/player_screen.sh && ( xset s 7 -b; i3lock-fancy -n; xset s off )" -detectsleep -bell 0
 #bindsym $mod+Shift+l exec --no-startup-id "xset s 7 -b; i3lock -n; xset s off"
 #
-#exec_always --no-startup-id killall xautolock;xautolock -corners -0+0 -cornersize 30 -cornerdelay 2 -time 5 -locker "~/.config/i3/scripts/i3lock/i3lock_clock.sh" -detectsleep -bell 0
-exec --no-startup-id xautolock -corners -0+0 -cornersize 30 -cornerdelay 2 -time 5 -locker "~/.config/i3/scripts/i3lock/i3lock_clock.sh" -detectsleep -bell 0
-bindsym $mod+Shift+l exec --no-startup-id "~/.config/i3/scripts/i3lock/i3lock_clock.sh"
+#exec_always --no-startup-id killall xautolock;xautolock -corners -0+0 -cornersize 30 -cornerdelay 2 -time 5 -locker "~/.config/i3/scripts/i3lock/i3lock.sh" -detectsleep -bell 0
+exec --no-startup-id xautolock -corners -0+0 -cornersize 30 -cornerdelay 2 -time 5 -locker "~/.config/i3/scripts/i3lock/i3lock.sh" -detectsleep -bell 0
+bindsym $mod+Shift+l exec --no-startup-id "~/.config/i3/scripts/i3lock/i3lock.sh"
 #exec --no-startup-id ~/.config/i3/scripts/i3lock/phone_lock.sh
 # detect activity:
 #xprintidle

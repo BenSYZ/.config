@@ -1,4 +1,4 @@
-exec i3lock -i /home/ben/Pictures/LockScreen.png -n -c '#000000' -o '#191d0f' -w '#572020' -e --no-keyboard-layout
+exec swaylock -i /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png --indicator-radius  100
 include ~/.config/i3/config
 # Default config for sway
 #
@@ -60,10 +60,22 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 #
 # Example configuration:
 #
-# exec swayidle -w \
-#          timeout 300 'swaylock -f -c 000000' \
-#          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-#          before-sleep 'swaylock -f -c 000000'
+
+#exec swayidle -w \
+#      timeout 3 'swaylock -f -c 000000' \
+#      timeout 6 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+#      before-sleep 'swaylock -f -c 000000'
+
+
+#exec swayidle -w \
+#         timeout 290 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+#         timeout 300 '~/.config/i3/scripts/i3lock/i3lock_clock.sh' \
+#         before-sleep '~/.config/i3/scripts/i3lock/i3lock_clock.sh -f'
+#
+exec swayidle -w \
+         timeout 297 '~/.config/i3/scripts/i3lock/i3lock.sh -p; swaymsg "output * power off"; grim -t png - ' resume 'swaymsg "output * power on"' \
+         timeout 300 '~/.config/i3/scripts/i3lock/i3lock.sh' \
+         before-sleep '~/.config/i3/scripts/i3lock/i3lock.sh -f'
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
@@ -79,6 +91,21 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 #       natural_scroll enabled
 #       middle_emulation enabled
 #   }
+
+# swaymsg -rt get_inputs
+input "2:7:SynPS/2_Synaptics_TouchPad" {
+      tap disabled
+      tap_button_map lrm
+      accel_profile adaptive
+      natural_scroll enable
+      left_handed disabled
+      click_method button_areas
+      middle_emulation disabled
+      scroll_method two_finger
+      dwt enabled
+      dwtp enabled
+}
+
 #
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
@@ -244,6 +271,7 @@ exec variety
 # notification
 exec dunst
 exec xset s 0 -dpms
+#exec swaymsg "output * dpms off"
 exec killall fcitx5
 exec fcitx5
 

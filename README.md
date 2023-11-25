@@ -29,3 +29,8 @@ export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 export XMODIFIERS="@im=fcitx"
 ```
+
+### sway need
+swaylock: i3lock
+grim: import
+swayidle: xautolock
