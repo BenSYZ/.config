@@ -1,0 +1,22 @@
+export GTK_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx
+export QT_IM_MODULE=fcitx
+export SDL_IM_MODULE=fcitx
+#export QT_STYLE_OVERRIDE=adwaita
+export QT_QPA_PLATFORMTHEME=qt5ct
+export GLFW_IM_MODULE=ibus
+export QT_QPA_PLATFORM=xcb
+
+
+
+#export GTK_IM_MODULE DEFAULT=fcitx
+#export QT_IM_MODULE  DEFAULT=fcitx
+#export XMODIFIERS    DEFAULT="@im=fcitx"
+#export SDL_IM_MODULE DEFAULT=fcitx
+
+export DESKTOP_SESSION=gnome
+
+# 如果系统的 Locale 是中文，请将 LC_LANG 设置为 und，否则中英文文字都会使用中文字体渲染。
+export LC_LANG=und
+
+custom_wlrinitrc="$HOME/.custom_wlrinitrc" ; [ -e "$custom_wlrinitrc" ] && source "$custom_wlrinitrc"

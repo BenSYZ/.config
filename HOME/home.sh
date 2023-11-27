@@ -1,5 +1,5 @@
 #!/bin/zsh
-link_files=(".bashrc" ".npmrc" ".xinitrc" ".Xresources" ".condarc")
+link_files=(".bashrc" ".npmrc" ".xinitrc" ".Xresources" ".condarc" ".wlrinitrc")
 for f in $link_files;do
     echo $f
     ln -s "$HOME/.config/HOME/$f"  "$HOME"/
