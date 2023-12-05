@@ -1,4 +1,5 @@
 #!/bin/bash
+#set -x
 addFormula(){
     FORMULADIR='/home/ben/Pictures/formula'
     [ -d "$FORMULADIR" ] || return 1
@@ -16,9 +17,8 @@ addFormula(){
 }
 
 add_todo_list(){
-    todo_file='/home/ben/todo.txt'
+    todo_file="$HOME/todo.txt"
     [ -f "$todo_file" ] || return 1
-    convert "$formula" -resize 190x50 "$FORMULADIR/resized/$formulaName" 2> /dev/null
     magick -font Noto-Serif-CJK-SC label:@"$todo_file" /tmp/.variety_todolist.png 2>/dev/null
 }
 check_pic(){
@@ -30,7 +30,7 @@ check_pic(){
 
 # i3, openbox, dwm: use either feh or nitrogen
 #feh --bg-fill "$WP" 2> /dev/null
-rm /tmp/.variety_wallpaper.png 2> /dev/null
+rm -f /tmp/.variety_wallpaper.png 2> /dev/null
 
 BATTERYING=$(acpi -b 2>/dev/null |grep 'Discharging')
 
