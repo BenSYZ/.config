@@ -165,19 +165,20 @@ alias dmesg="journalctl -k"
 alias ct='cd $(mktemp -d)'
 
 dtc_func(){
-    if [ "$#" -ne 3 ];then
-        echo "dtc_func <s2b|b2s> <input> <output>" >&2
-        return 1
+    local input_file="$1"
+    local output_dir="$2"
+
+    if [[ "$1" =~ .*\.dts ]];then
+        dtc_args=("-I" "dts" "-O" "dtb")
+        output_file="${input_file/%dts/dtb}"
+    elif [[ "$1" =~ .*\.dtb ]];then
+        dtc_args=("-I" "dtb" "-O" "dts")
+        output_file="${input_file/%dtb/dts}"
     fi
 
-    if [ "$1" = "s2b" ];then
-        dtc -I dts -O dtb "$2" -o "$3"
-    elif [ "$1" = "b2s" ];then
-        dtc -I dtb -O dts "$2" -o "$3"
-    else
-        echo "dtc_func <s2b|b2s> <input> <output>" >&2
-        return 1
+    if [ -n "$output_dir" ];then
+        output_file="$output_dir"/"$(basename "$output_file")"
     fi
+    dtc "${dtc_args[@]}" "$input_file" -o "$output_file"
 }
-alias dtc_s2b="dtc_func s2b"
-alias dtc_b2s="dtc_func b2s"
+alias dtc_quick="dtc_func"
