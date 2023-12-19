@@ -12,7 +12,7 @@ for netcard in $(ip l show |sed -n 's/^[0-9]*: \([^:]*\):.*LOWER_UP>.*/\1/p' |gr
         continue
 
     if [ -n "$ap" ];then
-        echo "wireless"         >&2
+        #echo "wireless"         >&2
         if [ "${#ap}" -gt 5 ];then
             short_ap="$(echo "$ap" | sed -n 's/\(..\).*\(.\)$/\1..\2/p')"
         else
@@ -21,7 +21,7 @@ for netcard in $(ip l show |sed -n 's/^[0-9]*: \([^:]*\):.*LOWER_UP>.*/\1/p' |gr
         signal_strength=$(awk 'NR==3 {print $3}' /proc/net/wireless)
         line_info="$wifi_label $netcard $ip_addr|${signal_strength%\.}%|$short_ap"
     else
-        echo "line"             >&2
+        #echo "line"             >&2
         line_info="$cable_label $netcard $ip_addr"
     fi
     show_text="${show_text:+$show_text│}$line_info"
