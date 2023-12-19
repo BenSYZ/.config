@@ -21,7 +21,8 @@ if [ -z "${DISPLAY}" ] && [ -n "${XDG_VTNR}" ] && [ "${XDG_VTNR}" -eq 1 ] && [ -
         startx
     else
         source ~/.wlrinitrc #failed sway should start first
+        #[ -e "$(sway --get-socketpath)" ] || export SWAYSOCK=/run/user/$(id -u)/sway-ipc.$(id -u).$(pgrep -x sway).sock
         sway --unsupported-gpu
-        exit 0
     fi
+    exit 0
 fi
