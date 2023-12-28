@@ -38,7 +38,7 @@ floating_modifier $mod
 # bindsym $mod+Return exec i3-sensible-terminal
 #bindsym $mod+Return exec --no-startup-id 'alacritty -e "tmux"'
 bindsym $mod+Shift+Return exec --no-startup-id "WINIT_UNIX_BACKEND=x11 alacritty"
-bindsym $mod+Return exec --no-startup-id "WINIT_UNIX_BACKEND=x11 alacritty -o shell.program=/bin/tmux"
+bindsym $mod+Return exec --no-startup-id "WINIT_UNIX_BACKEND=x11 alacritty -o shell.program=\'/bin/tmux\'"
 #bindsym $mod+Return exec --no-startup-id kitty
 
 #bindsym $mod+b exec --no-startup-id "cd ~/.config/gtk-3.0; [ $(date +%H) -lt 6 ] \
@@ -420,7 +420,7 @@ bindsym $mod+Shift+l exec --no-startup-id "~/.config/i3/scripts/i3lock/i3lock.sh
 #exec --no-startup-id "autotiling --debug >> ~/autoliling.log"
 exec_always --no-startup-id "pgrep autotiling 2>&1 || autotiling"
 
-exec --no-startup-id "WINIT_UNIX_BACKEND=x11 alacritty -o shell.program=/bin/tmux"
+exec --no-startup-id "WINIT_UNIX_BACKEND=x11 alacritty -o shell.program=\'/bin/tmux\'"
 #exec --no-startup-id "kitty"
 exec --no-startup-id "~/.config/i3/scripts/boot_with_only_secondary_screen.sh"
 
