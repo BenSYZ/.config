@@ -258,6 +258,20 @@ bindsym $mod+r mode "resize"
 
 # sound control
 #alsamixer
+bindsym $mod+F12  exec --no-startup-id "amixer set Master playback 5%+;\
+	canberra-gtk-play -i audio-volume-change -d 'changeVolume';\
+	notify-send 'volume up' $( amixer |grep -o -E '[0-9][0-9]?[0-9]?%' -m 1 ) -t 700 -h int:transient:1 "
+bindsym $mod+F11  exec --no-startup-id "amixer set Master playback 5%-;\
+	canberra-gtk-play -i audio-volume-change -d 'changeVolume';\
+	notify-send 'volume down' $( amixer |grep -o -E '[0-9][0-9]?[0-9]?%' -m 1 ) -t 700 -h int:transient:1 "
+bindsym $mod+F10 exec --no-startup-id "~/.config/i3/scripts/mute.sh"
+
+bindsym --release $mod+F12 exec pkill -SIGRTMIN+10 i3blocks
+bindsym --release $mod+F11 exec pkill -SIGRTMIN+10 i3blocks
+bindsym --release $mod+F10 exec pkill -SIGRTMIN+10 i3blocks
+
+bindsym $mod+F9 exec --no-startup-id "~/.config/i3/scripts/microphone.sh"
+
 bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer set Master playback 5%+;\
 	canberra-gtk-play -i audio-volume-change -d 'changeVolume';\
 	notify-send 'volume up' $( amixer |grep -o -E '[0-9][0-9]?[0-9]?%' -m 1 ) -t 700 -h int:transient:1 "
@@ -286,6 +300,8 @@ bindsym XF86Display exec --no-startup-id " ~/.config/i3/scripts/multiscreen.sh"
 bindsym XF86KbdBrightnessDown exec --no-startup-id "brightnessctl --device='smc::kbd_backlight' set 6%-"
 bindsym XF86KbdBrightnessUp exec --no-startup-id   "brightnessctl --device='smc::kbd_backlight' set +6%"
 
+bindsym $mod+F8 exec --no-startup-id "brightnessctl -d 'intel_backlight' set +6%>/dev/null; notify-send 'brightness' 'up' -t 700 -h int:transient:1"
+bindsym $mod+F7 exec --no-startup-id "brightnessctl -d 'intel_backlight' set 6%- >/dev/null; notify-send 'brightness' 'down' -t 700 -h int:transient:1"
 
 ## screenshot scrot
 #bindsym --release Print exec --no-startup-id "scrot -q 100 -z -s '/home/ben/Pictures/screenshots/%Y-%m-%d_%H%M%S_$wx$h_scrot.png'"
