@@ -21,6 +21,7 @@
 # for non-ascii file names
 [core]
 	quotepath = off
+	hooksPath = ~/.config/git/hooks
 [diff]
 	tool = meld
 #[diff]
