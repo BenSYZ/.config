@@ -6,6 +6,7 @@ export SDL_IM_MODULE=fcitx
 export QT_QPA_PLATFORMTHEME=qt5ct
 export GLFW_IM_MODULE=ibus
 export QT_QPA_PLATFORM=xcb
+export XDG_CURRENT_DESKTOP=sway
 
 
 
