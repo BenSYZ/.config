@@ -17,10 +17,10 @@ nmc_report(){
     echo stationid=$stationid >&2
     url="http://www.nmc.cn/rest/weather?stationid=$stationid&_=$(date +%s)"
 
-    #raw_jq=$(curl -s "$url")
+    raw_jq=$(curl -s "$url")
     #echo $raw_jq > /tmp/ben.log
-    raw_jq=$(cat /tmp/ben.log)
-    echo $raw_jq |jq >&2
+    #raw_jq=$(cat /tmp/ben.log)
+    #echo $raw_jq |jq >&2
     parser=(-r '.data.real.weather | "\(.temperature)|\(.info)"')
 
     result=$(jq "${parser[@]}" <<< "$raw_jq")
@@ -97,6 +97,9 @@ show(){
     icon="$icon "
     color_icon="<span color=\"$color\">$icon</span>"
 
+    if [ -z "$temp" ];then
+        return
+    fi
     printf "$color_icon$temp°C""\n"
 }
 
