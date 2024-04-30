@@ -452,6 +452,8 @@ for_window [title="OkularEditor"] floating enable
 for_window [class="tim.exe"] floating enable
 for_window [class="wemeetapp.exe"] floating enable
 for_window [class="wemeetapp"] floating enable
+for_window [class="com.alibabainc.dingtalk"] floating enable
+for_window [class="com.alibabainc.dingtalk" title="钉钉"] floating disable
 
 
 # 固定部分軟體出現的容器
