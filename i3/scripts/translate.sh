@@ -4,7 +4,6 @@
 #
 #source $BASEDIR/dunstity.sh
 
-
 reply_action () {
     echo
 }
@@ -37,16 +36,21 @@ translate(){
     #bindsym $mod+t exec --no-startup-id "xclip -selection c -o|sed ':a;N;$!ba;s/\n/ /g'| trans  -t chinese -b |xclip -selection c"
     tobetranslated="$1"
 
-    tobetranslated="$(echo "$tobetranslated" | sed 's/^-//;s/ -/ /g;s/[\n\r]/ /g'|sed ':a;N;$!ba;s/[\n\r]/ /g')"
-    echo "$tobetranslated"
+    # By chatgpt:
+    #     RS="" tells awk to treat consecutive newlines as a record separator.
+    #     ORS="\n\n" sets the output record separator to two newlines, preserving paragraph breaks.
+    #     gsub(/\n/, " ") replaces single newlines with spaces within paragraphs.
+    tobetranslated="$(echo "$tobetranslated" | awk 'BEGIN{RS=""; ORS="\n\n"} {gsub(/\n/, " "); print}')"
+    echo "tobetranslated: $tobetranslated"
     numtobetranslated=$(echo "$tobetranslated" |wc -w)
 
     if [ "$numtobetranslated" -gt 1 ]; then
-        translated=$(trans  -t chinese -b "$tobetranslated")
+        translated=$(trans  -t chinese -b -- "$tobetranslated")
+        echo "translated: $translated"
 
         # notify
         {
-            ACTION=$(dunstify --timeout=60000 --action="default,Reply" --action="forwardAction,Forward" "$translated")
+            ACTION=$(dunstify --timeout=60000 --action="default,Reply" --action="forwardAction,Forward" -- "$translated")
             case "$ACTION" in
                 "default")
                     reply_action "$translated"
