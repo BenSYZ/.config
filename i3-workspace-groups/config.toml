@@ -12,7 +12,7 @@ use_next_available_number = false
 enable = true
 # By default, icons are only shown for workspaces in the active group. If you
 # set this to true, icons will be shown for all the workspaces.
-enable_all_groups = true
+enable_all_groups = false
 # Delimiter for multiple icons.
 delimiter = ' '
 # Prefix and suffix to add the the shown icons. Useful for adding spaces in
@@ -111,11 +111,7 @@ icon = ''
 
 [[icons.rules]]
 property = 'class'
-match = '.*wechat.exe.*'
-icon = ''
-[[icons.rules]]
-property = 'class'
-match = 'weixin'
+match = '.*wechat.exe.*|\bwechat\b|\bweixin\b'
 icon = ''
 [[icons.rules]]
 property = 'class'
@@ -216,12 +212,23 @@ icon = ''
 [[icons.rules]]
 property = 'class'
 match = 'Zathura'
-icon = ''
+icon = ''
 
 [[icons.rules]]
 property = 'class'
 match = 'okular'
-icon = ''
+icon = ''
+
+[[icons.rules]]
+property = 'class'
+match = '\bet\b' #Spreadsheets
+icon = '󰈛' #󱎏 󰈛
+
+[[icons.rules]]
+property = 'class'
+match = '\bwps\b'
+icon = '󰈬'
+
 
 [[icons.rules]]
 property = 'class'
