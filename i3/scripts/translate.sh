@@ -4,9 +4,6 @@
 #
 #source $BASEDIR/dunstity.sh
 
-reply_action () {
-    echo
-}
 forward_action () {
     echo
 }
@@ -14,7 +11,7 @@ handle_dismiss () {
     echo
 }
 
-reply_action(){
+copy_text(){
     echo "$@"|xclip -selection c
 }
 
@@ -48,17 +45,19 @@ translate(){
         translated=$(trans  -t chinese -b -- "$tobetranslated")
         echo "translated: $translated"
 
+        #dunstify --timeout=60000 --action="action1,label1" --action="action2,label2" -- test # left click do_action = context
+        #dunstify --timeout=60000 --action="default,default_label" --action="action1,label1" --action="action2,label2" -- test # left click do_action = do_default
         # notify
         {
-            ACTION=$(dunstify --timeout=60000 --action="default,Reply" --action="forwardAction,Forward" -- "$translated")
+            ACTION=$(dunstify --appname=Translator --timeout=60000 --action="default,copy_translate" --action="copy_origin,Copy Origin" --action="copy_translation,Copy Translation" -- "$translated")
             case "$ACTION" in
-                "default")
-                    reply_action "$translated"
+                "default"| "copy_translation") # default: do_action
+                    copy_text "$translated"
                     ;;
-                "forwardAction")
-                    forward_action
+                "copy_origin")
+                    copy_text "$tobetranslated"
                     ;;
-                "2")
+                "2") # close_all
                     handle_dismiss
                     ;;
             esac
