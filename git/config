@@ -1,6 +1,6 @@
 [user]
 	email = bensongsyz@gmail.com
-	name = Ben
+	name = Ben Song
 [alias]
 	llog = log --graph --oneline --all --decorate
 	ls = ls-tree -r HEAD --name-only
