@@ -164,7 +164,7 @@ alias removeReturn='sed '\'':a;N;$!ba;s/[\n\r]/ /g'\'
 alias la="lazygit"
 
 alias dmesg="journalctl -k --no-pager"
-alias ct='cd $(mktemp -d)'
+alias ct='cd $(mkdir -p /tmp/ben_test; mktemp -d -p /tmp/ben_test/)'
 
 dtc_func(){
     local input_file="$1"
