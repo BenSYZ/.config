@@ -47,14 +47,22 @@ nmc_report(){
     suffix=";}catch(e){}"
     #curl "$url"
     raw_jq=$(curl -s "$url" | sed -n "s/$prefix\(.*\)$suffix/\1/p" )
+    echo -n 'raw_jq=' >&2
     echo "$raw_jq" |jq >&2 # >> ~/weather_raw.log
 
-    reportTime="$(date -d "@$date_s" +%Y-%m-%d" "%H:00:00)"
-    echo "$reportTime" >&2
+    reportTime="$(date -d "@$((date_s))" +%Y-%m-%d" "%H:00:00)"
+    echo "reportTime=$reportTime" >&2
     parser=(-r --arg reportTime "$reportTime" '.hoursweather[] | select(.reportTime == $reportTime) | "\(.minT)|\(.maxT)|\(.reportEn)|\(.report)"')
 
     result=$(jq "${parser[@]}" <<< "$raw_jq")
-    echo "$result" >&2
+    echo "result=$result" >&2
+
+    if [ -z "$result" ];then
+        parser=(-r --arg reportTime "$reportTime" '.dayreport | "\(.minT)|\(.maxT)|\(.reportEn)|\(.report)"')
+    fi
+    result=$(jq "${parser[@]}" <<< "$raw_jq")
+    echo "result=$result" >&2
+
     IFS="|" read -r minT maxT reportEn report <<< "$result"
     echo  "\"$reportEn\" ) #$report" >> ~/"weather.log"
 
@@ -115,9 +123,19 @@ show "$(eval ${POSITION/,/_})"
 # for variety
 #timeout 10 curl -s "http://wttr.in/${POSITION}_0qp_transparency=200.png" -o /tmp/.variety_wttr.png
 
-export TEXTIMG_FONT_FILE="/usr/share/fonts/TTF/SauceCodeProNerdFont-Medium.ttf"
-curl -s "http://wttr.in/${POSITION}?q0" | textimg -F 15 -o /tmp/.variety_wttr_m.png
-convert /tmp/.variety_wttr_m.png -bordercolor black  -border 10x10 -alpha set -background none -channel A -evaluate multiply 0.8 +channel /tmp/.variety_wttr.png
+variety_wttr(){
+    export TEXTIMG_FONT_FILE="/usr/share/fonts/TTF/SauceCodeProNerdFont-Medium.ttf"
+    curl --max-time 1 -sf "http://wttr.in/${POSITION}?q0" > /tmp/.variety_wttr_m.txt
+    if ! [ -s /tmp/.variety_wttr_m.txt ];then
+        rm /tmp/.variety_wttr_m.png
+        rm /tmp/.variety_wttr.png
+    fi
+
+    cat  /tmp/.variety_wttr_m.txt | textimg -F 15 -o /tmp/.variety_wttr_m.png
+    convert /tmp/.variety_wttr_m.png -bordercolor black  -border 10x10 -alpha set -background none -channel A -evaluate multiply 0.8 +channel /tmp/.variety_wttr.png
+}
+set -e
+variety_wttr
 
 # url
 # https://weather.cma.cn/web/weather/58468.html

@@ -62,7 +62,7 @@ interval=2
 command= LINES=5 top -b -n 1 -w |grep -E -o "%Cpu\(s\): ? ?[0-9][0-9]?[0-9]?.[0-9] us" |awk '{printf "%5.1f%\n",$2}'
 #./blocks/cpu_usage/cpu_usage
 interval=2
-label=<span color="#8be9fd"></span>
+label=<span color="#8be9fd"></span>
 
 [cpu-temperature]
 command= echo $(( $(cat /sys/class/thermal/thermal_zone0/temp)/1000 ))°C
@@ -82,7 +82,7 @@ label=<span color="#a9e185"> </span>
 
 [root]
 command= df -h --output=avail /|awk 'NR==2 {print $1}'
-interval=3
+interval=10
 label=<span color="#ff79c6"> </span>
 
 #[home]

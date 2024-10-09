@@ -3,7 +3,7 @@
 wifi_label='<span color="#91e78b"> </span>'
 cable_label='<span color="#91e78b">󰈁</span>'
 show_text=""
-for netcard in $(ip l show |sed -n 's/^[0-9]*: \([^:]*\):.*LOWER_UP>.*/\1/p' |grep -v lo);do
+for netcard in $(ip l show |sed -n 's/^[0-9]*: \([^:]*\):.*LOWER_UP>.*/\1/p' |grep -v lo | grep -v vmnet |grep -v docker);do
     line_info=""
     ap="$(iwgetid "$netcard" | sed -n 's/.*ESSID:"\(.*\)"$/\1/p')"
     ip_addr="$(ip addr show "$netcard" |awk '$1=="inet" {print(substr($2, 1, index($2,"/")-1))}')"
