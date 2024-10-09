@@ -9,6 +9,8 @@ alias lsblk="lsblk -o name,mountpoint,label,size,uuid"
 alias vim='/usr/bin/nvim'
 viman () { text=$(man "$@") && echo "$text" | nvim -R +":set ft=man" - ; }
 export MANPAGER='nvim +Man!'
+vinfo(){ vim -c "Vinfo $1" -c 'silent only'}
+alias info=vinfo
 alias wttr='/usr/bin/wttr "Nanshan+shenzhen"'
 #alias wttr='/usr/bin/wttr "Ningbo+zhejiang"'
 alias etrans='trans -t english'
