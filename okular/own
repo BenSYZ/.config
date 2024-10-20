@@ -25,8 +25,8 @@
     <Action name="mouse_drag" shortcut="Ctrl+1; Alt+`"/>
     <Action name="mouse_zoom" shortcut="Ctrl+2"/>
     <Action name="color_mode_inverted" shortcut="Shift+R"/>
-    <Action name="go_document_back" shortcut="Alt+Shift+Left"/>
-    <Action name="go_document_forward" shortcut="Alt+Shift+Right"/>
+    <Action name="go_document_back" shortcut="Ctrl+O"/>
+    <Action name="go_document_forward" shortcut="Ctrl+I; Ctrl+U"/>
     <Action name="mouse_select" shortcut="Ctrl+3"/>
     <Action name="mouse_textselect" shortcut="Alt+1"/>
     <Action name="mouse_tableselect" shortcut="Ctrl+5"/>
