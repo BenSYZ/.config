@@ -159,12 +159,17 @@ cp_i(){
     cp -i "$@"
 }
 alias cp=cp_i
+mv_i(){
+    echo mv has been alias to 'mv -i'
+    mv -i "$@"
+}
+alias mv=mv_i
 alias removeReturn='sed '\'':a;N;$!ba;s/[\n\r]/ /g'\'
 
 alias la="lazygit"
 
 alias dmesg="journalctl -k --no-pager"
-alias ct='cd $(mkdir -p /tmp/ben_test; mktemp -d -p /tmp/ben_test/)'
+alias ct='cd $(mkdir -p /tmp/ben_test; mktemp --directory --tmpdir=/tmp/ben_test -t tmp.$(date +%s)_XXX)'
 
 dtc_func(){
     local input_file="$1"
@@ -184,3 +189,54 @@ dtc_func(){
     dtc "${dtc_args[@]}" "$input_file" -o "$output_file"
 }
 alias dtc_quick="dtc_func"
+cdf(){
+    cd "$(dirname "$@")"
+}
+filerp(){ file "$(realpath "$@")" }
+alias rp='realpath'
+cdrp(){
+    local directory="$1"
+    if [ -z "$directory" ];then
+        directory="."
+    fi
+    cd "$(realpath "$directory")"
+}
+cdg(){
+    cd "$(git rev-parse --show-toplevel)"
+}
+
+alias watchp=monitor_proc
+monitor_proc(){
+    local monitor_pid="$1"
+    local cmd
+    local monitor_proc_name
+    if [[ "$monitor_pid" =~ ^[0-9]+$ ]]; then
+        :
+    else
+        monitor_proc_name="$monitor_pid"
+        ps_out="$(pgrep --list-full "$monitor_proc_name")"
+        if [ "$(echo "$ps_out" |wc -l)" -eq 1 ];then
+            monitor_pid="$(echo "$ps_out" | awk '{print $1}')"
+        else
+            echo "$ps_out"
+            echo Select pid above
+            read -r monitor_pid
+        fi
+    fi
+
+    if [[ "$monitor_pid" =~ ^[0-9]+$ ]]; then
+        :
+    else
+        echo "Not a pid, exit"
+        return 1
+    fi
+    cmd="$(pgrep --list-full "$monitor_proc_name"|sed 's/[0-9]* //')"
+
+    {
+        notify-send -t 2000 "monitor proc test:" "monitoring: $cmd"
+        while [ -e /proc/"$monitor_pid" ];do
+            sleep 1
+        done
+        notify-send -t 0 "monitor proc" "$cmd"
+    } &
+}
