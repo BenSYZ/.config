@@ -1,13 +1,10 @@
 [Hotkey]
+# 切换启用/禁用输入法
+TriggerKeys=
 # 反复按切换键时进行轮换
 EnumerateWithTriggerKeys=True
 # 轮换输入法时跳过第一个输入法
 EnumerateSkipFirst=False
-
-[Hotkey/TriggerKeys]
-0=Zenkaku_Hankaku
-1=Hangul
-2=Control+Shift+Shift_L
 
 [Hotkey/AltTriggerKeys]
 0=Shift+Shift_L
@@ -49,8 +46,10 @@ EnumerateSkipFirst=False
 [Behavior]
 # 默认状态为激活
 ActiveByDefault=False
+# 重新聚焦时重置状态
+resetStateWhenFocusIn=No
 # 共享输入状态
-ShareInputState=All
+ShareInputState=Program
 # 在程序中显示预编辑文本
 PreeditEnabledByDefault=True
 # 切换输入法时显示输入法信息
@@ -63,10 +62,20 @@ CompactInputMethodInformation=True
 ShowFirstInputMethodInformation=True
 # 默认页大小
 DefaultPageSize=5
+# 覆盖 Xkb 选项
+OverrideXkbOption=False
+# 自定义 Xkb 选项
+CustomXkbOption=
 # Force Enabled Addons
 EnabledAddons=
 # Force Disabled Addons
 DisabledAddons=
 # Preload input method to be used by default
 PreloadInputMethod=True
+# 允许在密码框中使用输入法
+AllowInputMethodForPassword=False
+# 输入密码时显示预编辑文本
+ShowPreeditForPassword=False
+# 保存用户数据的时间间隔（以分钟为单位）
+AutoSavePeriod=30
 
