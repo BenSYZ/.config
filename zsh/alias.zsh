@@ -169,7 +169,17 @@ alias removeReturn='sed '\'':a;N;$!ba;s/[\n\r]/ /g'\'
 alias la="lazygit"
 
 alias dmesg="journalctl -k --no-pager"
-alias ct='cd $(mkdir -p /tmp/ben_test; mktemp --directory --tmpdir=/tmp/ben_test -t tmp.$(date +%s)_XXX)'
+
+export user_tmp_dir="/tmp/$USER"
+fn_cd_temp(){
+    mkdir -p "$user_tmp_dir"
+    cd "$(mktemp --directory --tmpdir="$user_tmp_dir" -t tmp.$(date +%s)_XXX)"
+}
+fn_cd_last_temp(){
+    cd "$(ls -d "$user_tmp_dir"/tmp.*/ |tail -n 1)" || fn_cd_temp
+}
+alias ct='fn_cd_temp'
+alias ctl='fn_cd_last_temp'
 
 dtc_func(){
     local input_file="$1"
@@ -203,6 +213,31 @@ cdrp(){
 }
 cdg(){
     cd "$(git rev-parse --show-toplevel)"
+}
+send_to_clipboard(){
+    if [ -n "$TMUX" ];then
+        # reference: neovim clipboard.vim set_tmux
+        tmux load-buffer -w -
+        return
+    fi
+
+    # by ssh
+    if [ -n "$SSH_CONNECTION" ];then
+        # mostly should use osc52 except tmux
+        {
+            printf "\033]52;p;"
+            base64
+            printf "\a"
+        }
+        return
+    fi
+
+    # local machine
+    # TODO: OS specific or directly use osc52
+    return
+}
+cprp(){
+    realpath "$@" | tr -d '\n' | send_to_clipboard
 }
 
 alias watchp=monitor_proc
@@ -240,3 +275,75 @@ monitor_proc(){
         notify-send -t 0 "monitor proc" "$cmd"
     } &
 }
+purge_kernel_tag(){
+    cp -i tags tags.bak
+    awk '{
+        if ($2~/arch\/.*/){
+            if ($2~/arch\/x86\/.*/) {
+                print $0
+            }
+        }else{
+            print $0
+        }
+    }' tags.bak > tags
+}
+
+get_ppid(){
+    local pid="$1"
+    awk '$1=="PPid:" {print $2}' /proc/"$pid"/status
+}
+pstreer(){
+    if [ -z "$1" ];then
+        pid="$$"
+    else
+        if ! get_ppid "$1" >/dev/null;then
+            echo "No such process with PID=$1"
+            return
+        fi
+        pid="$1"
+    fi
+    pid_list=()
+    for (( ; pid != 1 ; pid=$(get_ppid "$pid") ));do
+        pid_list+=("$pid")
+    done
+    ps -ef --pid="${pid_list[*]}"
+    return 0
+}
+
+alias im="$HOME/.config/nvim/plugged/Mac-input.vim/plugin/remote/im_select_server.py"
+tmux_show_focused_client_env(){
+    local env_var="$1"
+    local current_tmux_client_id
+    if [ -z "$TMUX" ]; then
+         return
+    fi
+    current_tmux_client_id="$(tmux list-clients -F '#{client_pid}' -f '#{m:*focused*,#{client_flags}}')"
+    awk -v RS="\0" -v env_var="$env_var" -v FS="=" '$1==env_var {printf("%s=\"%s\"; export %s;\n", env_var, $2, env_var)}' /proc/"$current_tmux_client_id"/environ
+}
+# usage:
+#   update_tmux_env env_var_name [-y]
+update_tmux_env(){
+    local eval_str do_eval
+    #eval_str="$(tmux show-environment "$1"|sed 's/=/="/;s/$/"/')"
+    #eval_str="$(tmux show-environment -s "$1")"
+    eval_str="$(tmux_show_focused_client_env "$1")"
+    do_eval="$2"
+    if [ "$do_eval" = "-y" ]; then
+        eval "$eval_str"
+        return
+    fi
+
+    echo "$eval_str"
+    echo -n "do eval?"
+    read -r do_eval
+    if [ "$do_eval" = y ]; then
+        eval "$eval_str"
+    fi
+}
+
+autoload -Uz add-zsh-hook
+update_env_var() {
+  update_tmux_env SSH_CONNECTION -y
+}
+add-zsh-hook precmd update_env_var
+#alias us="update_tmux_env SSH_CONNECTION"
